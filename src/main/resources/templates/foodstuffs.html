@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html  xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" th:include="layout :: page">
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    </head>
+    <body>
+        <div  th:fragment="content">
+            
+            <section class="alert alert-success" th:if="${success}" th:text="${success}"></section>
+            <h1>Ruoka-aineet</h1>
+            
+            <a class="btn btn-primary" href="#" th:href="@{/ruoka-aineet/lisaa}">
+                Lisää uusi ruoka-aine
+            </a>
+            
+            <article class="listing-s" th:each="foodStuff : ${foodStuffs}">
+                <span class="listing-s-header" th:text="${foodStuff.name}"></span>
+                <span th:if="${foodStuff.isFoodCategory}"> Pääkategoria</span>                
+                <form class="form-inline listing-buttons" action="#" th:action="@{/ruoka-aineet/{id}/poista(id=${foodStuff.id})}" method="post">
+                    <a href="#" th:href="@{/ruoka-aineet/{id}/muokkaa(id=${foodStuff.id})}" class="btn btn-primary">Muokkaa</a>
+                    <input type="submit" value="Poista" class="btn btn-danger" />
+                </form>
+            </article>
+            
+        </div>
+    </body>
+</html>
