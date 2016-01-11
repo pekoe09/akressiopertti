@@ -9,6 +9,8 @@ import javax.persistence.OneToMany;
 public class Measure extends BaseModel {
     
     private String name;
+    private String plural;
+    private String abbreviation;
     @ManyToOne
     private MeasureType measureType;
     @OneToMany(mappedBy = "measure")
@@ -20,6 +22,22 @@ public class Measure extends BaseModel {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getPlural() {
+        return plural;
+    }
+
+    public void setPlural(String plural) {
+        this.plural = plural;
+    }
+
+    public String getAbbreviation() {
+        return abbreviation;
+    }
+
+    public void setAbbreviation(String abbreviation) {
+        this.abbreviation = abbreviation;
     }
 
     public MeasureType getMeasureType() {

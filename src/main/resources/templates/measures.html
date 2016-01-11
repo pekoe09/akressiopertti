@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html  xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" th:include="layout :: page">
+    <head>
+        <title>Akressiopertti - Mitat</title>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    </head>
+    <body>
+        <div  th:fragment="content">
+            
+            <section class="alert alert-success" th:if="${success}" th:text="${success}"></section>
+            <h1>Mitat</h1>  
+            
+             <a class="btn btn-primary" href="#" th:href="@{/mitat/lisaa}">
+                Lisää uusi mitta
+            </a>
+            
+            <article class="listing-s" th:each="measure : ${measures}">
+                <span class="listing-s-header" th:text="${measure.name}">Mitan nimi</span>  
+                <span th:text="${measure.measureType.name}">Mitan mittatyypin nimi</span>, 
+                <span th:text="${measure.plural}"></span>, <span th:text="${measure.abbreviation}"></span>
+                <form class="form-inline listing-buttons" action="#" th:action="@{/mitat/{id}/poista(id=${measure.id})}" method="post">
+                    <a href="#" th:href="@{/mitat/{id}/muokkaa(id=${measure.id})}" class="btn btn-primary">Muokkaa</a>
+                    <input type="submit" value="Poista" class="btn btn-danger" />
+                </form>
+            </article>
+            
+        </div>
+    </body>
+</html>
