@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html  xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" th:include="layout :: page">
+    <head>
+        <title>akressiopertti - Ainekset</title>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    </head>
+    <body>
+        <div th:fragment="content">
+            
+            <section class="alert alert-success" th:if="${success}" th:text="${success}"></section>
+            <h1>Ainekset</h1>  
+            
+             <a class="btn btn-primary" href="#" th:href="@{/ainekset/lisaa}">
+                Lisää uusi aines
+            </a>
+            
+            <article class="listing-s" th:each="ingredient : ${ingredients}">
+                <span class="listing-s-header" th:text="${ingredient.name}">Aineksen nimi</span>  
+                <span th:text="${ingredient.foodStuff.name}">Aineksen ruoka-aineen nimi</span>, 
+                <p th:text="${ingredient.comment}">Kommentti</p>
+                <form class="form-inline listing-buttons" action="#" th:action="@{/ainekset/{id}/poista(id=${ingredient.id})}" method="post">
+                    <a href="#" th:href="@{/ainekset/{id}/muokkaa(id=${ingredient.id})}" class="btn btn-primary">Muokkaa</a>
+                    <input type="submit" value="Poista" class="btn btn-danger" />
+                </form>
+            </article>
+            
+        </div>
+    </body>
+</html>
