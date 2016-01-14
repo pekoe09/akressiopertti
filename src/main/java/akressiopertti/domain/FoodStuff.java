@@ -1,5 +1,6 @@
 package akressiopertti.domain;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
@@ -16,6 +17,12 @@ public class FoodStuff extends BaseModel {
     private List<Ingredient> ingredients;
     @ManyToMany(mappedBy = "foodStuffs")
     private List<Recipe> recipes;
+    
+    public FoodStuff(){
+        this.isFoodCategory = false;
+        this.ingredients = new ArrayList<>();
+        this.recipes = new ArrayList<>();
+    }
 
     public String getName() {
         return name;

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html  xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" th:include="layout :: page">
+    <head>
+        <title>Akressiopertti - Reseptit</title>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    </head>
+    <body>
+        <div  th:fragment="content">
+            
+            <section class="alert alert-success" th:if="${success}" th:text="${success}"></section>
+            <h1>Reseptit</h1>  
+            
+             <a class="btn btn-primary" href="#" th:href="@{/reseptit/lisaa}">
+                Lisää uusi resepti
+            </a>
+            
+            <article class="listing-s" th:each="recipe : ${recipes}">
+                <a href="#" th:href="@{/reseptit/{id}(id=${recipe.id})}" class="listing-s-header" th:text="${recipe.title}">Reseptin nimi</a>
+                <div th:each="foodStuff : $recipe.foodStuffs">
+                    <span th:text="${foodStuff.name}">Reseptin ruoka-aineen nimi</span>, 
+                </div>
+                <p>
+                    <span th:text="${recipe.preparationTime}">Valmistusaika</span>
+                    <span th:if="${recipe.needsMarinating}"> Marinoitava</span>
+                </p>
+                <p th:text="${recipe.source}">Lähde</p>
+                <form class="form-inline listing-buttons" action="#" th:action="@{/reseptit/{id}/poista(id=${recipe.id})}" method="post">
+                    <a href="#" th:href="@{/reseptit/{id}/muokkaa(id=${recipe.id})}" class="btn btn-primary">Muokkaa</a>
+                    <input type="submit" value="Poista" class="btn btn-danger" />
+                </form>
+            </article>
+
+        </div>
+    </body>
+</html>

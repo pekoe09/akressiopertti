@@ -1,5 +1,6 @@
 package akressiopertti.domain;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
@@ -14,6 +15,10 @@ public class Wine extends Beverage {
     private String type;
     @ManyToMany(mappedBy = "wines")
     private List<Recipe> recipes;
+    
+    public Wine(){
+        this.recipes = new ArrayList<>();
+    }
 
     public String getGrapes() {
         return grapes;

@@ -5,6 +5,7 @@
  */
 package akressiopertti.domain;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
@@ -15,6 +16,10 @@ public class MeasureType extends BaseModel {
     private String name;
     @OneToMany(mappedBy = "measureType")
     private List<Measure> measures;
+    
+    public MeasureType(){
+        this.measures = new ArrayList<>();
+    }
 
     public String getName() {
         return name;

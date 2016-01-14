@@ -1,5 +1,6 @@
 package akressiopertti.domain;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
@@ -11,6 +12,10 @@ public class Course extends BaseModel {
     private int ordinality;
     @OneToMany(mappedBy = "course")
     private List<Recipe> recipes;
+    
+    public Course(){
+        this.recipes = new ArrayList<>();
+    }
 
     public String getName() {
         return name;
