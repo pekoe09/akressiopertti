@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
@@ -56,12 +57,17 @@ public class RecipeController {
             @Valid @ModelAttribute Recipe recipe,
             BindingResult bindingResult,
             Model model,
+            @RequestParam int preparationHours,
+            @RequestParam int preparationMinutes,
             RedirectAttributes redirectAttributes
         ){
         if(bindingResult.hasErrors()){
             model = ControllerUtilities.addMappedItemsToModel(model, recipeService.getOptions());
+            model.addAttribute("recipe", recipe);
             return "recipe_add";
         }
+        int preparationTime = preparationHours * 60 + preparationMinutes;
+        recipe.setPreparationTime(preparationTime);
         recipe = recipeService.save(recipe);
         redirectAttributes.addFlashAttribute("success", "Resepti \"" + recipe.getTitle() + "\" on tallennettu!");
         return "redirect:/reseptit";
@@ -87,6 +93,7 @@ public class RecipeController {
         ){
         if(bindingResult.hasErrors()){
             model = ControllerUtilities.addMappedItemsToModel(model, recipeService.getOptions());
+            model.addAttribute("recipe", recipe);
             return "recipe_edit";
         }
         recipe = recipeService.save(recipe);

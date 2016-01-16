@@ -17,11 +17,11 @@
             
             <article class="listing-s" th:each="recipe : ${recipes}">
                 <a href="#" th:href="@{/reseptit/{id}(id=${recipe.id})}" class="listing-s-header" th:text="${recipe.title}">Reseptin nimi</a>
-                <div th:each="foodStuff : $recipe.foodStuffs">
-                    <span th:text="${foodStuff.name}">Reseptin ruoka-aineen nimi</span>, 
-                </div>
+                <span th:each="foodStuff : ${recipe.foodStuffs}">
+                    <span th:text="${foodStuff.name}">Reseptin ruoka-aineen nimi</span>  
+                </span>
                 <p>
-                    <span th:text="${recipe.preparationTime}">Valmistusaika</span>
+                    <span th:if="${recipe.preparationTime != null}" th:text="|${recipe.preparationTime / 60} tuntia ${recipe.preparationTime % 60} minuuttia|">Valmistusaika</span>
                     <span th:if="${recipe.needsMarinating}"> Marinoitava</span>
                 </p>
                 <p th:text="${recipe.source}">Lähde</p>

@@ -6,14 +6,13 @@ import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import org.joda.time.DateTime;
 
 @Entity
 public class Recipe extends BaseModel {
     
     private String title;
     private String instructions;
-    private DateTime preparationTime;
+    private int preparationTime;
     private boolean needsMarinating;
     @OneToMany(mappedBy = "recipe")
     private List<RecipeIngredient> recipeIngredients;
@@ -56,11 +55,11 @@ public class Recipe extends BaseModel {
         this.instructions = instructions;
     }
 
-    public DateTime getPreparationTime() {
+    public int getPreparationTime() {
         return preparationTime;
     }
 
-    public void setPreparationTime(DateTime preparationTime) {
+    public void setPreparationTime(int preparationTime) {
         this.preparationTime = preparationTime;
     }
 
