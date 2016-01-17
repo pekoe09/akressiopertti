@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
@@ -26,6 +27,13 @@ public class IngredientController {
         ){
         model.addAttribute("ingredients", ingredientService.findAll());
         return "ingredients";
+    }
+    
+    @RequestMapping(value = "/lista", method = RequestMethod.GET, consumes = "application/json", produces = "application/json")
+    @ResponseBody
+    public String listJSON(){
+        String ingredientJSON = ingredientService.getIngredientsArray();
+        return ingredientJSON;
     }
     
     @RequestMapping(value = "/lisaa", method = RequestMethod.GET)

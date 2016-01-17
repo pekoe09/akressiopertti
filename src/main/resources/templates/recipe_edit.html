@@ -1,17 +1,90 @@
 <!DOCTYPE html>
 <html  xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" th:include="layout :: page">
     <head>
-        <title>TODO supply a title</title>
+        <title>Akressiopertti - Muokkaa reseptiä</title>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     </head>
     <body>
-        <div  th:fragment="content">
+        <div th:fragment="content">
             
+            <h1>Muokkaa reseptiä</h1>
+            <h2 th:text="${recipe.title}">Reseptin nimi</h2>
             
-            <th:block th:fragment="pagescript">
-                <script src="/static/js/location_add.js"></script>
-            </th:block>
+            <form id="recipeForm" role="form" action="#" th:action="@{/reseptit/{id}/muokkaa(id=${recipe.id})}" th:object="${recipe}" method="post">
+                <input type="hidden" id="id" name="id" th:value="${recipe.id}" />
+                <div class="form-group" th:class="${#fields.hasErrors('title')}? has-error">
+                    <label class="control-label" for="title">Nimi</label>
+                    <input type="text" id="title" name="title" class="form-control" th:value="${recipe.title}"/>
+                    <p th:if="${#fields.hasErrors('title')}" th:errors="*{title}">virheviesti</p>
+                </div>
+                <div class="form-group">
+                    <label class="control-label" for="dishType">Ruokatyyppi</label>
+                    <select class="form-control" id="dishType" name="dishType">
+                        <option th:each="dishType : ${DishTypes}"
+                                th:text="${dishType.name}"
+                                th:value="${dishType.id}"
+                                th:selected="${recipe.dishType != null} ? ${recipe.dishType.id == dishType.id} : false"></option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="control-label" for="course">Ruokalaji</label>
+                    <select class="form-control" id="course" name="course">
+                        <option th:each="course : ${Courses}"
+                                th:text="${course.name}"
+                                th:value="${course.id}"
+                                th:selected="${recipe.course != null} ? ${recipe.course.id == course.id} : false"></option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="control-label" for="foodStuffs">Ruoka-aineet</label>
+                    <select class="form-control" id="foodStuffs" name="foodStuffs" multiple="true">
+                        <option th:each="foodStuff : ${FoodStuffs}"
+                                th:text="${foodStuff.name}"
+                                th:value="${foodStuff.id}"
+                                th:selected="${recipe.foodStuffs != null} ? ${recipe.foodStuffs.contains(foodStuff)} : false"></option>
+                    </select>
+                </div>
+                <div class="form-group" th:class="${#fields.hasErrors('preparationTime')}? has-error">
+                    <label class="control-label" for="preparationTimeSection">Valmistusaika</label>
+                    <div id="preparationTimeSection">
+                        <input id="preparationHours" name="preparationHours" size="2" th:value="${recipe.preparationTime / 60}"/>
+                        <input id="preparationMinutes" name="preparationMinutes" size="2" th:value="${recipe.preparationTime % 60}" />
+                        <input type="hidden" id="preparationTime" name="preparationTime" 
+                               th:value="${recipe.preparationTime != null} ? ${recipe.preparationTime} : 0" />
+                    </div>
+                    <p th:if="${#fields.hasErrors('preparationTime')}" th:errors="*{preparationTime}">virheviesti</p>
+                </div>
+                <div class="form-group">
+                    <input type="checkbox" id="needsMarinating" name="needsMarinating" />
+                    <input type="hidden" value="on" name="_needsMarinating" />
+                    <label for="needsMarinating">Marinoitava</label>
+                </div>
+                <div class="form-group" th:class="${#fields.hasErrors('source')}? has-error">
+                    <label class="control-label" for="source">Lähde</label>
+                    <input type="text" id="source" name="source" class="form-control" th:value="${recipe.source}"/>
+                    <p th:if="${#fields.hasErrors('source')}" th:errors="*{source}">virheviesti</p>
+                </div>
+                <div class="form-group" th:class="${#fields.hasErrors('instructions')}? has-error">
+                    <label class="control-label" for="instructions">Valmistusohje</label>
+                    <textarea id="instructions" name="instructions" class="form-control" rows="20" th:text="${recipe.instructions}"></textarea>
+                    <p th:if="${#fields.hasErrors('instructions')}" th:errors="*{instructions}">virheviesti</p>
+                </div>
+                <div class="form-group" th:class="${#fields.hasErrors('comment')}? has-error">
+                    <label class="control-label" for="comment">Kommentti</label>
+                    <textarea id="comment" name="comment" class="form-control" rows="10" th:text="${recipe.comment}"></textarea>
+                    <p th:if="${#fields.hasErrors('comment')}" th:errors="*{comment}">virheviesti</p>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Tallenna" class="btn btn-primary" />
+                    <a href="#" th:href="@{/reseptit}" class="btn btn-default">Peruuta</a>
+                </div>
+            </form>
+            
+
         </div>
+        <th:block th:fragment="pagescript">
+            <script src="/static/js/recipe.js"></script>
+        </th:block>
     </body>
 </html>

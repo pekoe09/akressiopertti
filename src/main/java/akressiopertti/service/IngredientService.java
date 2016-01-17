@@ -6,6 +6,8 @@ import akressiopertti.repository.IngredientRepository;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -40,5 +42,20 @@ public class IngredientService {
         Map<String, List> options = new HashMap<>();
         options.put("FoodStuffs", foodStuffs);
         return options;
+    }
+
+    public String getIngredientsArray() {
+        JSONArray responseArray = new JSONArray();
+        JSONObject ingredientObject;
+        
+        List<Ingredient> ingredients = ingredientRepository.findAll();
+        for(Ingredient ingredient : ingredients){
+            ingredientObject = new JSONObject();
+            ingredientObject.put("name", ingredient.getName());
+            ingredientObject.put("id", ingredient.getId());
+            responseArray.add(ingredientObject);
+        }
+        
+        return responseArray.toJSONString();
     }
 }

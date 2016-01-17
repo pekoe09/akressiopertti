@@ -2,6 +2,7 @@ package akressiopertti.domain;
 
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
@@ -11,12 +12,14 @@ import javax.persistence.OneToMany;
 public class Recipe extends BaseModel {
     
     private String title;
+    @Column(length = 5000)
     private String instructions;
     private int preparationTime;
     private boolean needsMarinating;
     @OneToMany(mappedBy = "recipe")
     private List<RecipeIngredient> recipeIngredients;
     private String source;
+    @Column(length = 5000)
     private String comment;
     @ManyToOne
     private DishType dishType;

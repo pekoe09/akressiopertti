@@ -88,6 +88,8 @@ public class RecipeController {
             @Valid @ModelAttribute Recipe recipe,
             BindingResult bindingResult,
             Model model,
+            @RequestParam int preparationHours,
+            @RequestParam int preparationMinutes,
             @PathVariable Long id,
             RedirectAttributes redirectAttributes
         ){
@@ -96,6 +98,8 @@ public class RecipeController {
             model.addAttribute("recipe", recipe);
             return "recipe_edit";
         }
+        int preparationTime = preparationHours * 60 + preparationMinutes;
+        recipe.setPreparationTime(preparationTime);
         recipe = recipeService.save(recipe);
         redirectAttributes.addFlashAttribute("success", "Reseptin \"" + recipe.getTitle() + "\" tiedot päivitetty!");
         return "redirect:/reseptit";

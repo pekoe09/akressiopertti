@@ -1,17 +1,71 @@
 <!DOCTYPE html>
 <html  xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" th:include="layout :: page">
     <head>
-        <title>TODO supply a title</title>
+        <title th:text="|Akressiopertti - ${recipe.title}|">Akressiopertti - Resepti</title>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     </head>
     <body>
         <div  th:fragment="content">
             
+            <h1 th:text="${recipe.title}">Reseptin nimi</h1>
             
-            <th:block th:fragment="pagescript">
-                <script src="/static/js/location_add.js"></script>
-            </th:block>
+            <div class="recipe-metacontainer">
+                <p>
+                    <span th:text="${recipe.dishType.name} ">Ruokatyyppi</span>
+                    <span th:text="${recipe.course.name} ">Ruokalaji</span>
+                </p>
+                <p>
+                    <span th:each="foodStuff : ${recipe.foodStuffs}">
+                        <span th:text="${foodStuff.name}">Reseptin ruoka-aineen nimi</span>
+                    </span>
+                </p>
+                <p>
+                    <span th:if="${recipe.preparationTime != null}" th:text="|${recipe.preparationTime / 60} tuntia ${recipe.preparationTime % 60} minuuttia|">Valmistusaika</span>
+                    <span th:if="${recipe.needsMarinating}"> Marinoitava</span>
+                </p>
+                <p th:text="${recipe.source}">Lähde</p>
+            </div>
+            
+            <div class="recipe-maincontainer">
+                <dl>
+                    <dt>Ainekset</dt>
+                    <dd th:each="recipeIngredient : ${recipe.recipeIngredients}">
+                        <span th:if="${recipeIngredient.amountInteger != null}">
+                            <span th:text="|${recipeIngredient.amountInteger} ${recipeIngredient.measure.abbreviation} |">Aineksen määrä</span>
+                            <a href="#" th:href="@{/ainekset/{id}/muokkaa(id=${recipeIngredient.ingredient.id})}" th:text="${recipeIngredient.ingredient.name}">Aineksen nimi</a>
+                        </span>
+                    </dd>
+                    <dt>Ohje</dt>
+                    <dd th:text="${recipe.instructions}">Ohjeteksti</dd>
+                </dl>
+            </div>
+            
+            <div class="recipe-comments">
+                <h3>Omat huomiot</h3>
+                <p  th:text="${recipe.comment}"></p>
+            </div>
+            
+            <div class="recipe-related">
+                <div th:if="${recipe.relatedRecipes != null}">
+                    <h3>Liittyvät reseptit</h3>
+                    <div th:each="relatedRecipe : ${recipe.relatedRecipes}">
+                        <a href="#" th:href="@{/reseptit/{id}(id=${relatedRecipe.id})}" th:text="${relatedRecipe.title}">Liittyvän reseptin nimi</a>
+                    </div>
+                </div>
+                <div th:if="${recipe.wines != null}">
+                    <h3>Viinit</h3>
+                    <div th:each="wine : ${recipe.wines}">
+                        <a href="#" th:href="@{/viinit/{id}(id=${wine.id})}" th:text="${wine.name}">Viinin nimi</a>
+                    </div>
+                </div>
+                <div th:if="${recipe.beers != null}">
+                    <h3>Oluet</h3>
+                    <div th:each="beer : ${recipe.beers}">
+                        <a href="#" th:href="@{/oluet/{id}(id=${beer.id})}" th:text="${beer.name}">Oluen nimi</a>
+                    </div>
+                </div>
+            </div>
         </div>
     </body>
 </html>

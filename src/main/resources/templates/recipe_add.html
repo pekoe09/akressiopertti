@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     </head>
     <body>
-        <div  th:fragment="content">
+        <div th:fragment="content">
             
             <h1>Lisää resepti</h1>
 
@@ -47,9 +47,9 @@
                     <label class="control-label" for="preparationTimeSection">Valmistusaika</label>
                     <div id="preparationTimeSection">
                         <input id="preparationHours" name="preparationHours" size="2" th:value="${recipe.preparationTime / 60}"/>
-                        <input id="preparationMinutes" name="preparationMinutes" size="2" />
+                        <input id="preparationMinutes" name="preparationMinutes" size="2" th:value="${recipe.preparationTime % 60}" />
                         <input type="hidden" id="preparationTime" name="preparationTime" 
-                               th:value="${recipe.preparationTime != null} ? ${recipe.preparationTime % 60} : 0" />
+                               th:value="${recipe.preparationTime != null} ? ${recipe.preparationTime} : 0" />
                     </div>
                     <p th:if="${#fields.hasErrors('preparationTime')}" th:errors="*{preparationTime}">virheviesti</p>
                 </div>
@@ -63,6 +63,37 @@
                     <input type="text" id="source" name="source" class="form-control" th:value="${recipe.source}"/>
                     <p th:if="${#fields.hasErrors('source')}" th:errors="*{source}">virheviesti</p>
                 </div>
+                
+                <div>
+                    <h3>Ainekset</h3>
+                    <div id="ingredientList"></div>
+                    <form id="addIngredientForm" action="#">
+                        <div class="form-group">
+                            <label class="control-label" for="ingredientAmount">Määrä</label>
+                            <input type="text" id="ingredientAmount" class="form-control" />
+                            <p id="ingredientAmountError"></p>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label" for="ingredientMeasure">Mitta</label>
+                            <select class="form-control" id="ingredientMeasure">
+                                <option th:each="measure : ${Measures}"
+                                        th:text="${measure.name}"
+                                        th:value="${measure.id}"></option>
+                            </select>
+                            <p id="ingredientMeasureError"></p>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label" for="ingredientName"></label>
+                            <input type="text" id="ingredientName" class="form-control" />
+                            <input type="hidden" id="ingredientId" />
+                            <p id="ingredientNameError"></p>
+                        </div>
+                        <div class="form-group">
+                            <input id="addIngredientButton" type="submit" value="Lisää" class="btn btn-primary" />
+                        </div>
+                    </form>
+                </div>
+                
                 <div class="form-group" th:class="${#fields.hasErrors('instructions')}? has-error">
                     <label class="control-label" for="instructions">Valmistusohje</label>
                     <textarea id="instructions" name="instructions" class="form-control" rows="20" th:text="${recipe.instructions}"></textarea>
@@ -81,6 +112,7 @@
         </div>
                     
         <th:block th:fragment="pagescript">
+            <script src="/static/js/typeahead.bundle.js"></script>
             <script src="/static/js/recipe.js"></script>
         </th:block>
     </body>

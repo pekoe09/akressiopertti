@@ -8,6 +8,7 @@ package akressiopertti.service;
 import akressiopertti.domain.Course;
 import akressiopertti.domain.DishType;
 import akressiopertti.domain.FoodStuff;
+import akressiopertti.domain.Measure;
 import akressiopertti.domain.Recipe;
 import akressiopertti.repository.RecipeRepository;
 import java.util.HashMap;
@@ -27,6 +28,8 @@ public class RecipeService {
     private DishTypeService dishTypeService;
     @Autowired
     private CourseService courseService;
+    @Autowired
+    private MeasureService measureService;
     
     public List<Recipe> findAll(){
         return recipeRepository.findAll();
@@ -54,6 +57,8 @@ public class RecipeService {
         options.put("DishTypes", dishTypes);
         List<Course> courses = courseService.findAll();
         options.put("Courses", courses);
+        List<Measure> measures = measureService.findAll();
+        options.put("Measures", measures);
         return options;
     }
 }
