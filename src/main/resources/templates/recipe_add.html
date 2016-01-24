@@ -67,7 +67,7 @@
                 <div>
                     <h3>Ainekset</h3>
                     <div id="ingredientList"></div>
-                    <form id="addIngredientForm" action="#">
+                    <!-- <form id="addIngredientForm" action="#"> -->
                         <div class="form-group">
                             <label class="control-label" for="ingredientAmount">Määrä</label>
                             <input type="text" id="ingredientAmount" class="form-control" />
@@ -89,9 +89,9 @@
                             <p id="ingredientNameError"></p>
                         </div>
                         <div class="form-group">
-                            <input id="addIngredientButton" type="submit" value="Lisää" class="btn btn-primary" />
+                            <button id="addIngredientButton" type="button" class="btn btn-primary">Lisää</button>
                         </div>
-                    </form>
+                    <!--- </form> -->
                 </div>
                 
                 <div class="form-group" th:class="${#fields.hasErrors('instructions')}? has-error">

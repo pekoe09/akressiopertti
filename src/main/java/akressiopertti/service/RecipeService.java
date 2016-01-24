@@ -10,10 +10,15 @@ import akressiopertti.domain.DishType;
 import akressiopertti.domain.FoodStuff;
 import akressiopertti.domain.Measure;
 import akressiopertti.domain.Recipe;
+import akressiopertti.domain.RecipeIngredient;
+import akressiopertti.repository.RecipeIngredientRepository;
 import akressiopertti.repository.RecipeRepository;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,6 +35,10 @@ public class RecipeService {
     private CourseService courseService;
     @Autowired
     private MeasureService measureService;
+    @Autowired
+    private IngredientService ingredientService;
+    @Autowired
+    private RecipeIngredientRepository recipeIngredientRepository;
     
     public List<Recipe> findAll(){
         return recipeRepository.findAll();
@@ -39,7 +48,30 @@ public class RecipeService {
         return recipeRepository.findOne(id);
     }
     
-    public Recipe save(Recipe recipe){
+    public Recipe save(Recipe recipe, JSONArray ingredientSet){
+        recipe = recipeRepository.save(recipe);
+        
+        List<RecipeIngredient> ingredients = new ArrayList<>();
+        for(int i = 0; i < ingredientSet.size(); i++){
+            JSONObject ingredientDatum = (JSONObject)ingredientSet.get(i);
+            RecipeIngredient recipeIngredient = new RecipeIngredient();
+            recipeIngredient.setRecipe(recipe);
+            recipeIngredient.setIngredient(ingredientService.findOne(Long.parseLong((String)ingredientDatum.get("ingredientId"))));
+            recipeIngredient.setMeasure(measureService.findOne(Long.parseLong((String)ingredientDatum.get("measureId"))));
+            String amountString = (String)ingredientDatum.get("amount");
+            if(amountString.contains(",")){
+                amountString.replace(',', '.');
+                recipeIngredient.setAmountFloat(Float.parseFloat(amountString));
+            }  else {
+                recipeIngredient.setAmountInteger(Integer.parseInt(amountString));
+            }
+            recipeIngredient = recipeIngredientRepository.save(recipeIngredient);
+            ingredientService.addRecipeToIngredient(recipeIngredient);
+            measureService.addRecipeToMeasure(recipeIngredient);
+            
+            ingredients.add(recipeIngredient);
+        }
+        recipe.setRecipeIngredients(ingredients);        
         return recipeRepository.save(recipe);
     }
     

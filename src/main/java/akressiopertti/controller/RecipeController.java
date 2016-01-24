@@ -8,6 +8,7 @@ package akressiopertti.controller;
 import akressiopertti.domain.Recipe;
 import akressiopertti.service.RecipeService;
 import javax.validation.Valid;
+import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -59,6 +60,7 @@ public class RecipeController {
             Model model,
             @RequestParam int preparationHours,
             @RequestParam int preparationMinutes,
+            @RequestParam String  ingredientSet,
             RedirectAttributes redirectAttributes
         ){
         if(bindingResult.hasErrors()){
@@ -68,7 +70,13 @@ public class RecipeController {
         }
         int preparationTime = preparationHours * 60 + preparationMinutes;
         recipe.setPreparationTime(preparationTime);
-        recipe = recipeService.save(recipe);
+        try {
+            recipe = recipeService.save(recipe, ControllerUtilities.getJSONArrayFromString(ingredientSet));
+        } catch(ParseException exc){
+            model = ControllerUtilities.addMappedItemsToModel(model, recipeService.getOptions());
+            model.addAttribute("recipe", recipe);
+            return "recipe_add";
+        }
         redirectAttributes.addFlashAttribute("success", "Resepti \"" + recipe.getTitle() + "\" on tallennettu!");
         return "redirect:/reseptit";
     }
@@ -90,6 +98,7 @@ public class RecipeController {
             Model model,
             @RequestParam int preparationHours,
             @RequestParam int preparationMinutes,
+            @RequestParam String  ingredientSet,
             @PathVariable Long id,
             RedirectAttributes redirectAttributes
         ){
@@ -100,7 +109,13 @@ public class RecipeController {
         }
         int preparationTime = preparationHours * 60 + preparationMinutes;
         recipe.setPreparationTime(preparationTime);
-        recipe = recipeService.save(recipe);
+        try {
+            recipe = recipeService.save(recipe, ControllerUtilities.getJSONArrayFromString(ingredientSet));
+        } catch(ParseException exc){
+            model = ControllerUtilities.addMappedItemsToModel(model, recipeService.getOptions());
+            model.addAttribute("recipe", recipe);
+            return "recipe_add";
+        }
         redirectAttributes.addFlashAttribute("success", "Reseptin \"" + recipe.getTitle() + "\" tiedot päivitetty!");
         return "redirect:/reseptit";
     }

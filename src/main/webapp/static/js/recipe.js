@@ -24,6 +24,7 @@
      
      // fetches ingredients and sets up ingredient typeahead
      var ingredients = [];     
+     var ingredientIds = [];
      $.ajax({
         url: "/ainekset/lista",
         dataType: "json",
@@ -32,6 +33,9 @@
         async: false,
         success: function(result){
             ingredients = result;
+            $.each(result, function(index, ingredient){
+               ingredientIds[ingredient.name] = ingredient.id;
+            }); 
         }
     });     
      
@@ -54,18 +58,67 @@
      };
      
      $('#ingredientName').typeahead({
-         minLength: 3,
-         highlight: true
-     },
-     {
-         name: 'ingredients',
-         source: ingredientMatcher(ingredients),
-         display: getIngredientName
+             minLength: 3,
+             highlight: true
+         },
+         {
+             name: 'ingredients',
+             source: ingredientMatcher(ingredients),
+             display: getIngredientName
+     });
+     
+     $('#ingredientName').on('blur', function(evt){
+        var name = $('#ingredientName').val();
+        if(name.length != 0){
+            $('#ingredientId').val(ingredientIds[name]);
+        }
      });
 
+     // adds listerner to package ingredient list neatly on form submit
+     $('#recipeForm').submit(function(event){
+        packageIngredients(); 
+     });
  });
  
  function addIngredientToList(){
+     var ingredientName = $("#ingredientName").val();
+     var ingredientId = $("#ingredientId").val();
+     var measureName = $("#ingredientMeasure option:selected").text();
+     var measureId = $("#ingredientMeasure").val();
+     var measureAmt = $("#ingredientAmount").val();     
      
-     $('#ingredientList').append();
+     var amountInput = $("<input type='text' class='form-control' />").val(measureAmt);
+     var amountDiv = $("<div class='col-md-2'></div>").append(amountInput);
+     var measureNameField = $("<span></span>").text(measureName + " ");
+     var ingredientNameField = $("<span></span>").text(ingredientName);
+     var measureIdField = $("<input type='hidden' class='measureid'/>").val(measureId)
+     var ingredientIdField = $("<input type='hidden' class='ingredientid' />").val(ingredientId);
+     var textContainer = $("<div class='col-md-10 form-control-static'></div>").append(
+            measureNameField, 
+            ingredientNameField,
+            measureIdField,
+            ingredientIdField);
+     var newIngredient = $("<div class='row ingredient-row'></div>").append(
+            amountDiv, 
+            textContainer);
+     var newFormGroup = $("<div class='form-group'></div>").append(newIngredient);     
+     $('#ingredientList').append(newFormGroup);
+ }
+ 
+ function packageIngredients(){
+     var ingredientData = [];
+     $('.ingredient-row').each(function(){
+         var ingredientId = $(this).find('.ingredientid').val();
+         var measureId = $(this).find('.measureid').val();
+         var amount = $(this).find('input[type=text]').val();
+         var ingredientDatum = {
+             ingredientId: ingredientId,
+             measureId: measureId,
+             amount: amount             
+         };
+         ingredientData.push(ingredientDatum);
+     });
+     
+     var ingredientJSON = JSON.stringify(ingredientData);
+     $("<input type='hidden' name='ingredientSet'  />").val(ingredientJSON).appendTo("#recipeForm");
  }

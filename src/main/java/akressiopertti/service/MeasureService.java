@@ -2,6 +2,7 @@ package akressiopertti.service;
 
 import akressiopertti.domain.Measure;
 import akressiopertti.domain.MeasureType;
+import akressiopertti.domain.RecipeIngredient;
 import akressiopertti.repository.MeasureRepository;
 import java.util.HashMap;
 import java.util.List;
@@ -40,5 +41,13 @@ public class MeasureService {
         Map<String, List> options = new HashMap<>();
         options.put("MeasureTypes", measureTypes);
         return options;
+    }
+
+    void addRecipeToMeasure(RecipeIngredient recipeIngredient) {
+        Measure measure = recipeIngredient.getMeasure();
+        if(measure != null){
+            measure.getRecipeIngredients().add(recipeIngredient);
+            measureRepository.save(measure);
+        }
     }
 }

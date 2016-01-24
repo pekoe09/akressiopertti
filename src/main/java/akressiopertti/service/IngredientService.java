@@ -2,6 +2,7 @@ package akressiopertti.service;
 
 import akressiopertti.domain.FoodStuff;
 import akressiopertti.domain.Ingredient;
+import akressiopertti.domain.RecipeIngredient;
 import akressiopertti.repository.IngredientRepository;
 import java.util.HashMap;
 import java.util.List;
@@ -57,5 +58,13 @@ public class IngredientService {
         }
         
         return responseArray.toJSONString();
+    }
+
+    public void addRecipeToIngredient(RecipeIngredient recipeIngredient) {
+        Ingredient ingredient = recipeIngredient.getIngredient();
+        if(ingredient != null){
+            ingredient.getRecipeIngredients().add(recipeIngredient);
+            ingredientRepository.save(ingredient);
+        }
     }
 }
