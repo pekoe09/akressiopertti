@@ -2,14 +2,22 @@ package akressiopertti.domain;
 
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.Min;
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotBlank;
 
 @Entity
 public class Course extends BaseModel {
     
+    @NotBlank(message = "Nimi on pakollinen tieto")
+    @Length(max = 100, message = "Nimi voi olla enintään 100 merkkiä pitkä")
+    @Column(unique = true)
     private String name;
-    private int ordinality;
+    @Min(0)
+    private Integer ordinality;
     @OneToMany(mappedBy = "course")
     private List<Recipe> recipes;
     
@@ -25,11 +33,11 @@ public class Course extends BaseModel {
         this.name = name;
     }
 
-    public int getOrdinality() {
+    public Integer getOrdinality() {
         return ordinality;
     }
 
-    public void setOrdinality(int ordinality) {
+    public void setOrdinality(Integer ordinality) {
         this.ordinality = ordinality;
     }
 

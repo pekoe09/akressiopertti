@@ -2,6 +2,7 @@ package akressiopertti.domain;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.Min;
 
 @Entity
 public class RecipeIngredient extends BaseModel{
@@ -10,7 +11,9 @@ public class RecipeIngredient extends BaseModel{
     private Recipe recipe;
     @ManyToOne
     private Ingredient ingredient;
+    @Min(0)
     private float amountFloat;
+    @Min(0)
     private int amountInteger;
     @ManyToOne
     private Measure measure;

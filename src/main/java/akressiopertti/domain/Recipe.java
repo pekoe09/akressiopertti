@@ -7,19 +7,30 @@ import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.Min;
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotBlank;
 
 @Entity
 public class Recipe extends BaseModel {
     
+    @NotBlank(message = "Nimi on pakollinen tieto")
+    @Length(max = 200, message = "Nimi voi olla enintään 200 merkkiä pitkä")
+    @Column(unique = true)
     private String title;
     @Column(length = 5000)
+    @Length(max = 5000, message = "Ohjeteksti voi olla enintään 5000 merkkiä pitkä")
     private String instructions;
+    @Min(0)
     private int preparationTime;
     private boolean needsMarinating;
     @OneToMany(mappedBy = "recipe")
     private List<RecipeIngredient> recipeIngredients;
+    @Length(max = 300, message = "Lähde voi olla enintään 300 merkkiä pitkä")
+    @Column(length = 300)
     private String source;
     @Column(length = 5000)
+    @Length(max = 5000, message = "Kommentti voi olla enintään 5000 merkkiä pitkä")
     private String comment;
     @ManyToOne
     private DishType dishType;
@@ -35,6 +46,7 @@ public class Recipe extends BaseModel {
     private List<Wine> wines;
     
     public Recipe(){
+        this.needsMarinating = false;
         this.recipeIngredients = new ArrayList<>();
         this.foodStuffs = new ArrayList<>();
         this.relatedRecipes = new ArrayList<>();

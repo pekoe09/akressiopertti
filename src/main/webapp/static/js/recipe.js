@@ -81,9 +81,9 @@
  });
  
  function addIngredientToList(){
-     var ingredientName = $("#ingredientName").val();
+     var ingredientName = $("#ingredientName").val().toLowerCase();
      var ingredientId = $("#ingredientId").val();
-     var measureName = $("#ingredientMeasure option:selected").text();
+     var measureName = $("#ingredientMeasure option:selected").text().toLowerCase();
      var measureId = $("#ingredientMeasure").val();
      var measureAmt = $("#ingredientAmount").val();     
      
@@ -103,6 +103,12 @@
             textContainer);
      var newFormGroup = $("<div class='form-group'></div>").append(newIngredient);     
      $('#ingredientList').append(newFormGroup);
+     
+     $("#ingredientName").val('');
+     $("#ingredientId").val('');
+     $("#ingredientMeasure").prop('selected', 0);
+     $("#ingredientMeasure").val('');
+     $("#ingredientAmount").val(''); 
  }
  
  function packageIngredients(){

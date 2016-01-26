@@ -85,19 +85,19 @@ public class DevProfile {
         // add measures
         Measure m1 = new Measure();
         m1.setName("litra");
-        m1.setPlural("litraa");
+        m1.setPartitive("litraa");
         m1.setAbbreviation("l");
         m1.setMeasureType(mt1);  
         m1 = measureService.save(m1);
         Measure m2 = new Measure();
         m2.setName("desilitra");
-        m2.setPlural("desilitraa");
+        m2.setPartitive("desilitraa");
         m2.setAbbreviation("dl");
         m2.setMeasureType(mt1);  
         m2 = measureService.save(m2);
         Measure m3 = new Measure();
         m3.setName("teelusikallinen");
-        m3.setPlural("teelusikallista");
+        m3.setPartitive("teelusikallista");
         m3.setAbbreviation("tl");
         m3.setMeasureType(mt1);  
         m3 = measureService.save(m3);
