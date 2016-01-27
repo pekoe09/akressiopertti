@@ -21,6 +21,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.ObjectError;
 
 @Service
 public class RecipeService {
@@ -92,5 +93,14 @@ public class RecipeService {
         List<Measure> measures = measureService.findAll();
         options.put("Measures", measures);
         return options;
+    }
+
+    public Iterable<ObjectError> checkUniqueness(Recipe recipe) {
+        List<ObjectError> errors = new ArrayList<>();
+        Recipe anotherRecipe= recipeRepository.findByTitle(recipe.getTitle());
+        if(anotherRecipe != null &&  anotherRecipe.getId().equals(recipe.getId())){
+            errors.add(new ObjectError("name", "Nimi on jo varattu"));
+        }
+        return errors;
     }
 }

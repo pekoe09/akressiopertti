@@ -2,9 +2,11 @@ package akressiopertti.service;
 
 import akressiopertti.domain.FoodStuff;
 import akressiopertti.repository.FoodStuffRepository;
+import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.ObjectError;
 
 @Service
 public class FoodStuffService {
@@ -29,4 +31,13 @@ public class FoodStuffService {
         foodStuffRepository.delete(foodStuff);
         return foodStuff;
     }    
+
+    public List<ObjectError> checkUniqueness(FoodStuff foodStuff) {
+        List<ObjectError> errors = new ArrayList<>();
+        FoodStuff anotherFoodStuff= foodStuffRepository.findByName(foodStuff.getName());
+        if(anotherFoodStuff != null &&  anotherFoodStuff.getId().equals(foodStuff.getId())){
+            errors.add(new ObjectError("name", "Nimi on jo varattu"));
+        }
+        return errors;
+    }
 }

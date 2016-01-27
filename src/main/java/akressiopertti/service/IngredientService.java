@@ -1,9 +1,11 @@
 package akressiopertti.service;
 
+import akressiopertti.domain.Course;
 import akressiopertti.domain.FoodStuff;
 import akressiopertti.domain.Ingredient;
 import akressiopertti.domain.RecipeIngredient;
 import akressiopertti.repository.IngredientRepository;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,6 +13,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.ObjectError;
 
 @Service
 public class IngredientService {
@@ -66,5 +69,18 @@ public class IngredientService {
             ingredient.getRecipeIngredients().add(recipeIngredient);
             ingredientRepository.save(ingredient);
         }
+    }
+
+    public List<ObjectError> checkUniqueness(Ingredient ingredient) {
+        List<ObjectError> errors = new ArrayList<>();
+        Ingredient anotherIngredient = ingredientRepository.findByName(ingredient.getName());
+        if(anotherIngredient != null &&  anotherIngredient.getId().equals(ingredient.getId())){
+            errors.add(new ObjectError("name", "Nimi on jo varattu"));
+        }
+        anotherIngredient = ingredientRepository.findByPartitive(ingredient.getPartitive());
+        if(anotherIngredient != null &&  anotherIngredient.getId().equals(ingredient.getId())){
+            errors.add(new ObjectError("partitive", "Nimen partitiivi on jo varattu"));
+        }
+        return errors;
     }
 }

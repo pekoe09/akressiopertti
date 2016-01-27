@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -63,6 +64,9 @@ public class RecipeController {
             @RequestParam String  ingredientSet,
             RedirectAttributes redirectAttributes
         ){
+        for(ObjectError error : recipeService.checkUniqueness(recipe)){
+            bindingResult.rejectValue(error.getObjectName(), "error.recipe", error.getDefaultMessage());
+        }
         if(bindingResult.hasErrors()){
             model = ControllerUtilities.addMappedItemsToModel(model, recipeService.getOptions());
             model.addAttribute("recipe", recipe);
@@ -102,6 +106,9 @@ public class RecipeController {
             @PathVariable Long id,
             RedirectAttributes redirectAttributes
         ){
+        for(ObjectError error : recipeService.checkUniqueness(recipe)){
+            bindingResult.rejectValue(error.getObjectName(), "error.recipe", error.getDefaultMessage());
+        }
         if(bindingResult.hasErrors()){
             model = ControllerUtilities.addMappedItemsToModel(model, recipeService.getOptions());
             model.addAttribute("recipe", recipe);

@@ -1,14 +1,17 @@
 package akressiopertti.service;
 
+import akressiopertti.domain.Ingredient;
 import akressiopertti.domain.Measure;
 import akressiopertti.domain.MeasureType;
 import akressiopertti.domain.RecipeIngredient;
 import akressiopertti.repository.MeasureRepository;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.ObjectError;
 
 @Service
 public class MeasureService {    
@@ -49,5 +52,22 @@ public class MeasureService {
             measure.getRecipeIngredients().add(recipeIngredient);
             measureRepository.save(measure);
         }
+    }
+
+    public List<ObjectError> checkUniqueness(Measure measure) {
+        List<ObjectError> errors = new ArrayList<>();
+        Measure anotherMeasure= measureRepository.findByName(measure.getName());
+        if(anotherMeasure != null &&  anotherMeasure.getId().equals(measure.getId())){
+            errors.add(new ObjectError("name", "Nimi on jo varattu"));
+        }
+        anotherMeasure = measureRepository.findByPartitive(measure.getPartitive());
+        if(anotherMeasure != null &&  anotherMeasure.getId().equals(measure.getId())){
+            errors.add(new ObjectError("partitive", "Nimen partitiivi on jo varattu"));
+        }
+        anotherMeasure = measureRepository.findByAbbreviation(measure.getAbbreviation());
+        if(anotherMeasure != null &&  anotherMeasure.getId().equals(measure.getId())){
+            errors.add(new ObjectError("abbreviation", "Nimen lyhenne on jo varattu"));
+        }
+        return errors;
     }
 }

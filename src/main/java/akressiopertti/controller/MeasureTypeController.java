@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -43,6 +44,9 @@ public class MeasureTypeController {
             Model model,
             RedirectAttributes redirectAttributes
         ){
+        for(ObjectError error : measureTypeService.checkUniqueness(measureType)){
+            bindingResult.rejectValue(error.getObjectName(), "error.measureType", error.getDefaultMessage());
+        }
         if(bindingResult.hasErrors()){
             return "measuretype_add";
         }
@@ -67,6 +71,9 @@ public class MeasureTypeController {
             @PathVariable Long id,
             RedirectAttributes redirectAttributes
         ){
+        for(ObjectError error : measureTypeService.checkUniqueness(measureType)){
+            bindingResult.rejectValue(error.getObjectName(), "error.measureType", error.getDefaultMessage());
+        }
         if(bindingResult.hasErrors()){
             return "measuretype_edit";
         }

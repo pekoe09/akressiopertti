@@ -46,20 +46,12 @@ public class CourseController {
             RedirectAttributes redirectAttributes
         ){
         for(ObjectError error : courseService.checkUniqueness(course)){
-            bindingResult.addError(error);
+            bindingResult.rejectValue(error.getObjectName(), "error.course", error.getDefaultMessage());
         }
         if(bindingResult.hasErrors()){
             model.addAttribute("course", course);
             return "course_add";
         }
-//        List<ObjectError> uniquenessErrors = courseService.checkUniqueness(course);
-//        if(uniquenessErrors.size() > 0){
-//            for(ObjectError error : uniquenessErrors){
-//                bindingResult.addError(error);
-//            }
-//            model.addAttribute("course", course);
-//            return "course_add";
-//        }
         course = courseService.save(course);
         redirectAttributes.addFlashAttribute("success", "Ruokalaji " + course.getName() + " tallennettu!");
         return "redirect:/ruokalajit";
@@ -81,6 +73,9 @@ public class CourseController {
             @PathVariable Long id,
             RedirectAttributes redirectAttributes
         ){
+        for(ObjectError error : courseService.checkUniqueness(course)){
+            bindingResult.rejectValue(error.getObjectName(), "error.course", error.getDefaultMessage());
+        }
         if(bindingResult.hasErrors()){
             return "course_edit";
         }
