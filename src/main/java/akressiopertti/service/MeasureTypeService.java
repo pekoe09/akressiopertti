@@ -36,7 +36,7 @@ public class MeasureTypeService {
     public List<ObjectError> checkUniqueness(MeasureType measureType) {
         List<ObjectError> errors = new ArrayList<>();
         MeasureType anotherMeasureType = measureTypeRepository.findByName(measureType.getName());
-        if(anotherMeasureType != null &&  anotherMeasureType.getId().equals(measureType.getId())){
+        if(anotherMeasureType != null && (measureType.getId() == null || !anotherMeasureType.getId().equals(measureType.getId()))){
             errors.add(new ObjectError("name", "Nimi on jo varattu"));
         }
         return errors;

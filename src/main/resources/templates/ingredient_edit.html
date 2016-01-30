@@ -17,6 +17,11 @@
                     <input type="text" id="name" name="name" class="form-control" th:value="${ingredient.name}"/>
                     <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}">virheviesti</p>
                 </div>
+                <div class="form-group" th:class="${#fields.hasErrors('partitive')}? has-error">
+                    <label class="control-label" for="partitive">Partitiivi</label>
+                    <input type="text" id="partitive" name="partitive" class="form-control" th:value="${ingredient.partitive}" />
+                    <p th:if="${#fields.hasErrors('partitive')}" th:errors="*{partitive}">virheviesti</p>
+                </div>
                 <div class="form-group">
                     <label class="control-label" for="foodStuff">Ruoka-aine</label>
                     <select id="foodStuff" name="foodStuff">

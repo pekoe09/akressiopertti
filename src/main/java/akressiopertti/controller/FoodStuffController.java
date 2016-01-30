@@ -46,9 +46,10 @@ public class FoodStuffController {
             RedirectAttributes redirectAttributes
         ){
         for(ObjectError error : foodStuffService.checkUniqueness(foodStuff)){
-            bindingResult.rejectValue(error.getObjectName(), "error.foodStuff", error.getDefaultMessage());
+            bindingResult.rejectValue(error.getObjectName(), "error.foodstuff", error.getDefaultMessage());
         }
         if(bindingResult.hasErrors()){
+            model.addAttribute("foodStuff", foodStuff);
             return "foodstuff_add";
         } 
         foodStuff = foodStuffService.save(foodStuff);
@@ -70,12 +71,14 @@ public class FoodStuffController {
             @Valid @ModelAttribute FoodStuff foodStuff,
             BindingResult bindingResult,            
             @PathVariable Long id,
+            Model model,
             RedirectAttributes redirectAttributes
         ){
         for(ObjectError error : foodStuffService.checkUniqueness(foodStuff)){
             bindingResult.rejectValue(error.getObjectName(), "error.foodStuff", error.getDefaultMessage());
         }
         if(bindingResult.hasErrors()){
+            model.addAttribute("foodStuff", foodStuff);
             return "foodstuff_edit";
         }
         foodStuff = foodStuffService.save(foodStuff);

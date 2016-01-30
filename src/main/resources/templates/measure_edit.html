@@ -18,10 +18,10 @@
                     <input type="text" id="name" name="name" class="form-control" th:value="${measure.name}"/>
                     <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}">virheviesti</p>
                 </div>
-                <div class="form-group" th:class="${#fields.hasErrors('plural')}? has-error">
-                    <label class="control-label" for="plural">Monikko</label>
-                    <input type="text" id="plural" name="plural" class="form-control" th:value="${measure.plural}"/>
-                    <p th:if="${#fields.hasErrors('plural')}" th:errors="*{plural}">virheviesti</p>
+                <div class="form-group" th:class="${#fields.hasErrors('partitive')}? has-error">
+                    <label class="control-label" for="partitive">Partitiivi</label>
+                    <input type="text" id="partitive" name="partitive" class="form-control" th:value="${measure.partitive}"/>
+                    <p th:if="${#fields.hasErrors('partitive')}" th:errors="*{partitive}">virheviesti</p>
                 </div>
                 <div class="form-group" th:class="${#fields.hasErrors('abbreviation')}? has-error">
                     <label class="control-label" for="abbreviation">Lyhenne</label>

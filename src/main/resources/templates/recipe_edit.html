@@ -68,30 +68,49 @@
                 
                 <div>
                     <h3>Ainekset</h3>
-                    <div id="ingredientList"></div>
-                        <div class="form-group">
-                            <label class="control-label" for="ingredientAmount">Määrä</label>
-                            <input type="text" id="ingredientAmount" class="form-control" />
-                            <p id="ingredientAmountError"></p>
+                    
+                    <div id="ingredientList">
+                        <div th:each="recipeIngredient : ${recipe.recipeIngredients}" class='form-group' th:attr="data-ingredientid=${recipeIngredient.ingredient.id}">
+                            <div class="row ingredient-row">
+                                <input type="hidden" class="recipeingredientid" th:value="${recipeIngredient.id}" />
+                                <div class="col-md-2">
+                                    <input type="text" class="form-control" 
+                                           th:value="${recipeIngredient.amountInteger != null} ? ${recipeIngredient.amountInteger} : ${recipeIngredient.amountFloat}" />
+                                </div>
+                                <div class="col-md-10 form-control-static">
+                                    <span th:text="${recipeIngredient.measure.partitive}"></span>
+                                    <span th:text="${recipeIngredient.ingredient.partitive}"></span>
+                                    <input type="hidden" class="measureid" th:value="${recipeIngredient.measure.id}"/>
+                                    <input type="hidden" class="ingredientid" th:value="${recipeIngredient.ingredient.id}"/>
+                                </div>
+                                <button class="btn btn-danger" type="button" th:attr="data-ingredientid=${recipeIngredient.ingredient.id}">Poista</button>
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label class="control-label" for="ingredientMeasure">Mitta</label>
-                            <select class="form-control" id="ingredientMeasure">
-                                <option th:each="measure : ${Measures}"
-                                        th:text="${measure.name}"
-                                        th:value="${measure.id}"></option>
-                            </select>
-                            <p id="ingredientMeasureError"></p>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label" for="ingredientName"></label>
-                            <input type="text" id="ingredientName" class="form-control" />
-                            <input type="hidden" id="ingredientId" />
-                            <p id="ingredientNameError"></p>
-                        </div>
-                        <div class="form-group">
-                            <button id="addIngredientButton" type="button" class="btn btn-primary">Lisää</button>
-                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="control-label" for="ingredientAmount">Määrä</label>
+                        <input type="text" id="ingredientAmount" class="form-control" />
+                        <p id="ingredientAmountError"></p>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label" for="ingredientMeasure">Mitta</label>
+                        <select class="form-control" id="ingredientMeasure">
+                            <option th:each="measure : ${Measures}"
+                                    th:text="${measure.name}"
+                                    th:value="${measure.id}"></option>
+                        </select>
+                        <p id="ingredientMeasureError"></p>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label" for="ingredientName"></label>
+                        <input type="text" id="ingredientName" class="form-control" />
+                        <input type="hidden" id="ingredientId" />
+                        <p id="ingredientNameError"></p>
+                    </div>
+                    <div class="form-group">
+                        <button id="addIngredientButton" type="button" class="btn btn-primary">Lisää</button>
+                    </div>
                 </div>
                 
                 <div class="form-group" th:class="${#fields.hasErrors('instructions')}? has-error">
@@ -113,6 +132,7 @@
 
         </div>
         <th:block th:fragment="pagescript">
+            <script src="/static/js/typeahead.bundle.js"></script>
             <script src="/static/js/recipe.js"></script>
         </th:block>
     </body>

@@ -57,15 +57,15 @@ public class MeasureService {
     public List<ObjectError> checkUniqueness(Measure measure) {
         List<ObjectError> errors = new ArrayList<>();
         Measure anotherMeasure= measureRepository.findByName(measure.getName());
-        if(anotherMeasure != null &&  anotherMeasure.getId().equals(measure.getId())){
+        if(anotherMeasure != null && (measure.getId() == null || !anotherMeasure.getId().equals(measure.getId()))){
             errors.add(new ObjectError("name", "Nimi on jo varattu"));
         }
         anotherMeasure = measureRepository.findByPartitive(measure.getPartitive());
-        if(anotherMeasure != null &&  anotherMeasure.getId().equals(measure.getId())){
+        if(anotherMeasure != null && (measure.getId() == null || !anotherMeasure.getId().equals(measure.getId()))){
             errors.add(new ObjectError("partitive", "Nimen partitiivi on jo varattu"));
         }
         anotherMeasure = measureRepository.findByAbbreviation(measure.getAbbreviation());
-        if(anotherMeasure != null &&  anotherMeasure.getId().equals(measure.getId())){
+        if(anotherMeasure != null && (measure.getId() == null || !anotherMeasure.getId().equals(measure.getId()))){
             errors.add(new ObjectError("abbreviation", "Nimen lyhenne on jo varattu"));
         }
         return errors;

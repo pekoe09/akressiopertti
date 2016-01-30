@@ -40,7 +40,7 @@ public class DishTypeService {
     public List<ObjectError> checkUniqueness(DishType dishType) {
         List<ObjectError> errors = new ArrayList<>();
         DishType anotherDishtype = dishTypeRepository.findByName(dishType.getName());
-        if(anotherDishtype != null &&  anotherDishtype.getId().equals(dishType.getId())){
+        if(anotherDishtype != null && (dishType.getId() == null || !anotherDishtype.getId().equals(dishType.getId()))){
             errors.add(new ObjectError("name", "Nimi on jo varattu"));
         }
         return errors;

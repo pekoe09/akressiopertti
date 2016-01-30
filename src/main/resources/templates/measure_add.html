@@ -13,17 +13,17 @@
             <form id="measureForm" role="form" action="#" th:action="@{/mitat/lisaa}" th:object="${measure}" method="post">
                 <div class="form-group" th:class="${#fields.hasErrors('name')}? has-error">
                     <label class="control-label" for="name">Nimi</label>
-                    <input type="text" id="name" name="name" class="form-control" />
+                    <input type="text" id="name" name="name" class="form-control" th:value="${measure.name}" />
                     <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}">virheviesti</p>
                 </div>
-                <div class="form-group" th:class="${#fields.hasErrors('plural')}? has-error">
-                    <label class="control-label" for="plural">Monikko</label>
-                    <input type="text" id="plural" name="plural" class="form-control" />
-                    <p th:if="${#fields.hasErrors('plural')}" th:errors="*{plural}">virheviesti</p>
+                <div class="form-group" th:class="${#fields.hasErrors('partitive')}? has-error">
+                    <label class="control-label" for="partitive">Partitiivi</label>
+                    <input type="text" id="partitive" name="partitive" class="form-control" th:value="${measure.partitive}" />
+                    <p th:if="${#fields.hasErrors('partitive')}" th:errors="*{partitive}">virheviesti</p>
                 </div>
                 <div class="form-group" th:class="${#fields.hasErrors('abbreviation')}? has-error">
                     <label class="control-label" for="abbreviation">Lyhenne</label>
-                    <input type="text" id="abbreviation" name="abbreviation" class="form-control" />
+                    <input type="text" id="abbreviation" name="abbreviation" class="form-control" th:value="${measure.abbreviation}" />
                     <p th:if="${#fields.hasErrors('abbreviation')}" th:errors="*{abbreviation}">virheviesti</p>
                 </div>
                 <div class="form-group">

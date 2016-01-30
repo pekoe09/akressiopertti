@@ -74,11 +74,11 @@ public class IngredientService {
     public List<ObjectError> checkUniqueness(Ingredient ingredient) {
         List<ObjectError> errors = new ArrayList<>();
         Ingredient anotherIngredient = ingredientRepository.findByName(ingredient.getName());
-        if(anotherIngredient != null &&  anotherIngredient.getId().equals(ingredient.getId())){
+        if(anotherIngredient != null && (ingredient.getId() == null || !anotherIngredient.getId().equals(ingredient.getId()))){
             errors.add(new ObjectError("name", "Nimi on jo varattu"));
         }
         anotherIngredient = ingredientRepository.findByPartitive(ingredient.getPartitive());
-        if(anotherIngredient != null &&  anotherIngredient.getId().equals(ingredient.getId())){
+        if(anotherIngredient != null && (ingredient.getId() == null || !anotherIngredient.getId().equals(ingredient.getId()))){
             errors.add(new ObjectError("partitive", "Nimen partitiivi on jo varattu"));
         }
         return errors;

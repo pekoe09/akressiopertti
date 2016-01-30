@@ -35,7 +35,7 @@ public class CourseService {
     public List<ObjectError> checkUniqueness(Course course) {
         List<ObjectError> errors = new ArrayList<>();
         Course anotherCourse = courseRepository.findByName(course.getName());
-        if(anotherCourse != null &&  anotherCourse.getId().equals(course.getId())){
+        if(anotherCourse != null && (course.getId() == null || !anotherCourse.getId().equals(course.getId()))){
             errors.add(new ObjectError("name", "Nimi on jo varattu"));
         }
         return errors;

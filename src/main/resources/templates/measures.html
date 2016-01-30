@@ -18,7 +18,7 @@
             <article class="listing-s" th:each="measure : ${measures}">
                 <span class="listing-s-header" th:text="${measure.name}">Mitan nimi</span>  
                 <span th:text="${measure.measureType.name}">Mitan mittatyypin nimi</span>, 
-                <span th:text="${measure.plural}"></span>, <span th:text="${measure.abbreviation}"></span>
+                <span th:text="${measure.partitive}"></span>, <span th:text="${measure.abbreviation}"></span>
                 <form class="form-inline listing-buttons" action="#" th:action="@{/mitat/{id}/poista(id=${measure.id})}" method="post">
                     <a href="#" th:href="@{/mitat/{id}/muokkaa(id=${measure.id})}" class="btn btn-primary">Muokkaa</a>
                     <input type="submit" value="Poista" class="btn btn-danger" />

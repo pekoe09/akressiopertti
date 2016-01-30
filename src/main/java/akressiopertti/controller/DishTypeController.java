@@ -48,6 +48,7 @@ public class DishTypeController {
             bindingResult.rejectValue(error.getObjectName(), "error.dishtype", error.getDefaultMessage());
         }
         if(bindingResult.hasErrors()){
+            model.addAttribute("dishType", dishType);
             return "dishtype_add";
         }
         dishType = dishTypeService.save(dishType);
@@ -69,12 +70,14 @@ public class DishTypeController {
             @Valid @ModelAttribute DishType dishType,
             BindingResult bindingResult,
             @PathVariable Long id,
+            Model model,
             RedirectAttributes redirectAttributes
         ){
         for(ObjectError error : dishTypeService.checkUniqueness(dishType)){
             bindingResult.rejectValue(error.getObjectName(), "error.dishtype", error.getDefaultMessage());
         }
         if(bindingResult.hasErrors()){
+            model.addAttribute("dishType", dishType);
             return "dishtype_edit";
         }
         dishType = dishTypeService.save(dishType);

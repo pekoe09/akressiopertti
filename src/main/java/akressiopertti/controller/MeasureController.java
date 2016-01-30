@@ -50,6 +50,7 @@ public class MeasureController {
         }
         if(bindingResult.hasErrors()){
             model = ControllerUtilities.addMappedItemsToModel(model, measureService.getOptions());
+            model.addAttribute("measure", measure);
             return "measure_add";
         }
         measure = measureService.save(measure);
@@ -80,6 +81,7 @@ public class MeasureController {
         }
         if(bindingResult.hasErrors()){
             model = ControllerUtilities.addMappedItemsToModel(model, measureService.getOptions());
+            model.addAttribute("measure", measure);
             return "measure_edit";
         }
         measure = measureService.save(measure);

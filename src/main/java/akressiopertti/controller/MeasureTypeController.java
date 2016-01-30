@@ -48,6 +48,7 @@ public class MeasureTypeController {
             bindingResult.rejectValue(error.getObjectName(), "error.measureType", error.getDefaultMessage());
         }
         if(bindingResult.hasErrors()){
+            model.addAttribute("measureType", measureType);
             return "measuretype_add";
         }
         measureType = measureTypeService.save(measureType);
@@ -69,12 +70,14 @@ public class MeasureTypeController {
             @Valid @ModelAttribute MeasureType measureType,
             BindingResult bindingResult,
             @PathVariable Long id,
+            Model model,
             RedirectAttributes redirectAttributes
         ){
         for(ObjectError error : measureTypeService.checkUniqueness(measureType)){
             bindingResult.rejectValue(error.getObjectName(), "error.measureType", error.getDefaultMessage());
         }
         if(bindingResult.hasErrors()){
+            model.addAttribute("measureType", measureType);
             return "measuretype_edit";
         }
         measureType = measureTypeService.save(measureType);

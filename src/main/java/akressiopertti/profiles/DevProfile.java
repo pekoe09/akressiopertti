@@ -8,11 +8,13 @@ package akressiopertti.profiles;
 import akressiopertti.domain.Course;
 import akressiopertti.domain.DishType;
 import akressiopertti.domain.FoodStuff;
+import akressiopertti.domain.Ingredient;
 import akressiopertti.domain.Measure;
 import akressiopertti.domain.MeasureType;
 import akressiopertti.service.CourseService;
 import akressiopertti.service.DishTypeService;
 import akressiopertti.service.FoodStuffService;
+import akressiopertti.service.IngredientService;
 import akressiopertti.service.MeasureService;
 import akressiopertti.service.MeasureTypeService;
 import javax.annotation.PostConstruct;
@@ -34,7 +36,8 @@ public class DevProfile {
     private MeasureTypeService measureTypeService;
     @Autowired
     private MeasureService measureService;
-    
+    @Autowired
+    private IngredientService ingredientService;
     
     @PostConstruct
     public void init(){
@@ -106,6 +109,17 @@ public class DevProfile {
         mt1.getMeasures().add(m3);
         mt1 = measureTypeService.save(mt1);
         
+        // add ingredients
+        Ingredient i1 = new Ingredient();
+        i1.setName("Lohi");
+        i1.setPartitive("Lohta");
+        i1.setFoodStuff(fs1);
+        i1 = ingredientService.save(i1);
         
+        Ingredient i2 = new Ingredient();
+        i2.setName("Silakka");
+        i2.setPartitive("Silakkaa");
+        i2.setFoodStuff(fs1);
+        i2 = ingredientService.save(i2);
     }
 }

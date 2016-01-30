@@ -71,12 +71,14 @@ public class CourseController {
             @Valid @ModelAttribute Course course,
             BindingResult bindingResult,
             @PathVariable Long id,
+            Model model,
             RedirectAttributes redirectAttributes
         ){
         for(ObjectError error : courseService.checkUniqueness(course)){
             bindingResult.rejectValue(error.getObjectName(), "error.course", error.getDefaultMessage());
         }
         if(bindingResult.hasErrors()){
+            model.addAttribute("course", course);
             return "course_edit";
         }
         course = courseService.save(course);

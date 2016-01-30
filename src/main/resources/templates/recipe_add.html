@@ -67,7 +67,6 @@
                 <div>
                     <h3>Ainekset</h3>
                     <div id="ingredientList"></div>
-                    <!-- <form id="addIngredientForm" action="#"> -->
                         <div class="form-group">
                             <label class="control-label" for="ingredientAmount">Määrä</label>
                             <input type="text" id="ingredientAmount" class="form-control" />
@@ -91,7 +90,6 @@
                         <div class="form-group">
                             <button id="addIngredientButton" type="button" class="btn btn-primary">Lisää</button>
                         </div>
-                    <!--- </form> -->
                 </div>
                 
                 <div class="form-group" th:class="${#fields.hasErrors('instructions')}? has-error">

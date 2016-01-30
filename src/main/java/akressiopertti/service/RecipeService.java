@@ -54,8 +54,18 @@ public class RecipeService {
         
         List<RecipeIngredient> ingredients = new ArrayList<>();
         for(int i = 0; i < ingredientSet.size(); i++){
-            JSONObject ingredientDatum = (JSONObject)ingredientSet.get(i);
-            RecipeIngredient recipeIngredient = new RecipeIngredient();
+            JSONObject ingredientDatum = (JSONObject)ingredientSet.get(i); 
+            
+            // if an id for recipe ingredient is provided, retrieves it for updating
+            RecipeIngredient recipeIngredient = null;
+            String recipeIngredientIdStr = (String)ingredientDatum.get("recipeIngredientId");
+            if(recipeIngredientIdStr != null && recipeIngredientIdStr.trim().length() > 0){
+                Long recipeIngredientId = Long.parseLong(recipeIngredientIdStr);
+                recipeIngredient = recipeIngredientRepository.findOne(recipeIngredientId);
+            } else {
+                recipeIngredient = new RecipeIngredient();
+            }
+
             recipeIngredient.setRecipe(recipe);
             recipeIngredient.setIngredient(ingredientService.findOne(Long.parseLong((String)ingredientDatum.get("ingredientId"))));
             recipeIngredient.setMeasure(measureService.findOne(Long.parseLong((String)ingredientDatum.get("measureId"))));
@@ -98,8 +108,8 @@ public class RecipeService {
     public Iterable<ObjectError> checkUniqueness(Recipe recipe) {
         List<ObjectError> errors = new ArrayList<>();
         Recipe anotherRecipe= recipeRepository.findByTitle(recipe.getTitle());
-        if(anotherRecipe != null &&  anotherRecipe.getId().equals(recipe.getId())){
-            errors.add(new ObjectError("name", "Nimi on jo varattu"));
+        if(anotherRecipe != null && (recipe.getId() == null || !anotherRecipe.getId().equals(recipe.getId()))){
+            errors.add(new ObjectError("title", "Nimi on jo varattu"));
         }
         return errors;
     }

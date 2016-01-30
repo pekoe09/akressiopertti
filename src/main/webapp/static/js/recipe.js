@@ -93,6 +93,12 @@
      var ingredientNameField = $("<span></span>").text(ingredientName);
      var measureIdField = $("<input type='hidden' class='measureid'/>").val(measureId)
      var ingredientIdField = $("<input type='hidden' class='ingredientid' />").val(ingredientId);
+     var removeButton = $("<button class='btn btn-danger' type='button' data-ingredientid="
+             + ingredientId
+             + ">Poista</button>");   
+     removeButton.click(function(){
+         $(this).parents(".ingredient-row").remove();
+     });
      var textContainer = $("<div class='col-md-10 form-control-static'></div>").append(
             measureNameField, 
             ingredientNameField,
@@ -100,8 +106,12 @@
             ingredientIdField);
      var newIngredient = $("<div class='row ingredient-row'></div>").append(
             amountDiv, 
-            textContainer);
-     var newFormGroup = $("<div class='form-group'></div>").append(newIngredient);     
+            textContainer,
+            removeButton);
+     var newFormGroup = $(
+             "<div class='form-group' data-ingredientid='" 
+             + ingredientId
+             + "'></div>").append(newIngredient);     
      $('#ingredientList').append(newFormGroup);
      
      $("#ingredientName").val('');
@@ -114,10 +124,16 @@
  function packageIngredients(){
      var ingredientData = [];
      $('.ingredient-row').each(function(){
+         var recipeIngredient = $(this).find('.recipeingredientid');
+         var recipeIngredientId;
+         if(recipeIngredient){
+             recipeIngredientId = recipeIngredient.val();
+         }
          var ingredientId = $(this).find('.ingredientid').val();
          var measureId = $(this).find('.measureid').val();
          var amount = $(this).find('input[type=text]').val();
          var ingredientDatum = {
+             recipeIngredientId: recipeIngredientId,
              ingredientId: ingredientId,
              measureId: measureId,
              amount: amount             

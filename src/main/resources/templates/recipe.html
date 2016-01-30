@@ -33,7 +33,8 @@
                     <dd th:each="recipeIngredient : ${recipe.recipeIngredients}">
                         <span th:if="${recipeIngredient.amountInteger != null}">
                             <span th:text="|${recipeIngredient.amountInteger} ${recipeIngredient.measure.abbreviation} |">Aineksen määrä</span>
-                            <a href="#" th:href="@{/ainekset/{id}/muokkaa(id=${recipeIngredient.ingredient.id})}" th:text="${recipeIngredient.ingredient.name}">Aineksen nimi</a>
+                            <a href="#" th:href="@{/ainekset/{id}/muokkaa(id=${recipeIngredient.ingredient.id})}" 
+                               th:text="${#strings.toLowerCase(recipeIngredient.ingredient.partitive)}">Aineksen nimi</a>
                         </span>
                     </dd>
                     <dt>Ohje</dt>

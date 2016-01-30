@@ -35,7 +35,7 @@ public class FoodStuffService {
     public List<ObjectError> checkUniqueness(FoodStuff foodStuff) {
         List<ObjectError> errors = new ArrayList<>();
         FoodStuff anotherFoodStuff= foodStuffRepository.findByName(foodStuff.getName());
-        if(anotherFoodStuff != null &&  anotherFoodStuff.getId().equals(foodStuff.getId())){
+        if(anotherFoodStuff != null && (foodStuff.getId() == null || !anotherFoodStuff.getId().equals(foodStuff.getId()))){
             errors.add(new ObjectError("name", "Nimi on jo varattu"));
         }
         return errors;

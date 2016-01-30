@@ -58,6 +58,7 @@ public class IngredientController {
         }
         if(bindingResult.hasErrors()){
             model = ControllerUtilities.addMappedItemsToModel(model, ingredientService.getOptions());
+            model.addAttribute("ingredient", ingredient);
             return "ingredient_add";
         }
         ingredient = ingredientService.save(ingredient);
@@ -88,6 +89,7 @@ public class IngredientController {
         }
         if(bindingResult.hasErrors()){
             model = ControllerUtilities.addMappedItemsToModel(model, ingredientService.getOptions());
+            model.addAttribute("ingredient", ingredient);
             return "ingredient_edit";
         }
         ingredient = ingredientService.save(ingredient);
