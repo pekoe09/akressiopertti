@@ -53,6 +53,9 @@ public class RecipeService {
         recipe = recipeRepository.save(recipe);
         
         List<RecipeIngredient> ingredients = new ArrayList<>();
+        
+        // adds/updates ingredients (depending on whether RecipeIngredient id exists)        
+        List<Long> ingredientIds = new ArrayList<>();
         for(int i = 0; i < ingredientSet.size(); i++){
             JSONObject ingredientDatum = (JSONObject)ingredientSet.get(i); 
             
@@ -81,9 +84,26 @@ public class RecipeService {
             measureService.addRecipeToMeasure(recipeIngredient);
             
             ingredients.add(recipeIngredient);
+            ingredientIds.add(recipeIngredient.getId());
         }
-        recipe.setRecipeIngredients(ingredients);        
-        return recipeRepository.save(recipe);
+        recipe.setRecipeIngredients(ingredients);  
+                
+        // deletes ingredients which have beeen removed
+        List<RecipeIngredient> oldIngredients = recipeIngredientRepository.findByRecipe(recipe);
+        List<RecipeIngredient> removedIngredients = new ArrayList<>();
+        for(int i = 0; i < oldIngredients.size(); i++){
+            if(!ingredientIds.contains(oldIngredients.get(i).getId())){
+                removedIngredients.add(oldIngredients.get(i));
+            }
+        }        
+        recipe = recipeRepository.save(recipe);
+        for(RecipeIngredient ri : removedIngredients){
+            measureService.removeRecipeIngredientFromMeasure(ri);
+            ingredientService.removeRecipeIngredientFromIngredient(ri);                   
+            recipeIngredientRepository.delete(ri.getId());
+        }
+        
+        return recipe;
     }
     
     public Recipe remove(Long id){

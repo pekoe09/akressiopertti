@@ -46,7 +46,7 @@ public class MeasureService {
         return options;
     }
 
-    void addRecipeToMeasure(RecipeIngredient recipeIngredient) {
+    public void addRecipeToMeasure(RecipeIngredient recipeIngredient) {
         Measure measure = recipeIngredient.getMeasure();
         if(measure != null){
             measure.getRecipeIngredients().add(recipeIngredient);
@@ -54,6 +54,14 @@ public class MeasureService {
         }
     }
 
+    public void removeRecipeIngredientFromMeasure(RecipeIngredient recipeIngredient) {
+        Measure measure = recipeIngredient.getMeasure();
+        if(measure != null){
+            measure.getRecipeIngredients().remove(recipeIngredient);
+            measureRepository.save(measure);
+        }
+    }
+    
     public List<ObjectError> checkUniqueness(Measure measure) {
         List<ObjectError> errors = new ArrayList<>();
         Measure anotherMeasure= measureRepository.findByName(measure.getName());
@@ -70,4 +78,5 @@ public class MeasureService {
         }
         return errors;
     }
+
 }

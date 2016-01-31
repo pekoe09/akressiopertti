@@ -71,6 +71,14 @@ public class IngredientService {
         }
     }
 
+    public void removeRecipeIngredientFromIngredient(RecipeIngredient recipeIngredient) {
+        Ingredient ingredient = recipeIngredient.getIngredient();
+        if(ingredient != null){
+            ingredient.getRecipeIngredients().remove(recipeIngredient);
+            ingredientRepository.save(ingredient);
+        }
+    }
+    
     public List<ObjectError> checkUniqueness(Ingredient ingredient) {
         List<ObjectError> errors = new ArrayList<>();
         Ingredient anotherIngredient = ingredientRepository.findByName(ingredient.getName());
@@ -83,4 +91,5 @@ public class IngredientService {
         }
         return errors;
     }
+
 }
