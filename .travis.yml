@@ -1,8 +1,9 @@
 language: java
-
 script:
-  - mvn test
-  - mvn install -DskipTests=true
-
+- mvn test
+- mvn install -DskipTests=true
 jdk:
-  - oraclejdk8
+- oraclejdk8
+deploy:
+  api_key:
+    secure: btuUpTn/w1XMP1x02RGuug8jy0ZOXKdVJmDol58C8wCPtZA6mHIdbzH/CpmN/uEKDwu9u93+eWevgS72VP0Qhqs4Gf1b0O0mUfxLwwHdb5TGbi5qV92Pp5SMHtMmbX9hnIQRQqz5tqZcpPYrTqYT+hqzaCa2yQ2VhfNHDATDzxFhB23mxScPVMhB/IliiIlEFfWnBIpEQPhG8MI5MUHvsYywnwqXkMbidh23SlHGdK/XsTXJJqh1DwaV1BabQrX50rJgElqq4GgXLuU8aHBlXybgO8qMDveWuCV4Tbk6hxVxGo4N0L/pLAVjdVNHiLyv9MrubhMmMz4W0o0+/rDtFwvGWiRJNmjruovtL+OMN6r62DCkBq93to1CDHVwSD04npgg/V7PeE6RXYOM7DqV7Amxqi/3z0YddcI6yGZXS1t0sySJ+shEYViSBtTE7cKbR5R8YUQWIceuN96MXJZ7q4CYSHJrrhAggt5FVBxJYu37wJcSnEwRUAjBqFnc/Nd0ThzceWURW7rjZ28uQxn0nruhGf/n/BtOjtFSPmT39ZOC5/RPAIb+uWADhx6OH+54cYHt8/GJ2jvUw26lfB1TixT1omIfh0v7y8EBZJXA50THHpq+DPtSWkfOSV1ZXrBOPK3WBxGC7Tjhk8QnybS8tvulnFF7X50YKADvEQn3ejw=
