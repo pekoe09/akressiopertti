@@ -11,12 +11,14 @@ import akressiopertti.domain.FoodStuff;
 import akressiopertti.domain.Ingredient;
 import akressiopertti.domain.Measure;
 import akressiopertti.domain.MeasureType;
+import akressiopertti.domain.User;
 import akressiopertti.service.CourseService;
 import akressiopertti.service.DishTypeService;
 import akressiopertti.service.FoodStuffService;
 import akressiopertti.service.IngredientService;
 import akressiopertti.service.MeasureService;
 import akressiopertti.service.MeasureTypeService;
+import akressiopertti.service.UserService;
 import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -38,9 +40,19 @@ public class DevProfile {
     private MeasureService measureService;
     @Autowired
     private IngredientService ingredientService;
+    @Autowired
+    private UserService userService;
     
     @PostConstruct
     public void init(){
+        
+        // add user
+        User u1 = new User();
+        u1.setName("oletusadmin");
+        u1.setIsAdmin(true);
+        u1.setUsername("a");
+        u1.setPassword("a");
+        userService.save(u1);
         
         // add foodstuff
         FoodStuff fs1 = new FoodStuff();
