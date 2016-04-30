@@ -34,21 +34,6 @@
         </plugins>
     </build>
     
-    <profiles>
-        <profile>
-            <id>dev</id>
-            <properties>
-                <hibernate.hbm2ddl.auto>create-drop</hibernate.hbm2ddl.auto>
-            </properties>
-        </profile>
-        <profile>
-            <id>prod</id>
-            <properties>
-                <hibernate.hbm2ddl.auto>validate</hibernate.hbm2ddl.auto>
-            </properties>
-        </profile>
-    </profiles>
-    
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -92,6 +77,12 @@
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
             <version>9.4-1205-jdbc42</version>
+        </dependency>        
+        
+        <dependency>
+            <groupId>commons-dbcp</groupId>
+            <artifactId>commons-dbcp</artifactId>
+            <version>1.4</version>
         </dependency>
         
         <dependency>
