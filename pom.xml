@@ -34,6 +34,21 @@
         </plugins>
     </build>
     
+    <profiles>
+        <profile>
+            <id>dev</id>
+            <properties>
+                <hibernate.hbm2ddl.auto>create-drop</hibernate.hbm2ddl.auto>
+            </properties>
+        </profile>
+        <profile>
+            <id>prod</id>
+            <properties>
+                <hibernate.hbm2ddl.auto>validate</hibernate.hbm2ddl.auto>
+            </properties>
+        </profile>
+    </profiles>
+    
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
