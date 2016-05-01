@@ -55,7 +55,7 @@ public class ProdProfile {
 //    }
     
     @Bean
-    public String jotain() throws URISyntaxException {
+    public BasicDataSource jotain() throws URISyntaxException {
         URI dbUri = new URI(System.getenv("DATABASE_URL"));
 
         String username = dbUri.getUserInfo().split(":")[0];
@@ -67,7 +67,7 @@ public class ProdProfile {
         basicDataSource.setUsername(username);
         basicDataSource.setPassword(password);
         
-        return dbUri.toString();
+        return basicDataSource;
 //
 
     }
@@ -78,4 +78,5 @@ public class ProdProfile {
 //    public DataSource dataSource() {
 //        return DataSourceBuilder.create().build();
 //    }
+    
 }
