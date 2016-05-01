@@ -54,7 +54,7 @@ public class ProdProfile {
 //        return basicDataSource;
 //    }
     
-    @Bean
+//    @Bean
     public void jotain() throws URISyntaxException {
 //        URI dbUri = new URI(System.getenv("DATABASE_URL"));
 //
