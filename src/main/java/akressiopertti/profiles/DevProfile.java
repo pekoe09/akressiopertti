@@ -19,8 +19,11 @@ import akressiopertti.service.IngredientService;
 import akressiopertti.service.MeasureService;
 import akressiopertti.service.MeasureTypeService;
 import akressiopertti.service.UserService;
+import java.net.URI;
+import java.net.URISyntaxException;
 import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
@@ -134,4 +137,8 @@ public class DevProfile {
         i2.setFoodStuff(fs1);
         i2 = ingredientService.save(i2);
     }
+    
+    @Bean
+    public String jotain() throws URISyntaxException { return "jotain"; }
+        
 }
