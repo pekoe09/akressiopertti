@@ -22,6 +22,7 @@ import akressiopertti.service.UserService;
 import java.net.URI;
 import java.net.URISyntaxException;
 import javax.annotation.PostConstruct;
+import org.apache.commons.dbcp.BasicDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -139,6 +140,13 @@ public class DevProfile {
     }
     
     @Bean
-    public String jotain() throws URISyntaxException { return "jotain"; }
+    public BasicDataSource jotain() throws URISyntaxException {
+        BasicDataSource basicDataSource = new BasicDataSource();
+        basicDataSource.setUrl("jossain");
+        basicDataSource.setUsername("joku");
+        basicDataSource.setPassword("jotain");
+        
+        return basicDataSource;
+    }
         
 }
