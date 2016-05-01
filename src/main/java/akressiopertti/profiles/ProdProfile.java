@@ -57,11 +57,12 @@ public class ProdProfile {
     @Bean
     public String jotain() throws URISyntaxException {
         URI dbUri = new URI(System.getenv("DATABASE_URL"));
-        return dbUri.toString();
-//
-//        String username = dbUri.getUserInfo().split(":")[0];
-//        String password = dbUri.getUserInfo().split(":")[1];
+
+        String username = dbUri.getUserInfo().split(":")[0];
+        String password = dbUri.getUserInfo().split(":")[1];
 //        String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + dbUri.getPath() + ":" + dbUri.getPort() + dbUri.getPath();
+        
+          return dbUri.toString();
 //
 //        BasicDataSource basicDataSource = new BasicDataSource();
 //        basicDataSource.setUrl(dbUrl);
