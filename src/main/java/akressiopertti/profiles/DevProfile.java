@@ -137,16 +137,5 @@ public class DevProfile {
         i2.setPartitive("Silakkaa");
         i2.setFoodStuff(fs1);
         i2 = ingredientService.save(i2);
-    }
-    
-//    @Bean
-//    public BasicDataSource jotain() throws URISyntaxException {
-//        BasicDataSource basicDataSource = new BasicDataSource();
-//        basicDataSource.setUrl("jossain");
-//        basicDataSource.setUsername("joku");
-//        basicDataSource.setPassword("jotain");
-//        
-//        return basicDataSource;
-//    }
-        
+    }        
 }

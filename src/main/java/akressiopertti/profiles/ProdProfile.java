@@ -37,44 +37,4 @@ public class ProdProfile {
             userService.save(u1);
         }
     }
-//        
-//    @Bean
-//    public BasicDataSource dataSource() throws URISyntaxException {
-//        URI dbUri = new URI(System.getenv("DATABASE_URL"));
-//
-//        String username = dbUri.getUserInfo().split(":")[0];
-//        String password = dbUri.getUserInfo().split(":")[1];
-//        String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + dbUri.getPath() + ":" + dbUri.getPort() + dbUri.getPath();
-//
-//        BasicDataSource basicDataSource = new BasicDataSource();
-//        basicDataSource.setUrl(dbUrl);
-//        basicDataSource.setUsername(username);
-//        basicDataSource.setPassword(password);
-//
-//        return basicDataSource;
-//    }
-    
-//    @Bean
-//    public DataSource dataSource() throws URISyntaxException {
-//        URI dbUri = new URI(System.getenv("DATABASE_URL"));
-//
-//        String username = dbUri.getUserInfo().split(":")[0];
-//        String password = dbUri.getUserInfo().split(":")[1];
-//        String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + dbUri.getPath() + ":" + dbUri.getPort() + dbUri.getPath();
-//        
-//        BasicDataSource basicDataSource = new BasicDataSource();
-//        basicDataSource.setUrl(dbUrl);
-//        basicDataSource.setUsername(username);
-//        basicDataSource.setPassword(password);
-//        
-//        return basicDataSource;
-//    }
-    
-//    @Bean
-//    @Primary
-//    @ConfigurationProperties(prefix = "spring.datasource")
-//    public DataSource dataSource() {
-//        return DataSourceBuilder.create().build();
-//    }
-    
 }
