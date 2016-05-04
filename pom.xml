@@ -29,6 +29,7 @@
                             <goal>repackage</goal>
                         </goals>
                     </execution>
+                    <!--
                     <execution>
                         <id>pre-integration-test</id>
                         <goals>
@@ -40,7 +41,7 @@
                         <goals>
                             <goal>stop</goal>
                         </goals>
-                    </execution>
+                    </execution> -->
                 </executions>
             </plugin>
             <plugin>
