@@ -28,6 +28,9 @@ public class CourseService {
 
     public Course remove(Long id) {
         Course course = courseRepository.findOne(id);
+        if(course == null) {
+            throw new NullPointerException("Cannot remove object with id " + id.toString());
+        }
         courseRepository.delete(id);
         return course;
     }
