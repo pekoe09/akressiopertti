@@ -90,8 +90,15 @@ public class CourseController {
     public String remove(
             @PathVariable Long id,
             RedirectAttributes redirectAttributes
-        ){        
-        Course course = courseService.remove(id);
+        ){      
+        Course course = null;
+        try {
+            course = courseService.remove(id);
+        }
+        catch (NullPointerException exc) {
+            redirectAttributes.addFlashAttribute("error", "Poistettavaa ruokalajia ei löydy!");
+            return "redirect:/ruokalajit";
+        }
         redirectAttributes.addFlashAttribute("success", "Ruokalaji " + course.getName() + " poistettu!");
         return "redirect:/ruokalajit";
     }
