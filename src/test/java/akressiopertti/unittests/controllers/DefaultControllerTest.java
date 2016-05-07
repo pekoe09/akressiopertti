@@ -4,7 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.test.context.support.WithSecurityContextTestExcecutionListener;
+import org.springframework.security.test.context.support.WithSecurityContextTestExecutionListener;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -24,7 +24,7 @@ import org.springframework.web.context.WebApplicationContext;
 @TestExecutionListeners(listeners = {
         ServletTestExecutionListener.class,
         DependencyInjectionTestExecutionListener.class,
-        WithSecurityContextTestExcecutionListener.class})
+        WithSecurityContextTestExecutionListener.class})
 public class DefaultControllerTest {
     
     private final String RANDOM_URI= "/jotain";

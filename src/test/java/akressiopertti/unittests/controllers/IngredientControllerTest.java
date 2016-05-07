@@ -1,6 +1,5 @@
 package akressiopertti.unittests.controllers;
 
-import akressiopertti.domain.Course;
 import akressiopertti.domain.Ingredient;
 import akressiopertti.service.IngredientService;
 import java.util.ArrayList;
@@ -24,7 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpSession;
 import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.security.test.context.support.WithSecurityContextTestExcecutionListener;
+import org.springframework.security.test.context.support.WithSecurityContextTestExecutionListener;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -49,7 +48,7 @@ import org.springframework.web.context.WebApplicationContext;
 @TestExecutionListeners(listeners = {
         ServletTestExecutionListener.class,
         DependencyInjectionTestExecutionListener.class,
-        WithSecurityContextTestExcecutionListener.class})
+        WithSecurityContextTestExecutionListener.class})
 public class IngredientControllerTest {
     
     private final String LIST_URI = "/ainekset";
@@ -92,7 +91,7 @@ public class IngredientControllerTest {
     @Test
     @WithMockUser(username = "a", roles = {"ADMIN"})
     public void listViewOpens() throws Exception {
-        MvcResult res = mockMvc.perform(get(LIST_URI))
+        mockMvc.perform(get(LIST_URI))
                 .andExpect(status().isOk())
                 .andExpect(view().name("ingredients"))
                 .andReturn(); 
@@ -101,7 +100,7 @@ public class IngredientControllerTest {
     @Test
     @WithMockUser(username = "a", roles = {"ADMIN"})
     public void listViewContainsCourses() throws Exception {       
-        MvcResult res = mockMvc.perform(get(LIST_URI))
+        mockMvc.perform(get(LIST_URI))
                 .andExpect(model().attributeExists("ingredients"))
                 .andExpect(model().attribute("ingredients", hasSize(1)))
                 .andReturn();
@@ -132,7 +131,7 @@ public class IngredientControllerTest {
     @Test
     @WithMockUser(username = "a", roles = {"ADMIN"})
     public void addViewOpens() throws Exception {
-        MvcResult res = mockMvc.perform(get(ADD_URI))
+        mockMvc.perform(get(ADD_URI))
                 .andExpect(status().isOk())
                 .andExpect(view().name("ingredient_add"))
                 .andReturn();
@@ -143,7 +142,7 @@ public class IngredientControllerTest {
     @Test
     @WithMockUser(username = "a", roles = {"ADMIN"})
     public void addViewAddsIngredient() throws Exception {        
-        MvcResult res = mockMvc.perform(post(ADD_URI)
+        mockMvc.perform(post(ADD_URI)
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                 .param("name", "Tilli")
                 .param("partitive", "Tilliä")                
@@ -166,7 +165,7 @@ public class IngredientControllerTest {
     @Test
     @WithMockUser(username = "a", roles = {"ADMIN"})
     public void invalidAddRevertsToAddIngredientView() throws Exception {        
-        MvcResult res = mockMvc.perform(post(ADD_URI)
+        mockMvc.perform(post(ADD_URI)
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                 .param("partitive", "tilliä")                
                 .sessionAttr("ingredient", i1)
@@ -189,7 +188,7 @@ public class IngredientControllerTest {
         errors.add(new ObjectError("name", "Nimi on jo varattu"));
         when(ingredientServiceMock.checkUniqueness(any(Ingredient.class))).thenReturn(errors);
         
-         MvcResult res = mockMvc.perform(post(ADD_URI)
+        mockMvc.perform(post(ADD_URI)
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                 .param("name", "Tilli")
                 .param("partitive", "tilliä")                
@@ -209,7 +208,7 @@ public class IngredientControllerTest {
     @Test
     @WithMockUser(username = "a", roles = {"ADMIN"})
     public void editViewOpens() throws Exception {
-        MvcResult res = mockMvc.perform(get(EDIT_URI))
+        mockMvc.perform(get(EDIT_URI))
                 .andExpect(status().isOk())
                 .andExpect(view().name("ingredient_edit"))
                 .andExpect(model().attributeExists("ingredient"))
@@ -221,7 +220,7 @@ public class IngredientControllerTest {
     @Test
     @WithMockUser(username = "a",roles = {"ADMIN"})
     public void editViewEditsIngredient() throws Exception {   
-        MvcResult res = mockMvc.perform(post(EDIT_URI)
+        mockMvc.perform(post(EDIT_URI)
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                 .param("id", "1")
                 .param("name", "Tilli")
@@ -245,7 +244,7 @@ public class IngredientControllerTest {
     @Test
     @WithMockUser(username = "a", roles = {"ADMIN"})
     public void invalidUpdateRevertsToEditIngredientView() throws Exception {           
-        MvcResult res = mockMvc.perform(post(EDIT_URI)
+        mockMvc.perform(post(EDIT_URI)
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                 .param("id", "1")
                 .param("name", "")
@@ -270,7 +269,7 @@ public class IngredientControllerTest {
         errors.add(new ObjectError("name", "Nimi on jo varattu"));
         when(ingredientServiceMock.checkUniqueness(any(Ingredient.class))).thenReturn(errors);
         
-         MvcResult res = mockMvc.perform(post(EDIT_URI)
+        mockMvc.perform(post(EDIT_URI)
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                 .param("id", "1")
                 .param("name", "Tilli")
@@ -303,7 +302,7 @@ public class IngredientControllerTest {
     @Test
     @WithMockUser(username = "a", roles = {"ADMIN"})
     public void deletingInvalidIdShowsErrorMessage() throws Exception {       
-        MvcResult res = mockMvc.perform(post("/ainekset/4/poista"))
+        mockMvc.perform(post("/ainekset/4/poista"))
                 .andExpect(status().isMovedTemporarily())
                 .andExpect(view().name("redirect:/ainekset"))
                 .andExpect(flash().attribute("error", "Poistettavaa ainesta ei löydy!"))
