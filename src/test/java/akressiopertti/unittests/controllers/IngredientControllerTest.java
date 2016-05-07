@@ -82,7 +82,7 @@ public class IngredientControllerTest {
         when(ingredientServiceMock.findAll()).thenReturn(Arrays.asList(i1));
         when(ingredientServiceMock.findOne(1L)).thenReturn(i1);
         when(ingredientServiceMock.getIngredientsArray()).thenReturn(ingredientArray.toJSONString());
-        when(ingredientServiceMock.checkUniqueness(any(Ingredient.class))).thenReturn(new ArrayList<ObjectError>());
+        when(ingredientServiceMock.checkUniqueness(any(Ingredient.class))).thenReturn(new ArrayList<>());
         when(ingredientServiceMock.save(any(Ingredient.class))).thenReturn(i1);
         when(ingredientServiceMock.remove(1L)).thenReturn(i1);
         Mockito.doThrow(NullPointerException.class).when(ingredientServiceMock).remove(4L);        
@@ -184,7 +184,7 @@ public class IngredientControllerTest {
     @Test
     @WithMockUser(username = "a", roles = {"ADMIN"})
     public void uniquenessFailRevertsToAddIngredientView() throws Exception {
-        List<ObjectError> errors = new ArrayList<ObjectError>();
+        List<ObjectError> errors = new ArrayList<>();
         errors.add(new ObjectError("name", "Nimi on jo varattu"));
         when(ingredientServiceMock.checkUniqueness(any(Ingredient.class))).thenReturn(errors);
         
@@ -265,7 +265,7 @@ public class IngredientControllerTest {
     @Test
     @WithMockUser(username = "a",roles = {"ADMIN"})
     public void uniquenessFailRevertsToEditIngredientView() throws Exception {
-        List<ObjectError> errors = new ArrayList<ObjectError>();
+        List<ObjectError> errors = new ArrayList<>();
         errors.add(new ObjectError("name", "Nimi on jo varattu"));
         when(ingredientServiceMock.checkUniqueness(any(Ingredient.class))).thenReturn(errors);
         
@@ -289,7 +289,7 @@ public class IngredientControllerTest {
     
     @Test
     @WithMockUser(username = "a", roles = {"ADMIN"})
-    public void deleteRemovesCourse() throws Exception {
+    public void deleteRemovesIngredient() throws Exception {
         MvcResult res = mockMvc.perform(post(DELETE_URI))
                 .andExpect(status().isMovedTemporarily())
                 .andExpect(view().name("redirect:/ainekset"))

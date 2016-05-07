@@ -1,7 +1,7 @@
 package akressiopertti.unittests.controllers;
 
-import akressiopertti.domain.DishType;
-import akressiopertti.service.DishTypeService;
+import akressiopertti.domain.MeasureType;
+import akressiopertti.service.MeasureTypeService;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -45,34 +45,34 @@ import org.springframework.web.context.WebApplicationContext;
         ServletTestExecutionListener.class,
         DependencyInjectionTestExecutionListener.class,
         WithSecurityContextTestExecutionListener.class})
-public class DishTypeControllerTest {
+public class MeasureTypeControllerTest {
     
-    private final String LIST_URI = "/ruokatyypit";
-    private final String ADD_URI = "/ruokatyypit/lisaa";
-    private final String EDIT_URI = "/ruokatyypit/1/muokkaa";
-    private final String DELETE_URI = "/ruokatyypit/1/poista";
-    private DishType d1;
+    private final String LIST_URI = "/mittatyypit";
+    private final String ADD_URI = "/mittatyypit/lisaa";
+    private final String EDIT_URI = "/mittatyypit/1/muokkaa";
+    private final String DELETE_URI = "/mittatyypit/1/poista";
+    private MeasureType m1;
     
     @Autowired
     private WebApplicationContext webAppContext;
     private MockMvc mockMvc;
     @Autowired
-    private DishTypeService dishTypeServiceMock;
+    private MeasureTypeService measureTypeServiceMock;
     
     @Before
     public void setUp() {
-        Mockito.reset(dishTypeServiceMock);
+        Mockito.reset(measureTypeServiceMock);
         this.mockMvc = MockMvcBuilders.webAppContextSetup(webAppContext).build();
         
-        d1 = new DishType();
-        d1.setId(1L);
-        d1.setName("Keitto");
-        when(dishTypeServiceMock.findAll()).thenReturn(Arrays.asList(d1));
-        when(dishTypeServiceMock.findOne(1L)).thenReturn(d1);
-        when(dishTypeServiceMock.checkUniqueness(any(DishType.class))).thenReturn(new ArrayList<ObjectError>());
-        when(dishTypeServiceMock.save(any(DishType.class))).thenReturn(d1);
-        when(dishTypeServiceMock.remove(1L)).thenReturn(d1);
-        Mockito.doThrow(NullPointerException.class).when(dishTypeServiceMock).remove(4L);
+        m1 = new MeasureType();
+        m1.setId(1L);
+        m1.setName("Paino");
+        when(measureTypeServiceMock.findAll()).thenReturn(Arrays.asList(m1));
+        when(measureTypeServiceMock.findOne(1L)).thenReturn(m1);
+        when(measureTypeServiceMock.checkUniqueness(any(MeasureType.class))).thenReturn(new ArrayList<>());
+        when(measureTypeServiceMock.save(any(MeasureType.class))).thenReturn(m1);
+        when(measureTypeServiceMock.remove(1L)).thenReturn(m1);
+        Mockito.doThrow(NullPointerException.class).when(measureTypeServiceMock).remove(4L); 
     }
     
     @Test
@@ -80,20 +80,20 @@ public class DishTypeControllerTest {
     public void listViewOpens() throws Exception {
         mockMvc.perform(get(LIST_URI))
                 .andExpect(status().isOk())
-                .andExpect(view().name("dishtypes"))
+                .andExpect(view().name("measuretypes"))
                 .andReturn(); 
     }
     
     @Test
     @WithMockUser(username = "a", roles = {"ADMIN"})
-    public void listViewContainsDishTypes() throws Exception {       
+    public void listViewContainsMeasureTypes() throws Exception {       
         mockMvc.perform(get(LIST_URI))
-                .andExpect(model().attributeExists("dishTypes"))
-                .andExpect(model().attribute("dishTypes", hasSize(1)))
+                .andExpect(model().attributeExists("measureTypes"))
+                .andExpect(model().attribute("measureTypes", hasSize(1)))
                 .andReturn();
         
-        verify(dishTypeServiceMock, times(1)).findAll();
-        verifyNoMoreInteractions(dishTypeServiceMock);
+        verify(measureTypeServiceMock, times(1)).findAll();
+        verifyNoMoreInteractions(measureTypeServiceMock);
     }
     
     @Test
@@ -101,70 +101,70 @@ public class DishTypeControllerTest {
     public void addViewOpens() throws Exception {
         mockMvc.perform(get(ADD_URI))
                 .andExpect(status().isOk())
-                .andExpect(view().name("dishtype_add"))
+                .andExpect(view().name("measuretype_add"))
                 .andReturn();
-        verifyNoMoreInteractions(dishTypeServiceMock);
+        verifyNoMoreInteractions(measureTypeServiceMock);
     }
     
     @Test
     @WithMockUser(username = "a", roles = {"ADMIN"})
-    public void addViewAddsDishType() throws Exception {        
+    public void addViewAddsMeasureType() throws Exception {        
         mockMvc.perform(post(ADD_URI)
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-                .param("name", "Keitto")             
-                .sessionAttr("dishType", d1)
+                .param("name", "Paino")             
+                .sessionAttr("measureType", m1)
         )
                 .andExpect(status().isMovedTemporarily())
-                .andExpect(view().name("redirect:/ruokatyypit"))
+                .andExpect(view().name("redirect:/mittatyypit"))
                 .andExpect(flash().attribute("success", 
-                        "Ruokatyyppi " + d1.getName() + " tallennettu!"))
+                        "Mittatyyppi " + m1.getName() + " tallennettu!"))
                 .andReturn();
         
-        ArgumentCaptor<DishType> dishtypeArgument = ArgumentCaptor.forClass(DishType.class);
-        verify(dishTypeServiceMock,times(1)).checkUniqueness(dishtypeArgument.capture());
-        assertEquals("Keitto", dishtypeArgument.getValue().getName());
-        verify(dishTypeServiceMock, times(1)).save(dishtypeArgument.capture());
-        assertEquals("Keitto", dishtypeArgument.getValue().getName());
-        verifyNoMoreInteractions(dishTypeServiceMock);
+        ArgumentCaptor<MeasureType> measureTypeArgument = ArgumentCaptor.forClass(MeasureType.class);
+        verify(measureTypeServiceMock,times(1)).checkUniqueness(measureTypeArgument.capture());
+        assertEquals("Paino", measureTypeArgument.getValue().getName());
+        verify(measureTypeServiceMock, times(1)).save(measureTypeArgument.capture());
+        assertEquals("Paino", measureTypeArgument.getValue().getName());
+        verifyNoMoreInteractions(measureTypeServiceMock);
     }
     
     @Test
     @WithMockUser(username = "a", roles = {"ADMIN"})
-    public void invalidAddRevertsToAddDishTypeView() throws Exception {        
+    public void invalidAddRevertsToAddMeasureTypeView() throws Exception {        
         mockMvc.perform(post(ADD_URI)
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)              
-                .sessionAttr("dishType", d1)
+                .sessionAttr("measureType", m1)
         )
                 .andExpect(status().isOk())
-                .andExpect(view().name("dishtype_add"))
-                .andExpect(model().attributeExists("dishType"))
-                .andExpect(model().attributeHasFieldErrors("dishType", "name"))
+                .andExpect(view().name("measuretype_add"))
+                .andExpect(model().attributeExists("measureType"))
+                .andExpect(model().attributeHasFieldErrors("measureType", "name"))
                 .andReturn();
         
-        verify(dishTypeServiceMock,times(1)).checkUniqueness(any(DishType.class));
-        verifyNoMoreInteractions(dishTypeServiceMock);
+        verify(measureTypeServiceMock,times(1)).checkUniqueness(any(MeasureType.class));
+        verifyNoMoreInteractions(measureTypeServiceMock);
     }
     
     @Test
     @WithMockUser(username = "a", roles = {"ADMIN"})
-    public void uniquenessFailRevertsToAddDishTypeView() throws Exception {
-        List<ObjectError> errors = new ArrayList<ObjectError>();
+    public void uniquenessFailRevertsToAddMeasureTypeView() throws Exception {
+        List<ObjectError> errors = new ArrayList<>();
         errors.add(new ObjectError("name", "Nimi on jo varattu"));
-        when(dishTypeServiceMock.checkUniqueness(any(DishType.class))).thenReturn(errors);
+        when(measureTypeServiceMock.checkUniqueness(any(MeasureType.class))).thenReturn(errors);
         
         mockMvc.perform(post(ADD_URI)
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-                .param("name", "Keitto")              
-                .sessionAttr("dishType", d1)
+                .param("name", "Paino")              
+                .sessionAttr("measureType", m1)
         )
                 .andExpect(status().isOk())
-                .andExpect(view().name("dishtype_add"))
-                .andExpect(model().attributeExists("dishType"))
-                .andExpect(model().attributeHasFieldErrors("dishType", "name"))
+                .andExpect(view().name("measuretype_add"))
+                .andExpect(model().attributeExists("measureType"))
+                .andExpect(model().attributeHasFieldErrors("measureType", "name"))
                 .andReturn();   
          
-        verify(dishTypeServiceMock,times(1)).checkUniqueness(any(DishType.class));
-        verifyNoMoreInteractions(dishTypeServiceMock);
+        verify(measureTypeServiceMock,times(1)).checkUniqueness(any(MeasureType.class));
+        verifyNoMoreInteractions(measureTypeServiceMock);
     }
     
     @Test
@@ -172,11 +172,11 @@ public class DishTypeControllerTest {
     public void editViewOpens() throws Exception {
         mockMvc.perform(get(EDIT_URI))
                 .andExpect(status().isOk())
-                .andExpect(view().name("dishtype_edit"))
-                .andExpect(model().attributeExists("dishType"))
+                .andExpect(view().name("measuretype_edit"))
+                .andExpect(model().attributeExists("measureType"))
                 .andReturn();
                 
-        verify(dishTypeServiceMock, times(1)).findOne(1L);
+        verify(measureTypeServiceMock, times(1)).findOne(1L);
     }
     
     @Test
@@ -185,63 +185,63 @@ public class DishTypeControllerTest {
         mockMvc.perform(post(EDIT_URI)
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                 .param("id", "1")
-                .param("name", "Keitto")
-                .sessionAttr("dishType", d1)
+                .param("name", "Paino")
+                .sessionAttr("measureType", m1)
         )
                 .andExpect(status().isMovedTemporarily())
-                .andExpect(view().name("redirect:/ruokatyypit"))
+                .andExpect(view().name("redirect:/mittatyypit"))
                 .andExpect(flash().attribute("success",
-                        "Ruokatyypin " + d1.getName() + " tiedot päivitetty!"))
+                        "Mittatyypin " + m1.getName() + " tiedot päivitetty!"))
                 .andReturn();
                 
-        ArgumentCaptor<DishType> dishtypeArgument = ArgumentCaptor.forClass(DishType.class);
-        verify(dishTypeServiceMock, times(1)).checkUniqueness(dishtypeArgument.capture());
-        assertEquals("Keitto", dishtypeArgument.getValue().getName());
-        verify(dishTypeServiceMock, times(1)).save(dishtypeArgument.capture());
-        assertEquals("Keitto", dishtypeArgument.getValue().getName());
-        verifyNoMoreInteractions(dishTypeServiceMock);
+        ArgumentCaptor<MeasureType> measureTypeArgument = ArgumentCaptor.forClass(MeasureType.class);
+        verify(measureTypeServiceMock, times(1)).checkUniqueness(measureTypeArgument.capture());
+        assertEquals("Paino", measureTypeArgument.getValue().getName());
+        verify(measureTypeServiceMock, times(1)).save(measureTypeArgument.capture());
+        assertEquals("Paino", measureTypeArgument.getValue().getName());
+        verifyNoMoreInteractions(measureTypeServiceMock);
     }
     
     @Test
     @WithMockUser(username = "a", roles = {"ADMIN"})
-    public void invalidUpdateRevertsToEditDishTypeView() throws Exception {           
+    public void invalidUpdateRevertsToEditMeasureTypeView() throws Exception {           
         mockMvc.perform(post(EDIT_URI)
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                 .param("id", "1")
                 .param("name", "")
-                .sessionAttr("dishType", d1)
+                .sessionAttr("measureType", m1)
         )
                 .andExpect(status().isOk())
-                .andExpect(view().name("dishtype_edit"))
-                .andExpect(model().attributeExists("dishType"))
-                .andExpect(model().attributeHasFieldErrors("dishType", "name"))
+                .andExpect(view().name("measuretype_edit"))
+                .andExpect(model().attributeExists("measureType"))
+                .andExpect(model().attributeHasFieldErrors("measureType", "name"))
                 .andReturn();  
         
-        verify(dishTypeServiceMock,times(1)).checkUniqueness(any(DishType.class));
-        verifyNoMoreInteractions(dishTypeServiceMock);
+        verify(measureTypeServiceMock,times(1)).checkUniqueness(any(MeasureType.class));
+        verifyNoMoreInteractions(measureTypeServiceMock);
     }
     
     @Test
     @WithMockUser(username = "a",roles = {"ADMIN"})
-    public void uniquenessFailRevertsToEditDishTypeView() throws Exception {
-        List<ObjectError> errors = new ArrayList<ObjectError>();
+    public void uniquenessFailRevertsToEditMeasureTypeView() throws Exception {
+        List<ObjectError> errors = new ArrayList<>();
         errors.add(new ObjectError("name", "Nimi on jo varattu"));
-        when(dishTypeServiceMock.checkUniqueness(any(DishType.class))).thenReturn(errors);
+        when(measureTypeServiceMock.checkUniqueness(any(MeasureType.class))).thenReturn(errors);
         
         mockMvc.perform(post(EDIT_URI)
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                 .param("id", "1")
-                .param("name", "Keitto")             
-                .sessionAttr("dishType", d1)
+                .param("name", "Paino")             
+                .sessionAttr("measureType", m1)
         )
                 .andExpect(status().isOk())
-                .andExpect(view().name("dishtype_edit"))
-                .andExpect(model().attributeExists("dishType"))
-                .andExpect(model().attributeHasFieldErrors("dishType", "name"))
+                .andExpect(view().name("measuretype_edit"))
+                .andExpect(model().attributeExists("measureType"))
+                .andExpect(model().attributeHasFieldErrors("measureType", "name"))
                 .andReturn();   
          
-        verify(dishTypeServiceMock,times(1)).checkUniqueness(any(DishType.class));
-        verifyNoMoreInteractions(dishTypeServiceMock);
+        verify(measureTypeServiceMock,times(1)).checkUniqueness(any(MeasureType.class));
+        verifyNoMoreInteractions(measureTypeServiceMock);
     }
     
     @Test
@@ -249,23 +249,23 @@ public class DishTypeControllerTest {
     public void deleteRemovesDishType() throws Exception {
         mockMvc.perform(post(DELETE_URI))
                 .andExpect(status().isMovedTemporarily())
-                .andExpect(view().name("redirect:/ruokatyypit"))
+                .andExpect(view().name("redirect:/mittatyypit"))
                 .andReturn();
         
-        verify(dishTypeServiceMock, times(1)).remove(1L);
-        verifyNoMoreInteractions(dishTypeServiceMock);                
+        verify(measureTypeServiceMock, times(1)).remove(1L);
+        verifyNoMoreInteractions(measureTypeServiceMock);                
     }
     
     @Test
     @WithMockUser(username = "a", roles = {"ADMIN"})
     public void deletingInvalidIdShowsErrorMessage() throws Exception {       
-        mockMvc.perform(post("/ruokatyypit/4/poista"))
+        mockMvc.perform(post("/mittatyypit/4/poista"))
                 .andExpect(status().isMovedTemporarily())
-                .andExpect(view().name("redirect:/ruokatyypit"))
-                .andExpect(flash().attribute("error", "Poistettavaa ruokatyyppiä ei löydy!"))
+                .andExpect(view().name("redirect:/mittatyypit"))
+                .andExpect(flash().attribute("error", "Poistettavaa mittatyyppiä ei löydy!"))
                 .andReturn();
         
-        verify(dishTypeServiceMock, times(1)).remove(4L);
-        verifyNoMoreInteractions(dishTypeServiceMock);
-    }    
+        verify(measureTypeServiceMock, times(1)).remove(4L);
+        verifyNoMoreInteractions(measureTypeServiceMock);
+    }      
 }

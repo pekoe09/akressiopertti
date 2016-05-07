@@ -52,7 +52,7 @@ public class MeasureTypeController {
             return "measuretype_add";
         }
         measureType = measureTypeService.save(measureType);
-        redirectAttributes.addFlashAttribute("success", "Mittatyyppi " + measureType.getName() + " talletettu!");
+        redirectAttributes.addFlashAttribute("success", "Mittatyyppi " + measureType.getName() + " tallennettu!");
         return "redirect:/mittatyypit";
     }
     
@@ -90,7 +90,13 @@ public class MeasureTypeController {
             @PathVariable Long id,
             RedirectAttributes redirectAttributes
         ){
-        MeasureType measureType = measureTypeService.remove(id);
+        MeasureType measureType = null;
+        try {
+            measureType = measureTypeService.remove(id);
+        } catch (NullPointerException exc) {
+            redirectAttributes.addFlashAttribute("error", "Poistettavaa mittatyyppiä ei löydy!");
+            return "redirect:/mittatyypit";
+        }
         redirectAttributes.addFlashAttribute("success", "Mittatyyppi " + measureType.getName() + " poistettu!");
         return "redirect:/mittatyypit";
     }

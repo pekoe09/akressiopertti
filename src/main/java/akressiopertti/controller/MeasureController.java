@@ -94,7 +94,13 @@ public class MeasureController {
             @PathVariable Long id,
             RedirectAttributes redirectAttributes
         ){
-        Measure measure = measureService.remove(id);
+        Measure measure = null;
+        try {
+            measure = measureService.remove(id);
+        } catch (NullPointerException exc) {
+            redirectAttributes.addFlashAttribute("error", "Poistettavaa mittaa ei löydy!");
+            return "redirect:/mitat";
+        }
         redirectAttributes.addFlashAttribute("success", "Mitta " + measure.getName() + " poistettu!");
         return "redirect:/mitat";
     }
