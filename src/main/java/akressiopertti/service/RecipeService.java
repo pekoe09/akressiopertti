@@ -108,6 +108,9 @@ public class RecipeService {
     
     public Recipe remove(Long id){
         Recipe recipe = recipeRepository.findOne(id);
+        if(recipe == null) {
+            throw new NullPointerException("Cannot remove object with id " + id.toString());
+        }
         recipeRepository.delete(id);
         return recipe;
     }

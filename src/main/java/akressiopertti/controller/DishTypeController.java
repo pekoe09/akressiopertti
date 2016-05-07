@@ -90,7 +90,14 @@ public class DishTypeController {
             @PathVariable Long id,
             RedirectAttributes redirectAttributes
         ){
-        DishType dishType = dishTypeService.remove(id);
+        DishType dishType = null;
+        try {
+            dishType = dishTypeService.remove(id);
+        } catch (NullPointerException exc) {
+            redirectAttributes.addFlashAttribute("error", "Poistettavaa ruokatyyppiä ei löydy!");
+            return "redirect:/ruokatyypit";       
+        }
+        
         redirectAttributes.addFlashAttribute("success", "Ruokatyyppi " + dishType.getName() + " poistettu!");
         return "redirect:/ruokatyypit";
     }

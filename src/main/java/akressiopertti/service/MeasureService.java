@@ -35,6 +35,9 @@ public class MeasureService {
     
     public Measure remove(Long id){
         Measure measure = measureRepository.findOne(id);
+        if(measure == null) {
+            throw new NullPointerException("Cannot remove object with id " + id.toString());
+        }
         measureRepository.delete(id);
         return measure;
     }

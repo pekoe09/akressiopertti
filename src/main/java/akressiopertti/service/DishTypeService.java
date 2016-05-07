@@ -33,6 +33,9 @@ public class DishTypeService {
     
     public DishType remove(Long id){
         DishType dishType = dishTypeRepository.findOne(id);
+        if(dishType == null) {
+            throw new NullPointerException("Cannot remove object with id " + id.toString());
+        }
         dishTypeRepository.delete(id);
         return dishType;
     }

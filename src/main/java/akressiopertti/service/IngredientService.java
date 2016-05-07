@@ -37,6 +37,9 @@ public class IngredientService {
     
     public Ingredient remove(Long id) {
         Ingredient ingredient = ingredientRepository.findOne(id);
+        if(ingredient == null) {
+            throw new NullPointerException("Cannot remove object with id " + id.toString());
+        }
         ingredientRepository.delete(id);
         return ingredient;
     }

@@ -102,7 +102,13 @@ public class IngredientController {
             @PathVariable Long id,
             RedirectAttributes redirectAttributes
         ){
-        Ingredient ingredient = ingredientService.remove(id);
+        Ingredient ingredient = null;
+        try {
+            ingredient = ingredientService.remove(id);
+        } catch (NullPointerException exc)  {
+            redirectAttributes.addFlashAttribute("error", "Poistettavaa ainesta ei löydy!");
+            return "redirect:/ainekset";
+        }
         redirectAttributes.addFlashAttribute("success", "Aines " + ingredient.getName() + " poistettu!");
         return "redirect:/ainekset";
     }

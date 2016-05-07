@@ -29,6 +29,9 @@ public class MeasureTypeService {
     
     public MeasureType remove(Long id){
         MeasureType measureType = measureTypeRepository.findOne(id);
+        if(measureType == null) {
+            throw new NullPointerException("Cannot remove object with id " + id.toString());
+        }
         measureTypeRepository.delete(id);
         return measureType;
     }

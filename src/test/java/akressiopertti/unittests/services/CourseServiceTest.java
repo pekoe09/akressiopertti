@@ -120,6 +120,32 @@ public class CourseServiceTest {
         assertEquals("Error field name is incorrect", "name", errors.get(0).getObjectName());
         
     }
+ 
+    @Test
+    public void uniquenessCheckDoesNotReturnErrorForExistingCourse() {
+        Course c = new Course();
+        c.setId(1L);
+        c.setName("Alkuruoka");
+        c.setOrdinality(5);
+        
+        List<ObjectError> errors = courseService.checkUniqueness(c);
+        assertNotNull("No error list is returned from method", errors);
+        assertEquals("Method returns wrong number of errors", 0, errors.size());        
+    }   
+    
+    @Test
+    public void uniquenessCheckReturnsErrorForExistingCourseWithDifferentId() {
+        Course c = new Course();
+        c.setId(6L);
+        c.setName("Alkuruoka");
+        c.setOrdinality(5);
+        
+        List<ObjectError> errors = courseService.checkUniqueness(c);
+        assertNotNull("No error list is returned from method", errors);
+        assertEquals("Method returns wrong number of errors", 1, errors.size());
+        assertEquals("Error message is incorrect", "Nimi on jo varattu", errors.get(0).getDefaultMessage());
+        assertEquals("Error field name is incorrect", "name", errors.get(0).getObjectName());  
+    }     
     
     @Test
     public void uniquenessCheckReturnsEmptyListForUniqueCourse() {

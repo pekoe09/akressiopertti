@@ -1,6 +1,13 @@
 package akressiopertti.unittests.controllers;
 
 import akressiopertti.controller.CourseController;
+import akressiopertti.controller.DefaultController;
+import akressiopertti.controller.DishTypeController;
+import akressiopertti.controller.FoodStuffController;
+import akressiopertti.controller.IngredientController;
+import akressiopertti.controller.MeasureController;
+import akressiopertti.controller.MeasureTypeController;
+import akressiopertti.controller.RecipeController;
 import akressiopertti.domain.Course;
 import akressiopertti.domain.User;
 import akressiopertti.repository.BeerRepository;
@@ -39,6 +46,41 @@ public class TestContext {
     @Bean
     public CourseController courseController() {
         return new CourseController();
+    }
+    
+    @Bean
+    public DefaultController defaultController() {
+        return new DefaultController();
+    }
+    
+    @Bean
+    public DishTypeController dishTypeController() {
+        return new DishTypeController();
+    }
+    
+    @Bean
+    public FoodStuffController foodStuffController() {
+        return new FoodStuffController();
+    }
+    
+    @Bean
+    public IngredientController ingredientController() {
+        return new IngredientController();
+    }
+    
+    @Bean
+    public MeasureController measureController() {
+        return new MeasureController();
+    }
+    
+    @Bean
+    public MeasureTypeController measureTypeController() {
+        return new MeasureTypeController();
+    }
+    
+    @Bean
+    public RecipeController recipeController() {
+        return new RecipeController();
     }
     
     @Bean 

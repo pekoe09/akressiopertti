@@ -91,7 +91,13 @@ public class FoodStuffController {
             @PathVariable Long id,
             RedirectAttributes redirectAttributes
         ){
-        FoodStuff foodStuff = foodStuffService.remove(id);
+        FoodStuff foodStuff =  null;
+        try {
+            foodStuff = foodStuffService.remove(id);
+        } catch (NullPointerException exc) {
+            redirectAttributes.addFlashAttribute("error", "Poistettavaa ruoka-ainetta ei löydy!");
+            return "redirect:/ruoka-aineet";           
+        }
         redirectAttributes.addFlashAttribute("success", "Ruoka-aine " + foodStuff.getName() + " poistettu!");
         return "redirect:/ruoka-aineet";
     }
