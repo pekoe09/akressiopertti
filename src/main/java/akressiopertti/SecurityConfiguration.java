@@ -44,6 +44,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         @Autowired
         private JpaAuthenticationProvider jpaAuthenticationProvider;
 
+        @Override
         public void init(AuthenticationManagerBuilder auth) throws Exception{
             auth.authenticationProvider(jpaAuthenticationProvider); 
         }

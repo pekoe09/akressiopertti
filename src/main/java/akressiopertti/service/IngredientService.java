@@ -1,6 +1,5 @@
 package akressiopertti.service;
 
-import akressiopertti.domain.Course;
 import akressiopertti.domain.FoodStuff;
 import akressiopertti.domain.Ingredient;
 import akressiopertti.domain.RecipeIngredient;

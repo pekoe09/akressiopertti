@@ -69,7 +69,7 @@ public class DishTypeControllerTest {
         d1.setName("Keitto");
         when(dishTypeServiceMock.findAll()).thenReturn(Arrays.asList(d1));
         when(dishTypeServiceMock.findOne(1L)).thenReturn(d1);
-        when(dishTypeServiceMock.checkUniqueness(any(DishType.class))).thenReturn(new ArrayList<ObjectError>());
+        when(dishTypeServiceMock.checkUniqueness(any(DishType.class))).thenReturn(new ArrayList<>());
         when(dishTypeServiceMock.save(any(DishType.class))).thenReturn(d1);
         when(dishTypeServiceMock.remove(1L)).thenReturn(d1);
         Mockito.doThrow(NullPointerException.class).when(dishTypeServiceMock).remove(4L);
@@ -148,7 +148,7 @@ public class DishTypeControllerTest {
     @Test
     @WithMockUser(username = "a", roles = {"ADMIN"})
     public void uniquenessFailRevertsToAddDishTypeView() throws Exception {
-        List<ObjectError> errors = new ArrayList<ObjectError>();
+        List<ObjectError> errors = new ArrayList<>();
         errors.add(new ObjectError("name", "Nimi on jo varattu"));
         when(dishTypeServiceMock.checkUniqueness(any(DishType.class))).thenReturn(errors);
         
@@ -224,7 +224,7 @@ public class DishTypeControllerTest {
     @Test
     @WithMockUser(username = "a",roles = {"ADMIN"})
     public void uniquenessFailRevertsToEditDishTypeView() throws Exception {
-        List<ObjectError> errors = new ArrayList<ObjectError>();
+        List<ObjectError> errors = new ArrayList<>();
         errors.add(new ObjectError("name", "Nimi on jo varattu"));
         when(dishTypeServiceMock.checkUniqueness(any(DishType.class))).thenReturn(errors);
         

@@ -32,7 +32,6 @@ import akressiopertti.service.RecipeService;
 import akressiopertti.service.UserService;
 import java.util.ArrayList;
 import java.util.List;
-import org.mockito.Matchers;
 import static org.mockito.Matchers.anyString;
 import org.mockito.Mockito;
 import static org.mockito.Mockito.when;

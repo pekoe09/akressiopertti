@@ -1,6 +1,5 @@
 package akressiopertti.service;
 
-import akressiopertti.domain.Ingredient;
 import akressiopertti.domain.Measure;
 import akressiopertti.domain.MeasureType;
 import akressiopertti.domain.RecipeIngredient;

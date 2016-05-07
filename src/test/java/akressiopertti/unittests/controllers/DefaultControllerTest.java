@@ -43,15 +43,15 @@ public class DefaultControllerTest {
     
     @Test
     public void randomUriDirectsToDefaultView() throws Exception {
-        MvcResult res = mockMvc.perform(get(RANDOM_URI))
-//                .andExpect(status().isOk())
+        mockMvc.perform(get(RANDOM_URI))
+                .andExpect(status().isOk())
                 .andExpect(view().name("index"))
                 .andReturn();
     }
     
     @Test
     public void loginUriOpensLoginView() throws Exception {
-        MvcResult res = mockMvc.perform(get(LOGIN_URI))
+        mockMvc.perform(get(LOGIN_URI))
                 .andExpect(status().isOk())
                 .andExpect(view().name("login"))
                 .andReturn();
@@ -59,7 +59,7 @@ public class DefaultControllerTest {
         
     @Test
     public void loginErrorUriOpensLoginView() throws Exception {
-        MvcResult res = mockMvc.perform(get(LOGIN_ERROR_URI))
+        mockMvc.perform(get(LOGIN_ERROR_URI))
                 .andExpect(status().isOk())
                 .andExpect(view().name("login"))
                 .andExpect(model().attributeExists("loginError"))
@@ -68,7 +68,7 @@ public class DefaultControllerTest {
         
     @Test
     public void logoutSuccessUriOpensLogoutSuccessView() throws Exception {
-        MvcResult res = mockMvc.perform(get(LOGOUT_SUCCESS_URI))
+        mockMvc.perform(get(LOGOUT_SUCCESS_URI))
                 .andExpect(status().isOk())
                 .andExpect(view().name("logout_success"))
                 .andReturn();

@@ -53,8 +53,8 @@ public class MeasureController {
             model.addAttribute("measure", measure);
             return "measure_add";
         }
-        measure = measureService.save(measure);
-        redirectAttributes.addFlashAttribute("success", "Mitta " + measure.getName() + " tallennettu!");
+        Measure savedMeasure = measureService.save(measure);
+        redirectAttributes.addFlashAttribute("success", "Mitta " + savedMeasure.getName() + " tallennettu!");
         return "redirect:/mitat";
     }
     
@@ -84,8 +84,8 @@ public class MeasureController {
             model.addAttribute("measure", measure);
             return "measure_edit";
         }
-        measure = measureService.save(measure);
-        redirectAttributes.addFlashAttribute("success", "Mitan " + measure.getName() + " tiedot päivitetty!");
+        Measure savedMeasure = measureService.save(measure);
+        redirectAttributes.addFlashAttribute("success", "Mitan " + savedMeasure.getName() + " tiedot päivitetty!");
         return "redirect:/mitat";
     }
     

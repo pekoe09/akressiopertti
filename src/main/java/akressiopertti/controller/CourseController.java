@@ -2,7 +2,6 @@ package akressiopertti.controller;
 
 import akressiopertti.domain.Course;
 import akressiopertti.service.CourseService;
-import java.util.List;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -52,8 +51,8 @@ public class CourseController {
             model.addAttribute("course", course);
             return "course_add";
         }
-        course = courseService.save(course);
-        redirectAttributes.addFlashAttribute("success", "Ruokalaji " + course.getName() + " tallennettu!");
+        Course savedCourse = courseService.save(course);
+        redirectAttributes.addFlashAttribute("success", "Ruokalaji " + savedCourse.getName() + " tallennettu!");
         return "redirect:/ruokalajit";
     }
     
@@ -81,8 +80,8 @@ public class CourseController {
             model.addAttribute("course", course);
             return "course_edit";
         }
-        course = courseService.save(course);
-        redirectAttributes.addFlashAttribute("success", "Ruokalajin " + course.getName() + " tiedot päivitetty!");
+        Course savedCourse = courseService.save(course);
+        redirectAttributes.addFlashAttribute("success", "Ruokalajin " + savedCourse.getName() + " tiedot päivitetty!");
         return "redirect:/ruokalajit";
     }
     

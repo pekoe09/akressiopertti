@@ -74,14 +74,15 @@ public class RecipeController {
         }
         int preparationTime = preparationHours * 60 + preparationMinutes;
         recipe.setPreparationTime(preparationTime);
+        Recipe savedRecipe = null;
         try {
-            recipe = recipeService.save(recipe, ControllerUtilities.getJSONArrayFromString(ingredientSet));
+            savedRecipe = recipeService.save(recipe, ControllerUtilities.getJSONArrayFromString(ingredientSet));
         } catch(ParseException exc){
             model = ControllerUtilities.addMappedItemsToModel(model, recipeService.getOptions());
             model.addAttribute("recipe", recipe);
             return "recipe_add";
         }
-        redirectAttributes.addFlashAttribute("success", "Resepti \"" + recipe.getTitle() + "\" on tallennettu!");
+        redirectAttributes.addFlashAttribute("success", "Resepti \"" + savedRecipe.getTitle() + "\" on tallennettu!");
         return "redirect:/reseptit";
     }
     
@@ -116,14 +117,15 @@ public class RecipeController {
         }
         int preparationTime = preparationHours * 60 + preparationMinutes;
         recipe.setPreparationTime(preparationTime);
+        Recipe savedRecipe = null;
         try {
-            recipe = recipeService.save(recipe, ControllerUtilities.getJSONArrayFromString(ingredientSet));
+            savedRecipe = recipeService.save(recipe, ControllerUtilities.getJSONArrayFromString(ingredientSet));
         } catch(ParseException exc){
             model = ControllerUtilities.addMappedItemsToModel(model, recipeService.getOptions());
             model.addAttribute("recipe", recipe);
             return "recipe_add";
         }
-        redirectAttributes.addFlashAttribute("success", "Reseptin \"" + recipe.getTitle() + "\" tiedot päivitetty!");
+        redirectAttributes.addFlashAttribute("success", "Reseptin \"" + savedRecipe.getTitle() + "\" tiedot päivitetty!");
         return "redirect:/reseptit";
     }
     

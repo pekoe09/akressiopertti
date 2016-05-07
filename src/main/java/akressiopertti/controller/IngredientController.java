@@ -61,8 +61,8 @@ public class IngredientController {
             model.addAttribute("ingredient", ingredient);
             return "ingredient_add";
         }
-        ingredient = ingredientService.save(ingredient);
-        redirectAttributes.addFlashAttribute("success", "Aines "+ ingredient.getName() + " tallennettu!");
+        Ingredient savedIngredient = ingredientService.save(ingredient);
+        redirectAttributes.addFlashAttribute("success", "Aines "+ savedIngredient.getName() + " tallennettu!");
         return "redirect:/ainekset";
     }
     
@@ -92,8 +92,8 @@ public class IngredientController {
             model.addAttribute("ingredient", ingredient);
             return "ingredient_edit";
         }
-        ingredient = ingredientService.save(ingredient);
-        redirectAttributes.addFlashAttribute("success", "Aineksen " + ingredient.getName() + " tiedot päivitetty!");
+        Ingredient savedIngredient = ingredientService.save(ingredient);
+        redirectAttributes.addFlashAttribute("success", "Aineksen " + savedIngredient.getName() + " tiedot päivitetty!");
         return "redirect:/ainekset";
     }
     

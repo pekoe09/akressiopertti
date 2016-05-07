@@ -51,8 +51,8 @@ public class DishTypeController {
             model.addAttribute("dishType", dishType);
             return "dishtype_add";
         }
-        dishType = dishTypeService.save(dishType);
-        redirectAttributes.addFlashAttribute("success", "Ruokatyyppi " + dishType.getName() + " tallennettu!");
+        DishType savedDishType = dishTypeService.save(dishType);
+        redirectAttributes.addFlashAttribute("success", "Ruokatyyppi " + savedDishType.getName() + " tallennettu!");
         return "redirect:/ruokatyypit";
     }
     
@@ -80,8 +80,8 @@ public class DishTypeController {
             model.addAttribute("dishType", dishType);
             return "dishtype_edit";
         }
-        dishType = dishTypeService.save(dishType);
-        redirectAttributes.addFlashAttribute("success", "Ruokatyypin " + dishType.getName() + " tiedot päivitetty!");
+        DishType savedDishType = dishTypeService.save(dishType);
+        redirectAttributes.addFlashAttribute("success", "Ruokatyypin " + savedDishType.getName() + " tiedot päivitetty!");
         return "redirect:/ruokatyypit";
     }
     

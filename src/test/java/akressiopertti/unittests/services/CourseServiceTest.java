@@ -3,7 +3,6 @@ package akressiopertti.unittests.services;
 import akressiopertti.domain.Course;
 import akressiopertti.repository.CourseRepository;
 import akressiopertti.service.CourseService;
-import java.util.ArrayList;
 import java.util.List;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
@@ -12,15 +11,11 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
-import org.mockito.Mockito;
 import static org.mockito.Mockito.times;
 import org.springframework.beans.factory.annotation.Autowired;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyNoMoreInteractions;
-import org.springframework.dao.DataAccessException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.validation.ObjectError;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -98,7 +93,7 @@ public class CourseServiceTest {
         Course c = courseService.remove(2L);
         
         assertNotNull("Remove does not return the object", c);
-        assertEquals("Remove returns wrong object", (Long)2L, (Long)c.getId());
+        assertEquals("Remove returns wrong object", (Long)2L, c.getId());
         verify(courseRepositoryMock, times(1)).delete(2L);
     }
     

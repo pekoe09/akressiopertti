@@ -77,7 +77,7 @@ public class CourseControllerTest {
     @Test
     @WithMockUser(username = "a", roles = {"ADMIN"})
     public void listViewOpens() throws Exception {
-        MvcResult res = mockMvc.perform(get(LIST_URI))
+        mockMvc.perform(get(LIST_URI))
                 .andExpect(status().isOk())
                 .andExpect(view().name("courses"))
                 .andReturn(); 
@@ -86,7 +86,7 @@ public class CourseControllerTest {
     @Test
     @WithMockUser(username = "a", roles = {"ADMIN"})
     public void listViewContainsCourses() throws Exception {       
-        MvcResult res = mockMvc.perform(get(LIST_URI))
+        mockMvc.perform(get(LIST_URI))
                 .andExpect(model().attributeExists("courses"))
                 .andExpect(model().attribute("courses", hasSize(1)))
                 .andReturn();
@@ -98,7 +98,7 @@ public class CourseControllerTest {
     @Test
     @WithMockUser(username = "a", roles = {"ADMIN"})
     public void addViewOpens() throws Exception {
-        MvcResult res = mockMvc.perform(get(ADD_URI))
+        mockMvc.perform(get(ADD_URI))
                 .andExpect(status().isOk())
                 .andExpect(view().name("course_add"))
                 .andReturn();
@@ -108,7 +108,7 @@ public class CourseControllerTest {
     @Test
     @WithMockUser(username = "a", roles = {"ADMIN"})
     public void addViewAddsCourse() throws Exception {        
-        MvcResult res = mockMvc.perform(post(ADD_URI)
+        mockMvc.perform(post(ADD_URI)
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                 .param("name", "Alkuruoka")
                 .param("ordinality", "1")                
@@ -131,7 +131,7 @@ public class CourseControllerTest {
     @Test
     @WithMockUser(username = "a", roles = {"ADMIN"})
     public void invalidAddRevertsToAddCourseView() throws Exception {        
-        MvcResult res = mockMvc.perform(post(ADD_URI)
+        mockMvc.perform(post(ADD_URI)
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                 .param("ordinality", "1")                
                 .sessionAttr("course", c1)
@@ -149,11 +149,11 @@ public class CourseControllerTest {
     @Test
     @WithMockUser(username = "a", roles = {"ADMIN"})
     public void uniquenessFailRevertsToAddCourseView() throws Exception {
-        List<ObjectError> errors = new ArrayList<ObjectError>();
+        List<ObjectError> errors = new ArrayList<>();
         errors.add(new ObjectError("name", "Nimi on jo varattu"));
         when(courseServiceMock.checkUniqueness(any(Course.class))).thenReturn(errors);
         
-         MvcResult res = mockMvc.perform(post(ADD_URI)
+        mockMvc.perform(post(ADD_URI)
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                 .param("name", "Alkuruoka")
                 .param("ordinality", "1")                
@@ -172,7 +172,7 @@ public class CourseControllerTest {
     @Test
     @WithMockUser(username = "a", roles = {"ADMIN"})
     public void editViewOpens() throws Exception {
-        MvcResult res = mockMvc.perform(get(EDIT_URI))
+        mockMvc.perform(get(EDIT_URI))
                 .andExpect(status().isOk())
                 .andExpect(view().name("course_edit"))
                 .andExpect(model().attributeExists("course"))
@@ -184,7 +184,7 @@ public class CourseControllerTest {
     @Test
     @WithMockUser(username = "a",roles = {"ADMIN"})
     public void editViewEditsCourse() throws Exception {   
-        MvcResult res = mockMvc.perform(post(EDIT_URI)
+        mockMvc.perform(post(EDIT_URI)
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                 .param("id", "1")
                 .param("name", "Alkuruoka")
@@ -208,7 +208,7 @@ public class CourseControllerTest {
     @Test
     @WithMockUser(username = "a", roles = {"ADMIN"})
     public void invalidUpdateRevertsToEditCourseView() throws Exception {           
-        MvcResult res = mockMvc.perform(post(EDIT_URI)
+        mockMvc.perform(post(EDIT_URI)
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                 .param("id", "1")
                 .param("name", "")
@@ -228,11 +228,11 @@ public class CourseControllerTest {
     @Test
     @WithMockUser(username = "a",roles = {"ADMIN"})
     public void uniquenessFailRevertsToEditCourseView() throws Exception {
-        List<ObjectError> errors = new ArrayList<ObjectError>();
+        List<ObjectError> errors = new ArrayList<>();
         errors.add(new ObjectError("name", "Nimi on jo varattu"));
         when(courseServiceMock.checkUniqueness(any(Course.class))).thenReturn(errors);
         
-         MvcResult res = mockMvc.perform(post(EDIT_URI)
+        mockMvc.perform(post(EDIT_URI)
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                 .param("id", "1")
                 .param("name", "Alkuruoka")
@@ -252,7 +252,7 @@ public class CourseControllerTest {
     @Test
     @WithMockUser(username = "a", roles = {"ADMIN"})
     public void deleteRemovesCourse() throws Exception {
-        MvcResult res = mockMvc.perform(post(DELETE_URI))
+        mockMvc.perform(post(DELETE_URI))
                 .andExpect(status().isMovedTemporarily())
                 .andExpect(view().name("redirect:/ruokalajit"))
                 .andReturn();
@@ -264,7 +264,7 @@ public class CourseControllerTest {
     @Test
     @WithMockUser(username = "a", roles = {"ADMIN"})
     public void deletingInvalidIdShowsErrorMessage() throws Exception {       
-        MvcResult res = mockMvc.perform(post("/ruokalajit/4/poista"))
+        mockMvc.perform(post("/ruokalajit/4/poista"))
                 .andExpect(status().isMovedTemporarily())
                 .andExpect(view().name("redirect:/ruokalajit"))
                 .andExpect(flash().attribute("error", "Poistettavaa ruokalajia ei löydy!"))

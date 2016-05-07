@@ -1,6 +1,5 @@
 package akressiopertti.unittests.controllers;
 
-import akressiopertti.domain.Ingredient;
 import akressiopertti.domain.Measure;
 import akressiopertti.domain.MeasureType;
 import akressiopertti.service.MeasureService;
@@ -9,8 +8,6 @@ import java.util.Arrays;
 import java.util.List;
 import static junit.framework.Assert.assertEquals;
 import static org.hamcrest.Matchers.hasSize;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -23,7 +20,6 @@ import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.mock.web.MockHttpSession;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.security.test.context.support.WithSecurityContextTestExecutionListener;
 import org.springframework.test.context.ContextConfiguration;
@@ -79,7 +75,7 @@ public class MeasureControllerTest {
         
         when(measureServiceMock.findAll()).thenReturn(Arrays.asList(m1));
         when(measureServiceMock.findOne(1L)).thenReturn(m1);
-        when(measureServiceMock.checkUniqueness(any(Measure.class))).thenReturn(new ArrayList<ObjectError>());
+        when(measureServiceMock.checkUniqueness(any(Measure.class))).thenReturn(new ArrayList<>());
         when(measureServiceMock.save(any(Measure.class))).thenReturn(m1);
         when(measureServiceMock.remove(1L)).thenReturn(m1);
         Mockito.doThrow(NullPointerException.class).when(measureServiceMock).remove(4L);   
@@ -164,7 +160,7 @@ public class MeasureControllerTest {
     @Test
     @WithMockUser(username = "a", roles = {"ADMIN"})
     public void uniquenessFailRevertsToAddMeasureView() throws Exception {
-        List<ObjectError> errors = new ArrayList<ObjectError>();
+        List<ObjectError> errors = new ArrayList<>();
         errors.add(new ObjectError("name", "Nimi on jo varattu"));
         when(measureServiceMock.checkUniqueness(any(Measure.class))).thenReturn(errors);
         
@@ -248,7 +244,7 @@ public class MeasureControllerTest {
     @Test
     @WithMockUser(username = "a",roles = {"ADMIN"})
     public void uniquenessFailRevertsToEditMeasureView() throws Exception {
-        List<ObjectError> errors = new ArrayList<ObjectError>();
+        List<ObjectError> errors = new ArrayList<>();
         errors.add(new ObjectError("name", "Nimi on jo varattu"));
         when(measureServiceMock.checkUniqueness(any(Measure.class))).thenReturn(errors);
         

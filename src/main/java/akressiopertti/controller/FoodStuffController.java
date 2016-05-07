@@ -52,8 +52,8 @@ public class FoodStuffController {
             model.addAttribute("foodStuff", foodStuff);
             return "foodstuff_add";
         } 
-        foodStuff = foodStuffService.save(foodStuff);
-        redirectAttributes.addFlashAttribute("success", "Ruoka-aine " + foodStuff.getName() + " tallennettu!");
+        FoodStuff savedFoodStuff = foodStuffService.save(foodStuff);
+        redirectAttributes.addFlashAttribute("success", "Ruoka-aine " + savedFoodStuff.getName() + " tallennettu!");
         return "redirect:/ruoka-aineet";
     }
     
@@ -81,8 +81,8 @@ public class FoodStuffController {
             model.addAttribute("foodStuff", foodStuff);
             return "foodstuff_edit";
         }
-        foodStuff = foodStuffService.save(foodStuff);
-        redirectAttributes.addFlashAttribute("success", "Ruoka-aineen " + foodStuff.getName() + " tiedot päivitetty!");
+        FoodStuff savedFoodStuff = foodStuffService.save(foodStuff);
+        redirectAttributes.addFlashAttribute("success", "Ruoka-aineen " + savedFoodStuff.getName() + " tiedot päivitetty!");
         return "redirect:/ruoka-aineet";
     }
     

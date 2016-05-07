@@ -51,8 +51,8 @@ public class MeasureTypeController {
             model.addAttribute("measureType", measureType);
             return "measuretype_add";
         }
-        measureType = measureTypeService.save(measureType);
-        redirectAttributes.addFlashAttribute("success", "Mittatyyppi " + measureType.getName() + " tallennettu!");
+        MeasureType savedMeasureType = measureTypeService.save(measureType);
+        redirectAttributes.addFlashAttribute("success", "Mittatyyppi " + savedMeasureType.getName() + " tallennettu!");
         return "redirect:/mittatyypit";
     }
     
@@ -80,8 +80,8 @@ public class MeasureTypeController {
             model.addAttribute("measureType", measureType);
             return "measuretype_edit";
         }
-        measureType = measureTypeService.save(measureType);
-        redirectAttributes.addFlashAttribute("success", "Mittatyypin " + measureType.getName() + " tiedot päivitetty!");
+        MeasureType savedMeasureType = measureTypeService.save(measureType);
+        redirectAttributes.addFlashAttribute("success", "Mittatyypin " + savedMeasureType.getName() + " tiedot päivitetty!");
         return "redirect:/mittatyypit";
     }
     
