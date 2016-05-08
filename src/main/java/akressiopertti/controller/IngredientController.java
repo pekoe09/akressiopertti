@@ -42,7 +42,7 @@ public class IngredientController {
             Model model,
             @ModelAttribute Ingredient ingredient
         ){
-        model = ControllerUtilities.addMappedItemsToModel(model, ingredientService.getOptions());
+        ControllerUtilities.addMappedItemsToModel(model, ingredientService.getOptions());
         return "ingredient_add";
     }
     
@@ -57,7 +57,7 @@ public class IngredientController {
             bindingResult.rejectValue(error.getObjectName(), "error.ingredient", error.getDefaultMessage());
         }
         if(bindingResult.hasErrors()){
-            model = ControllerUtilities.addMappedItemsToModel(model, ingredientService.getOptions());
+            ControllerUtilities.addMappedItemsToModel(model, ingredientService.getOptions());
             model.addAttribute("ingredient", ingredient);
             return "ingredient_add";
         }
@@ -71,7 +71,7 @@ public class IngredientController {
             @PathVariable Long id,
             Model model
         ){
-        model = ControllerUtilities.addMappedItemsToModel(model, ingredientService.getOptions());
+        ControllerUtilities.addMappedItemsToModel(model, ingredientService.getOptions());
         model.addAttribute("ingredient", ingredientService.findOne(id));
         return "ingredient_edit";
     }
@@ -88,7 +88,7 @@ public class IngredientController {
             bindingResult.rejectValue(error.getObjectName(), "error.ingredient", error.getDefaultMessage());
         }
         if(bindingResult.hasErrors()){
-            model = ControllerUtilities.addMappedItemsToModel(model, ingredientService.getOptions());
+            ControllerUtilities.addMappedItemsToModel(model, ingredientService.getOptions());
             model.addAttribute("ingredient", ingredient);
             return "ingredient_edit";
         }

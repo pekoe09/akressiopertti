@@ -50,7 +50,7 @@ public class RecipeController {
             Model model,
             @ModelAttribute Recipe recipe
         ){
-        model = ControllerUtilities.addMappedItemsToModel(model, recipeService.getOptions());
+        ControllerUtilities.addMappedItemsToModel(model, recipeService.getOptions());
         return "recipe_add";
     }
     
@@ -68,7 +68,7 @@ public class RecipeController {
             bindingResult.rejectValue(error.getObjectName(), "error.recipe", error.getDefaultMessage());
         }
         if(bindingResult.hasErrors()){
-            model = ControllerUtilities.addMappedItemsToModel(model, recipeService.getOptions());
+            ControllerUtilities.addMappedItemsToModel(model, recipeService.getOptions());
             model.addAttribute("recipe", recipe);
             return "recipe_add";
         }
@@ -78,7 +78,7 @@ public class RecipeController {
         try {
             savedRecipe = recipeService.save(recipe, ControllerUtilities.getJSONArrayFromString(ingredientSet));
         } catch(ParseException exc){
-            model = ControllerUtilities.addMappedItemsToModel(model, recipeService.getOptions());
+            ControllerUtilities.addMappedItemsToModel(model, recipeService.getOptions());
             model.addAttribute("recipe", recipe);
             return "recipe_add";
         }
@@ -91,7 +91,7 @@ public class RecipeController {
             @PathVariable Long id,
             Model model
         ){
-        model = ControllerUtilities.addMappedItemsToModel(model, recipeService.getOptions());
+        ControllerUtilities.addMappedItemsToModel(model, recipeService.getOptions());
         model.addAttribute("recipe", recipeService.findOne(id));
         return "recipe_edit";
     }
@@ -111,7 +111,7 @@ public class RecipeController {
             bindingResult.rejectValue(error.getObjectName(), "error.recipe", error.getDefaultMessage());
         }
         if(bindingResult.hasErrors()){
-            model = ControllerUtilities.addMappedItemsToModel(model, recipeService.getOptions());
+            ControllerUtilities.addMappedItemsToModel(model, recipeService.getOptions());
             model.addAttribute("recipe", recipe);
             return "recipe_edit";
         }
@@ -121,7 +121,7 @@ public class RecipeController {
         try {
             savedRecipe = recipeService.save(recipe, ControllerUtilities.getJSONArrayFromString(ingredientSet));
         } catch(ParseException exc){
-            model = ControllerUtilities.addMappedItemsToModel(model, recipeService.getOptions());
+            ControllerUtilities.addMappedItemsToModel(model, recipeService.getOptions());
             model.addAttribute("recipe", recipe);
             return "recipe_add";
         }
