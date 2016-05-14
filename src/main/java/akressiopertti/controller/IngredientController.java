@@ -21,6 +21,8 @@ public class IngredientController {
     
     @Autowired
     private IngredientService ingredientService;
+    @Autowired
+    private ControllerUtilities controllerUtilities;
     
     @RequestMapping(method = RequestMethod.GET)
     public String list(
@@ -42,7 +44,7 @@ public class IngredientController {
             Model model,
             @ModelAttribute Ingredient ingredient
         ){
-        ControllerUtilities.addMappedItemsToModel(model, ingredientService.getOptions());
+        controllerUtilities.addOptionsListsToModel(model, ingredientService.getOptions());
         return "ingredient_add";
     }
     
@@ -57,7 +59,7 @@ public class IngredientController {
             bindingResult.rejectValue(error.getObjectName(), "error.ingredient", error.getDefaultMessage());
         }
         if(bindingResult.hasErrors()){
-            ControllerUtilities.addMappedItemsToModel(model, ingredientService.getOptions());
+            controllerUtilities.addOptionsListsToModel(model, ingredientService.getOptions());
             model.addAttribute("ingredient", ingredient);
             return "ingredient_add";
         }
@@ -71,7 +73,7 @@ public class IngredientController {
             @PathVariable Long id,
             Model model
         ){
-        ControllerUtilities.addMappedItemsToModel(model, ingredientService.getOptions());
+        controllerUtilities.addOptionsListsToModel(model, ingredientService.getOptions());
         model.addAttribute("ingredient", ingredientService.findOne(id));
         return "ingredient_edit";
     }
@@ -88,7 +90,7 @@ public class IngredientController {
             bindingResult.rejectValue(error.getObjectName(), "error.ingredient", error.getDefaultMessage());
         }
         if(bindingResult.hasErrors()){
-            ControllerUtilities.addMappedItemsToModel(model, ingredientService.getOptions());
+            controllerUtilities.addOptionsListsToModel(model, ingredientService.getOptions());
             model.addAttribute("ingredient", ingredient);
             return "ingredient_edit";
         }

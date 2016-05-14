@@ -20,6 +20,8 @@ public class MeasureController {
     
     @Autowired
     private MeasureService measureService;
+    @Autowired
+    private ControllerUtilities controllerUtilities;
     
     @RequestMapping(method = RequestMethod.GET)
     public String list(
@@ -34,7 +36,7 @@ public class MeasureController {
             Model model,
             @ModelAttribute Measure measure
         ){
-        ControllerUtilities.addMappedItemsToModel(model, measureService.getOptions());
+        controllerUtilities.addOptionsListsToModel(model, measureService.getOptions());
         return "measure_add";
     }
     
@@ -49,7 +51,7 @@ public class MeasureController {
             bindingResult.rejectValue(error.getObjectName(), "error.measure", error.getDefaultMessage());
         }
         if(bindingResult.hasErrors()){
-            ControllerUtilities.addMappedItemsToModel(model, measureService.getOptions());
+            controllerUtilities.addOptionsListsToModel(model, measureService.getOptions());
             model.addAttribute("measure", measure);
             return "measure_add";
         }
@@ -63,7 +65,7 @@ public class MeasureController {
             @PathVariable Long id,
             Model model
         ){
-        ControllerUtilities.addMappedItemsToModel(model, measureService.getOptions());
+        controllerUtilities.addOptionsListsToModel(model, measureService.getOptions());
         model.addAttribute("measure", measureService.findOne(id));
         return "measure_edit";
     }
@@ -80,7 +82,7 @@ public class MeasureController {
             bindingResult.rejectValue(error.getObjectName(), "error.measure", error.getDefaultMessage());
         }
         if(bindingResult.hasErrors()){
-            ControllerUtilities.addMappedItemsToModel(model, measureService.getOptions());
+            controllerUtilities.addOptionsListsToModel(model, measureService.getOptions());
             model.addAttribute("measure", measure);
             return "measure_edit";
         }

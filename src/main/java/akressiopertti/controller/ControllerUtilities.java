@@ -9,13 +9,13 @@ import org.springframework.ui.Model;
 
 public class ControllerUtilities {
     
-    public static void addMappedItemsToModel(Model model, Map<String, List> map){
+    public void addOptionsListsToModel(Model model, Map<String, List> map){
         for (Map.Entry<String, List> entrySet : map.entrySet()) {
             model.addAttribute(entrySet.getKey(), entrySet.getValue());
         }
     }
     
-    public static JSONArray getJSONArrayFromString(String data) throws ParseException{
+    public JSONArray getJSONArrayFromString(String data) throws ParseException{
         JSONArray array = null;
         JSONParser parser = new JSONParser();
         array = (JSONArray)parser.parse(data);

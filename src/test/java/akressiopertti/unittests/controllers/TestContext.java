@@ -1,5 +1,6 @@
 package akressiopertti.unittests.controllers;
 
+import akressiopertti.controller.ControllerUtilities;
 import akressiopertti.controller.CourseController;
 import akressiopertti.controller.DefaultController;
 import akressiopertti.controller.DishTypeController;
@@ -80,6 +81,11 @@ public class TestContext {
     @Bean
     public RecipeController recipeController() {
         return new RecipeController();
+    }
+    
+    @Bean
+    public ControllerUtilities controllerUtilities()  {
+        return Mockito.mock(ControllerUtilities.class);
     }
     
     @Bean 

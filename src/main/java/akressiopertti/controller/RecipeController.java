@@ -27,6 +27,8 @@ public class RecipeController {
     
     @Autowired
     private RecipeService recipeService;
+    @Autowired
+    private ControllerUtilities controllerUtilities;
     
     @RequestMapping(method = RequestMethod.GET)
     public String list(
@@ -50,7 +52,7 @@ public class RecipeController {
             Model model,
             @ModelAttribute Recipe recipe
         ){
-        ControllerUtilities.addMappedItemsToModel(model, recipeService.getOptions());
+        controllerUtilities.addOptionsListsToModel(model, recipeService.getOptions());
         return "recipe_add";
     }
     
@@ -68,7 +70,7 @@ public class RecipeController {
             bindingResult.rejectValue(error.getObjectName(), "error.recipe", error.getDefaultMessage());
         }
         if(bindingResult.hasErrors()){
-            ControllerUtilities.addMappedItemsToModel(model, recipeService.getOptions());
+            controllerUtilities.addOptionsListsToModel(model, recipeService.getOptions());
             model.addAttribute("recipe", recipe);
             return "recipe_add";
         }
@@ -76,9 +78,9 @@ public class RecipeController {
         recipe.setPreparationTime(preparationTime);
         Recipe savedRecipe = null;
         try {
-            savedRecipe = recipeService.save(recipe, ControllerUtilities.getJSONArrayFromString(ingredientSet));
+            savedRecipe = recipeService.save(recipe, controllerUtilities.getJSONArrayFromString(ingredientSet));
         } catch(ParseException exc){
-            ControllerUtilities.addMappedItemsToModel(model, recipeService.getOptions());
+            controllerUtilities.addOptionsListsToModel(model, recipeService.getOptions());
             model.addAttribute("recipe", recipe);
             return "recipe_add";
         }
@@ -91,7 +93,7 @@ public class RecipeController {
             @PathVariable Long id,
             Model model
         ){
-        ControllerUtilities.addMappedItemsToModel(model, recipeService.getOptions());
+        controllerUtilities.addOptionsListsToModel(model, recipeService.getOptions());
         model.addAttribute("recipe", recipeService.findOne(id));
         return "recipe_edit";
     }
@@ -111,7 +113,7 @@ public class RecipeController {
             bindingResult.rejectValue(error.getObjectName(), "error.recipe", error.getDefaultMessage());
         }
         if(bindingResult.hasErrors()){
-            ControllerUtilities.addMappedItemsToModel(model, recipeService.getOptions());
+            controllerUtilities.addOptionsListsToModel(model, recipeService.getOptions());
             model.addAttribute("recipe", recipe);
             return "recipe_edit";
         }
@@ -119,9 +121,9 @@ public class RecipeController {
         recipe.setPreparationTime(preparationTime);
         Recipe savedRecipe = null;
         try {
-            savedRecipe = recipeService.save(recipe, ControllerUtilities.getJSONArrayFromString(ingredientSet));
+            savedRecipe = recipeService.save(recipe, controllerUtilities.getJSONArrayFromString(ingredientSet));
         } catch(ParseException exc){
-            ControllerUtilities.addMappedItemsToModel(model, recipeService.getOptions());
+            controllerUtilities.addOptionsListsToModel(model, recipeService.getOptions());
             model.addAttribute("recipe", recipe);
             return "recipe_add";
         }
@@ -134,7 +136,13 @@ public class RecipeController {
             @PathVariable Long id,
             RedirectAttributes redirectAttributes
         ){
-        Recipe recipe = recipeService.remove(id);
+        Recipe recipe = null;
+        try {
+            recipe = recipeService.remove(id);
+        } catch (NullPointerException exc) {
+            redirectAttributes.addFlashAttribute("error", "Poistettavaa reseptiä ei löydy!");
+            return "redirect:/reseptit";            
+        }
         redirectAttributes.addFlashAttribute("success", "Resepti \"" + recipe.getTitle() + "\" poistettu!");
         return "redirect:/reseptit";
     }

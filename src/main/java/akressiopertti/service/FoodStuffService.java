@@ -31,7 +31,7 @@ public class FoodStuffService {
         if(foodStuff == null) {
             throw new NullPointerException("Cannot remove object with id " + id.toString());
         }
-        foodStuffRepository.delete(foodStuff);
+        foodStuffRepository.delete(id);
         return foodStuff;
     }    
 

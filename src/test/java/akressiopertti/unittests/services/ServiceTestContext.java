@@ -79,37 +79,7 @@ public class ServiceTestContext {
     
     @Bean
     public CourseRepository courseRepository() {
-        CourseRepository mockRepo = Mockito.mock(CourseRepository.class);
-        
-        List<Course> courses = new ArrayList<>();
-        Course c1 = new Course();
-        c1.setId(1L);
-        c1.setName("Alkuruoka");
-        c1.setOrdinality(1);
-        courses.add(c1);
-        Course c2 = new Course();
-        c2.setId(2L);
-        c2.setName("Pääruoka");
-        c2.setOrdinality(2);
-        courses.add(c2);
-        Course c3 = new Course();
-        c3.setId(3L);
-        c3.setName("Jälkiruoka");
-        c3.setOrdinality(3);
-        courses.add(c3);
-        
-        when(mockRepo.findAll()).thenReturn(courses);
-        when(mockRepo.findOne(1L)).thenReturn(c1);
-        when(mockRepo.findOne(2L)).thenReturn(c2);
-        when(mockRepo.findOne(3L)).thenReturn(c3);
-        when(mockRepo.findOne(4L)).thenReturn(null);
-        when(mockRepo.findByName("Alkuruoka")).thenReturn(c1);
-        when(mockRepo.findByName("Primi Piatti")).thenReturn(null);
-//        when(mockRepo.save((Course)anyObject())).thenReturn((Course)returnsFirstArg());
-        when(mockRepo.save(c2)).thenReturn(null);
-        Mockito.doThrow(DataAccessException.class).when(mockRepo).delete(4L);
-        
-        return mockRepo;
+        return Mockito.mock(CourseRepository.class);
     }
     
     @Bean
