@@ -256,7 +256,7 @@ public class FoodStuffControllerTest {
     @Test
     @WithMockUser(username = "a", roles = {"ADMIN"})
     public void deleteRemovesCourse() throws Exception {
-        MvcResult res = mockMvc.perform(post(DELETE_URI))
+        mockMvc.perform(post(DELETE_URI))
                 .andExpect(status().isMovedTemporarily())
                 .andExpect(view().name("redirect:/ruoka-aineet"))
                 .andReturn();

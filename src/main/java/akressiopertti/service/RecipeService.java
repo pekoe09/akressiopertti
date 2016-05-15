@@ -45,7 +45,7 @@ public class RecipeService {
     }
     
     public Recipe save(Recipe recipe, JSONArray ingredientSet){
-        recipe = recipeRepository.save(recipe);
+        Recipe savedRecipe = recipeRepository.save(recipe);
         
         List<RecipeIngredient> ingredients = new ArrayList<>();
         
@@ -64,12 +64,12 @@ public class RecipeService {
                 recipeIngredient = new RecipeIngredient();
             }
 
-            recipeIngredient.setRecipe(recipe);
+            recipeIngredient.setRecipe(savedRecipe);
             recipeIngredient.setIngredient(ingredientService.findOne(Long.parseLong((String)ingredientDatum.get("ingredientId"))));
             recipeIngredient.setMeasure(measureService.findOne(Long.parseLong((String)ingredientDatum.get("measureId"))));
             String amountString = (String)ingredientDatum.get("amount");
             if(amountString.contains(",")){
-                amountString.replace(',', '.');
+                amountString = amountString.replace(',', '.');
                 recipeIngredient.setAmountFloat(Float.parseFloat(amountString));
             }  else {
                 recipeIngredient.setAmountInteger(Integer.parseInt(amountString));
@@ -81,24 +81,24 @@ public class RecipeService {
             ingredients.add(recipeIngredient);
             ingredientIds.add(recipeIngredient.getId());
         }
-        recipe.setRecipeIngredients(ingredients);  
+        savedRecipe.setRecipeIngredients(ingredients);  
                 
         // deletes ingredients which have beeen removed
-        List<RecipeIngredient> oldIngredients = recipeIngredientRepository.findByRecipe(recipe);
+        List<RecipeIngredient> oldIngredients = recipeIngredientRepository.findByRecipe(savedRecipe);
         List<RecipeIngredient> removedIngredients = new ArrayList<>();
         for(int i = 0; i < oldIngredients.size(); i++){
             if(!ingredientIds.contains(oldIngredients.get(i).getId())){
                 removedIngredients.add(oldIngredients.get(i));
             }
         }        
-        recipe = recipeRepository.save(recipe);
+        savedRecipe = recipeRepository.save(savedRecipe);
         for(RecipeIngredient ri : removedIngredients){
             measureService.removeRecipeIngredientFromMeasure(ri);
             ingredientService.removeRecipeIngredientFromIngredient(ri);                   
             recipeIngredientRepository.delete(ri.getId());
         }
         
-        return recipe;
+        return savedRecipe;
     }
     
     public Recipe remove(Long id){

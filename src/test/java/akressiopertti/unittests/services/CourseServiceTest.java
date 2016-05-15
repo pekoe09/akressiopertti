@@ -110,7 +110,7 @@ public class CourseServiceTest {
         c1.setName("Juustolautanen");
         c1.setOrdinality(4);
         
-        Course savedCourse = courseService.save(c1);
+        courseService.save(c1);
         
         ArgumentCaptor<Course> courseArgument = ArgumentCaptor.forClass(Course.class);
         verify(courseRepositoryMock, times(1)).save(courseArgument.capture());
@@ -129,7 +129,7 @@ public class CourseServiceTest {
     
     @Test(expected = IllegalArgumentException.class)
     public void removeThrowsExceptionForNonexistingId() {
-        Course c = courseService.remove(4L);    
+        courseService.remove(4L);    
         verify(courseRepositoryMock, times(1)).findOne(2L);
         verifyNoMoreInteractions(courseRepositoryMock);
     }

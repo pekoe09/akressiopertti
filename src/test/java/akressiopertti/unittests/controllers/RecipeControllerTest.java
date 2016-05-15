@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package akressiopertti.unittests.controllers;
 
 import akressiopertti.controller.ControllerUtilities;
@@ -64,8 +59,8 @@ public class RecipeControllerTest {
     private final String ADD_URI = "/reseptit/lisaa";
     private final String EDIT_URI = "/reseptit/1/muokkaa";
     private final String DELETE_URI = "/reseptit/1/poista";
-    Recipe r1;
-    JSONArray ingredientArray;
+    private Recipe r1;
+    private JSONArray ingredientArray;
     
     @Autowired
     private WebApplicationContext webAppContext;
@@ -334,7 +329,7 @@ public class RecipeControllerTest {
     @Test
     @WithMockUser(username = "a", roles = {"ADMIN"})
     public void deleteRemovesRecipe() throws Exception {
-        MvcResult res = mockMvc.perform(post(DELETE_URI))
+        mockMvc.perform(post(DELETE_URI))
                 .andExpect(status().isMovedTemporarily())
                 .andExpect(view().name("redirect:/reseptit"))
                 .andReturn();

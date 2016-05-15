@@ -127,7 +127,7 @@ public class IngredientServiceTest {
     
     @Test(expected = IllegalArgumentException.class)
     public void removeThrowsExceptionForNonexistingId() {
-        Ingredient i = ingredientService.remove(4L);    
+        ingredientService.remove(4L);    
         verify(ingredientRepositoryMock, times(1)).findOne(2L);
         verifyNoMoreInteractions(ingredientRepositoryMock);
     }

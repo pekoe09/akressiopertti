@@ -290,7 +290,7 @@ public class IngredientControllerTest {
     @Test
     @WithMockUser(username = "a", roles = {"ADMIN"})
     public void deleteRemovesIngredient() throws Exception {
-        MvcResult res = mockMvc.perform(post(DELETE_URI))
+        mockMvc.perform(post(DELETE_URI))
                 .andExpect(status().isMovedTemporarily())
                 .andExpect(view().name("redirect:/ainekset"))
                 .andReturn();
