@@ -1,13 +1,17 @@
 package akressiopertti.unittests.controllers;
 
+import akressiopertti.controller.ControllerUtilities;
 import akressiopertti.domain.Measure;
 import akressiopertti.domain.MeasureType;
 import akressiopertti.service.MeasureService;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import static junit.framework.Assert.assertEquals;
 import static org.hamcrest.Matchers.hasSize;
+import org.json.simple.JSONArray;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -37,6 +41,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.ui.Model;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.context.WebApplicationContext;
 
@@ -60,10 +65,13 @@ public class MeasureControllerTest {
     private MockMvc mockMvc;
     @Autowired
     private MeasureService measureServiceMock;
+    @Autowired
+    private ControllerUtilities controllerUtilitiesMock;
     
     @Before
     public void setUp() {
         Mockito.reset(measureServiceMock);
+        Mockito.reset(controllerUtilitiesMock);
         this.mockMvc = MockMvcBuilders.webAppContextSetup(webAppContext).build();
         
         m1 = new Measure();
@@ -78,7 +86,8 @@ public class MeasureControllerTest {
         when(measureServiceMock.checkUniqueness(any(Measure.class))).thenReturn(new ArrayList<>());
         when(measureServiceMock.save(any(Measure.class))).thenReturn(m1);
         when(measureServiceMock.remove(1L)).thenReturn(m1);
-        Mockito.doThrow(NullPointerException.class).when(measureServiceMock).remove(4L);   
+        Mockito.doThrow(NullPointerException.class).when(measureServiceMock).remove(4L);
+        Mockito.doNothing().when(controllerUtilitiesMock).addOptionsListsToModel(any(Model.class), any(Map.class));
     }
     
     @Test
@@ -88,6 +97,9 @@ public class MeasureControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(view().name("measures"))
                 .andReturn(); 
+        
+        verify(measureServiceMock, times(1)).findAll();
+        verifyNoMoreInteractions(measureServiceMock);
     }
     
     @Test
@@ -111,6 +123,10 @@ public class MeasureControllerTest {
                 .andReturn();
         verify(measureServiceMock, times(1)).getOptions();
         verifyNoMoreInteractions(measureServiceMock);
+        ArgumentCaptor<Model> modelArgument = ArgumentCaptor.forClass(Model.class);
+        ArgumentCaptor<Map> mapArgument = ArgumentCaptor.forClass(Map.class);
+        verify(controllerUtilitiesMock, times(1)).addOptionsListsToModel(modelArgument.capture(), mapArgument.capture());
+        verifyNoMoreInteractions(controllerUtilitiesMock);
     }
     
     @Test
@@ -135,6 +151,7 @@ public class MeasureControllerTest {
         verify(measureServiceMock, times(1)).save(measureArgument.capture());
         assertEquals("Litra", measureArgument.getValue().getName());
         verifyNoMoreInteractions(measureServiceMock);
+        verifyNoMoreInteractions(controllerUtilitiesMock);
     }
     
     @Test
@@ -154,7 +171,11 @@ public class MeasureControllerTest {
         
         verify(measureServiceMock, times(1)).getOptions();
         verify(measureServiceMock,times(1)).checkUniqueness(any(Measure.class));
+        ArgumentCaptor<Model> modelArgument = ArgumentCaptor.forClass(Model.class);
+        ArgumentCaptor<Map> mapArgument = ArgumentCaptor.forClass(Map.class);
+        verify(controllerUtilitiesMock, times(1)).addOptionsListsToModel(modelArgument.capture(), mapArgument.capture());
         verifyNoMoreInteractions(measureServiceMock);
+        verifyNoMoreInteractions(controllerUtilitiesMock);
     }
     
     @Test
@@ -178,8 +199,11 @@ public class MeasureControllerTest {
                 .andReturn();   
         
         verify(measureServiceMock, times(1)).getOptions();
-        verify(measureServiceMock,times(1)).checkUniqueness(any(Measure.class));
+        verify(measureServiceMock,times(1)).checkUniqueness(any(Measure.class));ArgumentCaptor<Model> modelArgument = ArgumentCaptor.forClass(Model.class);
+        ArgumentCaptor<Map> mapArgument = ArgumentCaptor.forClass(Map.class);
+        verify(controllerUtilitiesMock, times(1)).addOptionsListsToModel(modelArgument.capture(), mapArgument.capture());
         verifyNoMoreInteractions(measureServiceMock);
+        verifyNoMoreInteractions(controllerUtilitiesMock);
     }
     
     @Test
@@ -192,6 +216,12 @@ public class MeasureControllerTest {
                 .andReturn();
                 
         verify(measureServiceMock, times(1)).findOne(1L);
+        verify(measureServiceMock, times(1)).getOptions();
+        ArgumentCaptor<Model> modelArgument = ArgumentCaptor.forClass(Model.class);
+        ArgumentCaptor<Map> mapArgument = ArgumentCaptor.forClass(Map.class);
+        verify(controllerUtilitiesMock, times(1)).addOptionsListsToModel(modelArgument.capture(), mapArgument.capture());
+        verifyNoMoreInteractions(measureServiceMock);
+        verifyNoMoreInteractions(controllerUtilitiesMock);
     }
     
     @Test
@@ -238,7 +268,9 @@ public class MeasureControllerTest {
         
         verify(measureServiceMock, times(1)).getOptions();
         verify(measureServiceMock,times(1)).checkUniqueness(any(Measure.class));
+        verify(controllerUtilitiesMock, times(1)).addOptionsListsToModel(any(Model.class), any(Map.class));
         verifyNoMoreInteractions(measureServiceMock);
+        verifyNoMoreInteractions(controllerUtilitiesMock);
     }
     
     @Test
@@ -263,7 +295,9 @@ public class MeasureControllerTest {
         
         verify(measureServiceMock, times(1)).getOptions();
         verify(measureServiceMock,times(1)).checkUniqueness(any(Measure.class));
+        verify(controllerUtilitiesMock, times(1)).addOptionsListsToModel(any(Model.class), any(Map.class));
         verifyNoMoreInteractions(measureServiceMock);
+        verifyNoMoreInteractions(controllerUtilitiesMock);
     }
     
     @Test
@@ -289,5 +323,5 @@ public class MeasureControllerTest {
         
         verify(measureServiceMock, times(1)).remove(4L);
         verifyNoMoreInteractions(measureServiceMock);
-    }    
+    }   
 }

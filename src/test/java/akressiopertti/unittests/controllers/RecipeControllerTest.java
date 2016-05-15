@@ -80,6 +80,7 @@ public class RecipeControllerTest {
     @Before
     public void setUp() throws Exception {
         Mockito.reset(recipeServiceMock);
+        Mockito.reset(controllerUtilitiesMock);
         this.mockMvc = MockMvcBuilders.webAppContextSetup(webAppContext).build();
         
         r1 = new Recipe();
