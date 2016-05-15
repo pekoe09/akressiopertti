@@ -107,7 +107,7 @@ public class IngredientController {
         Ingredient ingredient = null;
         try {
             ingredient = ingredientService.remove(id);
-        } catch (NullPointerException exc)  {
+        } catch (IllegalArgumentException exc)  {
             redirectAttributes.addFlashAttribute("error", "Poistettavaa ainesta ei löydy!");
             return "redirect:/ainekset";
         }

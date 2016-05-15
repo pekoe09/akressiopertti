@@ -94,7 +94,7 @@ public class FoodStuffController {
         FoodStuff foodStuff =  null;
         try {
             foodStuff = foodStuffService.remove(id);
-        } catch (NullPointerException exc) {
+        } catch (IllegalArgumentException exc) {
             redirectAttributes.addFlashAttribute("error", "Poistettavaa ruoka-ainetta ei löydy!");
             return "redirect:/ruoka-aineet";           
         }

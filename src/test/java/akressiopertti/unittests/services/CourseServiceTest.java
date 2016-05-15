@@ -127,7 +127,7 @@ public class CourseServiceTest {
         verifyNoMoreInteractions(courseRepositoryMock);
     }
     
-    @Test(expected = NullPointerException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void removeThrowsExceptionForNonexistingId() {
         Course c = courseService.remove(4L);    
         verify(courseRepositoryMock, times(1)).findOne(2L);

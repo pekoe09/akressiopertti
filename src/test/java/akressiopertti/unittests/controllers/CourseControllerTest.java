@@ -28,7 +28,6 @@ import org.springframework.test.context.support.DependencyInjectionTestExecution
 import org.springframework.test.context.web.ServletTestExecutionListener;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -71,7 +70,7 @@ public class CourseControllerTest {
         when(courseServiceMock.checkUniqueness(any(Course.class))).thenReturn(new ArrayList<ObjectError>());
         when(courseServiceMock.save(any(Course.class))).thenReturn(c1);
         when(courseServiceMock.remove(1L)).thenReturn(c1);
-        Mockito.doThrow(NullPointerException.class).when(courseServiceMock).remove(4L);        
+        Mockito.doThrow(IllegalArgumentException.class).when(courseServiceMock).remove(4L);        
     }
     
     @Test

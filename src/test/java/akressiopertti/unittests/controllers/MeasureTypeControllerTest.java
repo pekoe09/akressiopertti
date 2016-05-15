@@ -72,7 +72,7 @@ public class MeasureTypeControllerTest {
         when(measureTypeServiceMock.checkUniqueness(any(MeasureType.class))).thenReturn(new ArrayList<>());
         when(measureTypeServiceMock.save(any(MeasureType.class))).thenReturn(m1);
         when(measureTypeServiceMock.remove(1L)).thenReturn(m1);
-        Mockito.doThrow(NullPointerException.class).when(measureTypeServiceMock).remove(4L); 
+        Mockito.doThrow(IllegalArgumentException.class).when(measureTypeServiceMock).remove(4L); 
     }
     
     @Test

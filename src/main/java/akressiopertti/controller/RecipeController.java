@@ -139,7 +139,7 @@ public class RecipeController {
         Recipe recipe = null;
         try {
             recipe = recipeService.remove(id);
-        } catch (NullPointerException exc) {
+        } catch (IllegalArgumentException exc) {
             redirectAttributes.addFlashAttribute("error", "Poistettavaa reseptiä ei löydy!");
             return "redirect:/reseptit";            
         }

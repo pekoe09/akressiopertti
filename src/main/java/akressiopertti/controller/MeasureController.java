@@ -99,7 +99,7 @@ public class MeasureController {
         Measure measure = null;
         try {
             measure = measureService.remove(id);
-        } catch (NullPointerException exc) {
+        } catch (IllegalArgumentException exc) {
             redirectAttributes.addFlashAttribute("error", "Poistettavaa mittaa ei löydy!");
             return "redirect:/mitat";
         }

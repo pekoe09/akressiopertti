@@ -6,7 +6,6 @@
 package akressiopertti.unittests.controllers;
 
 import akressiopertti.controller.ControllerUtilities;
-import akressiopertti.domain.Ingredient;
 import akressiopertti.domain.Recipe;
 import akressiopertti.service.RecipeService;
 import java.util.ArrayList;
@@ -42,7 +41,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.flash;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -116,7 +114,7 @@ public class RecipeControllerTest {
         when(recipeServiceMock.getOptions()).thenReturn(new HashMap<>());
         when(recipeServiceMock.save(any(Recipe.class), any(JSONArray.class))).thenReturn(r1);
         when(recipeServiceMock.remove(1L)).thenReturn(r1);
-        Mockito.doThrow(NullPointerException.class).when(recipeServiceMock).remove(4L);
+        Mockito.doThrow(IllegalArgumentException.class).when(recipeServiceMock).remove(4L);
 //        when(ControllerUtilities.getJSONArrayFromString(any(String.class))).thenReturn(new JSONArray());
         Mockito.doNothing().when(controllerUtilitiesMock).addOptionsListsToModel(any(Model.class), any(Map.class));
     }

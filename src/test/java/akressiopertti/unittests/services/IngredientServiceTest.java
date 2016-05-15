@@ -1,6 +1,5 @@
 package akressiopertti.unittests.services;
 
-import akressiopertti.domain.DishType;
 import akressiopertti.domain.Ingredient;
 import akressiopertti.repository.IngredientRepository;
 import akressiopertti.service.IngredientService;
@@ -126,7 +125,7 @@ public class IngredientServiceTest {
         verifyNoMoreInteractions(ingredientRepositoryMock);
     }
     
-    @Test(expected = NullPointerException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void removeThrowsExceptionForNonexistingId() {
         Ingredient i = ingredientService.remove(4L);    
         verify(ingredientRepositoryMock, times(1)).findOne(2L);

@@ -72,7 +72,7 @@ public class DishTypeControllerTest {
         when(dishTypeServiceMock.checkUniqueness(any(DishType.class))).thenReturn(new ArrayList<>());
         when(dishTypeServiceMock.save(any(DishType.class))).thenReturn(d1);
         when(dishTypeServiceMock.remove(1L)).thenReturn(d1);
-        Mockito.doThrow(NullPointerException.class).when(dishTypeServiceMock).remove(4L);
+        Mockito.doThrow(IllegalArgumentException.class).when(dishTypeServiceMock).remove(4L);
     }
     
     @Test

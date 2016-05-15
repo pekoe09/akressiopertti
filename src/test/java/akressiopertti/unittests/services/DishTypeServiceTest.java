@@ -125,7 +125,7 @@ public class DishTypeServiceTest {
         verifyNoMoreInteractions(dishTypeRepositoryMock);
     }
     
-    @Test(expected = NullPointerException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void removeThrowsExceptionForNonexistingId() {
         DishType d = dishTypeService.remove(4L);    
         verify(dishTypeRepositoryMock, times(1)).findOne(2L);

@@ -85,7 +85,7 @@ public class IngredientControllerTest {
         when(ingredientServiceMock.checkUniqueness(any(Ingredient.class))).thenReturn(new ArrayList<>());
         when(ingredientServiceMock.save(any(Ingredient.class))).thenReturn(i1);
         when(ingredientServiceMock.remove(1L)).thenReturn(i1);
-        Mockito.doThrow(NullPointerException.class).when(ingredientServiceMock).remove(4L);        
+        Mockito.doThrow(IllegalArgumentException.class).when(ingredientServiceMock).remove(4L);        
     }
     
     @Test

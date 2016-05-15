@@ -93,7 +93,7 @@ public class DishTypeController {
         DishType dishType = null;
         try {
             dishType = dishTypeService.remove(id);
-        } catch (NullPointerException exc) {
+        } catch (IllegalArgumentException exc) {
             redirectAttributes.addFlashAttribute("error", "Poistettavaa ruokatyyppiä ei löydy!");
             return "redirect:/ruokatyypit";       
         }

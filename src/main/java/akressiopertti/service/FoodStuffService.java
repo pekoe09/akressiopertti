@@ -29,7 +29,7 @@ public class FoodStuffService {
     public FoodStuff remove(Long id) {
         FoodStuff foodStuff = foodStuffRepository.findOne(id);
         if(foodStuff == null) {
-            throw new NullPointerException("Cannot remove object with id " + id.toString());
+            throw new IllegalArgumentException("Cannot remove object with id " + id.toString());
         }
         foodStuffRepository.delete(id);
         return foodStuff;

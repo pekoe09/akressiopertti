@@ -93,7 +93,7 @@ public class MeasureTypeController {
         MeasureType measureType = null;
         try {
             measureType = measureTypeService.remove(id);
-        } catch (NullPointerException exc) {
+        } catch (IllegalArgumentException exc) {
             redirectAttributes.addFlashAttribute("error", "Poistettavaa mittatyyppiä ei löydy!");
             return "redirect:/mittatyypit";
         }

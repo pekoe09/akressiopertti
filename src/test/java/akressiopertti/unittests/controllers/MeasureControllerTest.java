@@ -10,8 +10,6 @@ import java.util.List;
 import java.util.Map;
 import static junit.framework.Assert.assertEquals;
 import static org.hamcrest.Matchers.hasSize;
-import org.json.simple.JSONArray;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -86,7 +84,7 @@ public class MeasureControllerTest {
         when(measureServiceMock.checkUniqueness(any(Measure.class))).thenReturn(new ArrayList<>());
         when(measureServiceMock.save(any(Measure.class))).thenReturn(m1);
         when(measureServiceMock.remove(1L)).thenReturn(m1);
-        Mockito.doThrow(NullPointerException.class).when(measureServiceMock).remove(4L);
+        Mockito.doThrow(IllegalArgumentException.class).when(measureServiceMock).remove(4L);
         Mockito.doNothing().when(controllerUtilitiesMock).addOptionsListsToModel(any(Model.class), any(Map.class));
     }
     

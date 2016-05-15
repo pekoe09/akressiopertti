@@ -1,6 +1,5 @@
 package akressiopertti.unittests.services;
 
-import akressiopertti.domain.DishType;
 import akressiopertti.domain.FoodStuff;
 import akressiopertti.repository.FoodStuffRepository;
 import akressiopertti.service.FoodStuffService;
@@ -126,7 +125,7 @@ public class FoodStuffServiceTest {
         verifyNoMoreInteractions(foodStuffRepositoryMock);
     }
     
-    @Test(expected = NullPointerException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void removeThrowsExceptionForNonexistingId() {
         FoodStuff d = foodStuffService.remove(4L);    
         verify(foodStuffRepositoryMock, times(1)).findOne(2L);

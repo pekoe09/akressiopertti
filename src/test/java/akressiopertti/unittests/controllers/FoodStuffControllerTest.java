@@ -75,7 +75,7 @@ public class FoodStuffControllerTest {
         when(foodStuffServiceMock.checkUniqueness(any(FoodStuff.class))).thenReturn(new ArrayList<ObjectError>());
         when(foodStuffServiceMock.save(any(FoodStuff.class))).thenReturn(f1);
         when(foodStuffServiceMock.remove(1L)).thenReturn(f1);
-        Mockito.doThrow(NullPointerException.class).when(foodStuffServiceMock).remove(4L);
+        Mockito.doThrow(IllegalArgumentException.class).when(foodStuffServiceMock).remove(4L);
     }
     
     @Test

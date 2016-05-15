@@ -94,7 +94,7 @@ public class CourseController {
         try {
             course = courseService.remove(id);
         }
-        catch (NullPointerException exc) {
+        catch (IllegalArgumentException exc) {
             redirectAttributes.addFlashAttribute("error", "Poistettavaa ruokalajia ei löydy!");
             return "redirect:/ruokalajit";
         }

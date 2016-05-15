@@ -1,6 +1,5 @@
 package akressiopertti.unittests.services;
 
-import akressiopertti.domain.Course;
 import akressiopertti.repository.BeerRepository;
 import akressiopertti.repository.CourseRepository;
 import akressiopertti.repository.DishTypeRepository;
@@ -21,13 +20,9 @@ import akressiopertti.service.MeasureService;
 import akressiopertti.service.MeasureTypeService;
 import akressiopertti.service.RecipeService;
 import akressiopertti.service.UserService;
-import java.util.ArrayList;
-import java.util.List;
 import org.mockito.Mockito;
-import static org.mockito.Mockito.when;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.dao.DataAccessException;
 
 @Configuration
 public class ServiceTestContext {
