@@ -106,7 +106,7 @@ public class FoodStuffServiceTest {
         FoodStuff f4 = new FoodStuff();
         f4.setName("Yrtti");
         
-        FoodStuff savedFoodStuff = foodStuffRepositoryMock.save(f4);
+        FoodStuff savedFoodStuff = foodStuffService.save(f4);
         
         assertNotNull(savedFoodStuff);
         assertEquals((Long)1L, savedFoodStuff.getId());

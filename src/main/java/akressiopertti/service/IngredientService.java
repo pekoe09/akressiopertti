@@ -31,7 +31,7 @@ public class IngredientService {
     }
     
     public Ingredient save(Ingredient ingredient){
-        return ingredientRepository.saveAndFlush(ingredient);
+        return ingredientRepository.save(ingredient);
     }
     
     public Ingredient remove(Long id) {

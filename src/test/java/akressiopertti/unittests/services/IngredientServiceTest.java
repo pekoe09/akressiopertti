@@ -1,13 +1,17 @@
 package akressiopertti.unittests.services;
 
 import akressiopertti.domain.Ingredient;
+import akressiopertti.repository.FoodStuffRepository;
 import akressiopertti.repository.IngredientRepository;
+import akressiopertti.service.FoodStuffService;
 import akressiopertti.service.IngredientService;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertNull;
+import static junit.framework.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -32,6 +36,10 @@ public class IngredientServiceTest {
     private IngredientRepository ingredientRepositoryMock;
     @Autowired
     private IngredientService ingredientService;
+    @Autowired
+    private FoodStuffRepository foodStuffRepositoryMock;
+    @Autowired
+    private FoodStuffService foodStuffService;
     
     @Before
     public void setUp() {
@@ -87,8 +95,8 @@ public class IngredientServiceTest {
         Ingredient retrievedIngredient = ingredientService.findOne(2L);
         
         verify(ingredientRepositoryMock, times(1)).findOne(2L);
-        assertNotNull("Didn't find a dish type by id", retrievedIngredient);
-        assertEquals("Found wrong dish  type", "Kuha", retrievedIngredient.getName());
+        assertNotNull("Didn't find an ingredient by id", retrievedIngredient);
+        assertEquals("Found wrong ingredient", "Kuha", retrievedIngredient.getName());
         verifyNoMoreInteractions(ingredientRepositoryMock);
     }
     
@@ -106,12 +114,13 @@ public class IngredientServiceTest {
         Ingredient i4 = new Ingredient();
         i4.setName("Kampela");
         
-        Ingredient savedIngredient = ingredientRepositoryMock.save(i4);
+        Ingredient savedIngredient = ingredientService.save(i4);
         
         assertNotNull(savedIngredient);
         assertEquals((Long)1L, savedIngredient.getId());
         ArgumentCaptor<Ingredient> ingredientArgument = ArgumentCaptor.forClass(Ingredient.class);
         verify(ingredientRepositoryMock, times(1)).save(ingredientArgument.capture());
+        assertEquals("Kampela", ingredientArgument.getValue().getName());
         verifyNoMoreInteractions(ingredientRepositoryMock);        
     }
     
@@ -130,6 +139,15 @@ public class IngredientServiceTest {
         ingredientService.remove(4L);    
         verify(ingredientRepositoryMock, times(1)).findOne(2L);
         verifyNoMoreInteractions(ingredientRepositoryMock);
+    }
+        
+    @Test
+    public void getOptionsReturnsListOfFoodStuffs() {
+        Map<String, List> options = ingredientService.getOptions();
+        
+        assertNotNull("Method does not return a Map", options);
+        assertEquals("Method returns wrong number of options lists", 1, options.size());
+        assertTrue("Returned list has wrong name", options.containsKey("FoodStuffs"));
     }
     
     @Test

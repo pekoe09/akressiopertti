@@ -106,7 +106,7 @@ public class DishTypeServiceTest {
         DishType d4 = new DishType();
         d4.setName("Paisti");
         
-        DishType savedDishType = dishTypeRepositoryMock.save(d4);
+        DishType savedDishType = dishTypeService.save(d4);
         
         assertNotNull(savedDishType);
         assertEquals((Long)1L, savedDishType.getId());
