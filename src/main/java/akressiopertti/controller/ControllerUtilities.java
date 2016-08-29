@@ -5,8 +5,10 @@ import java.util.Map;
 import org.json.simple.JSONArray;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
+@Service
 public class ControllerUtilities {
     
     public void addOptionsListsToModel(Model model, Map<String, List> map){
