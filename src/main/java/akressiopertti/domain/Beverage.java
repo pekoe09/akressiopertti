@@ -7,6 +7,7 @@ public class Beverage extends BaseModel{
     private String acquiredFrom;
     private String comment;
     private float alcohol;
+    private String alkoCode;
 
     public String getName() {
         return name;
@@ -46,6 +47,14 @@ public class Beverage extends BaseModel{
 
     public void setAlcohol(float alcohol) {
         this.alcohol = alcohol;
+    }
+
+    public String getAlkoCode() {
+        return alkoCode;
+    }
+
+    public void setAlkoCode(String alkoCode) {
+        this.alkoCode = alkoCode;
     }
     
 }

@@ -45,6 +45,24 @@
                         <li role="presentation"><a href="#" th:href="@{/reseptit/}">Reseptit</a></li>
                         <li role="presentation"><a href="#" th:href="@{/juomat/}">Juomat</a></li>
                     </ul>
+                    <form class="navbar-form navbar-right" role="search" action="#" th:action="@{/hae}" method="post">
+                        <div class="input-group">
+                            <input type="text" id="searchTerm" name="searchTerm" class="form-control" placeholder="Hae"/>
+                            <div class="input-group-btn">
+                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Konteksti <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-right">
+                                    <li><input type="radio" name="context" value="all" checked> Kaikki</li>
+                                    <li><input type="radio" name="context" value="recipes"> Reseptit</li>
+                                    <li><input type="radio" name="context" value="beverages"> Juomat</li>
+                                    <li><input type="radio" name="context" value="ingredients"> Ainekset</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Hae!</button>
+                        <a href="#" th:href="@{/hae}"><small>Tarkennettu haku</small></a>
+                    </form>
                     <ul class="nav navbar-nav navbar-right" sec:authorize="isAuthenticated()">
                         <li class="nav-text" th:text="${nameOfUser}">Bob</li>
                         <li role="presentation" class="">
