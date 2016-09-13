@@ -1,7 +1,7 @@
 body {
   padding-top: 40px;
   margin: 0px 30px;
-  background: #ECECEC;
+  background: #fff;
   color: #575353;
   font-family: 'Open Sans', sans-serif;
 }
@@ -13,14 +13,14 @@ body {
 }
 
 .starter-template {
-  padding: 40px 15px;
+  padding: 100px 15px 40px 15px;
 }
 
 .nav-text {
     position: relative;
     display: block;
     padding: 10px 15px;
-    color: white !important;
+    color: #158cba;
     line-height: 20px;
     padding-top: 15px;
     padding-bottom: 15px;
@@ -91,6 +91,10 @@ table tr th {
 
 .listing-buttons {
     float: right;
+}
+
+.form-button-row {
+    margin-left: 15px;
 }
 
 // ---------- bootstrap-typeahead style fixes ----------------

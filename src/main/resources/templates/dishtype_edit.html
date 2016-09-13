@@ -13,7 +13,7 @@
             
             <form id="courseForm" role="form" action="#" th:action="@{/ruokatyypit/{id}/muokkaa(id=${dishType.id})}" th:object="${dishType}" method="post">
                 <input type="hidden" id="id" name="id" th:value="${dishType.id}" />
-                <div class="form-group" th:class="${#fields.hasErrors('name')}? has-error">
+                <div class="form-group" th:classappend="${#fields.hasErrors('name')}? has-error">
                     <label class="control-label" for="name">Nimi</label>
                     <input type="text" id="name" name="name" class="form-control" th:value="${dishType.name}"/>
                     <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}">virheviesti</p>

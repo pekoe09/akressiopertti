@@ -13,33 +13,43 @@
             
             <form id="measureForm" role="form" action="#" th:action="@{/mitat/{id}/muokkaa(id=${measure.id})}" th:object="${measure}" method="post">
                 <input type="hidden" id="id" name="id" th:value="${measure.id}" />
-                <div class="form-group" th:class="${#fields.hasErrors('name')}? has-error">
-                    <label class="control-label" for="name">Nimi</label>
-                    <input type="text" id="name" name="name" class="form-control" th:value="${measure.name}"/>
-                    <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}">virheviesti</p>
+                <div class="row">
+                    <div class="form-group col-md-4" th:classappend="${#fields.hasErrors('name')}? has-error">
+                        <label class="control-label" for="name">Nimi</label>
+                        <input type="text" id="name" name="name" class="form-control" th:value="${measure.name}"/>
+                        <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}">virheviesti</p>
+                    </div>
                 </div>
-                <div class="form-group" th:class="${#fields.hasErrors('partitive')}? has-error">
-                    <label class="control-label" for="partitive">Partitiivi</label>
-                    <input type="text" id="partitive" name="partitive" class="form-control" th:value="${measure.partitive}"/>
-                    <p th:if="${#fields.hasErrors('partitive')}" th:errors="*{partitive}">virheviesti</p>
+                <div class="row">
+                    <div class="form-group col-md-4" th:classappend="${#fields.hasErrors('partitive')}? has-error">
+                        <label class="control-label" for="partitive">Partitiivi</label>
+                        <input type="text" id="partitive" name="partitive" class="form-control" th:value="${measure.partitive}"/>
+                        <p th:if="${#fields.hasErrors('partitive')}" th:errors="*{partitive}">virheviesti</p>
+                    </div>
                 </div>
-                <div class="form-group" th:class="${#fields.hasErrors('abbreviation')}? has-error">
-                    <label class="control-label" for="abbreviation">Lyhenne</label>
-                    <input type="text" id="abbreviation" name="abbreviation" class="form-control" th:value="${measure.abbreviation}"/>
-                    <p th:if="${#fields.hasErrors('abbreviation')}" th:errors="*{abbreviation}">virheviesti</p>
+                <div class="row">
+                    <div class="form-group col-md-4" th:classappend="${#fields.hasErrors('abbreviation')}? has-error">
+                        <label class="control-label" for="abbreviation">Lyhenne</label>
+                        <input type="text" id="abbreviation" name="abbreviation" class="form-control" th:value="${measure.abbreviation}"/>
+                        <p th:if="${#fields.hasErrors('abbreviation')}" th:errors="*{abbreviation}">virheviesti</p>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label class="control-label" for="measureType">Mittatyyppi</label>
-                    <select id="measureType" name="measureType">
-                        <option th:each="measureType : ${MeasureTypes}"
-                                th:text="${measureType.name}"
-                                th:value="${measureType.id}"
-                                th:selected="${measure.measureType.id == measureType.id}"></option>
-                    </select>
+                <div class="row">
+                    <div class="form-group col-md-4">
+                        <label class="control-label" for="measureType">Mittatyyppi</label>
+                        <select class="form-control" id="measureType" name="measureType">
+                            <option th:each="measureType : ${MeasureTypes}"
+                                    th:text="${measureType.name}"
+                                    th:value="${measureType.id}"
+                                    th:selected="${measure.measureType.id == measureType.id}"></option>
+                        </select>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <input type="submit" value="Tallenna" class="btn btn-primary" />
-                    <a href="#" th:href="@{/mitat}" class="btn btn-default">Peruuta</a>
+                <div class="row">
+                    <div class="form-group form-button-row">
+                        <input type="submit" value="Tallenna" class="btn btn-primary" />
+                        <a href="#" th:href="@{/mitat}" class="btn btn-default">Peruuta</a>
+                    </div>
                 </div>
             </form>
             

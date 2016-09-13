@@ -11,7 +11,7 @@
             <h1>Lisää ruokatyyppi</h1>
             
             <form id="dishTypeForm" role="form" action="#" th:action="@{/ruokatyypit/lisaa}" th:object="${dishType}" method="post">
-                <div class="form-group" th:class="${#fields.hasErrors('name')}? has-error">
+                <div class="form-group" th:classappend="${#fields.hasErrors('name')}? has-error">
                     <label class="control-label" for="name">Nimi</label>
                     <input type="text" id="name" name="name" class="form-control" th:value="${dishType.name}" />
                     <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}">virheviesti</p>

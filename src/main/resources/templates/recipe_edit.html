@@ -13,7 +13,7 @@
             
             <form id="recipeForm" role="form" action="#" th:action="@{/reseptit/{id}/muokkaa(id=${recipe.id})}" th:object="${recipe}" method="post">
                 <input type="hidden" id="id" name="id" th:value="${recipe.id}" />
-                <div class="form-group" th:class="${#fields.hasErrors('title')}? has-error">
+                <div class="form-group" th:classappend="${#fields.hasErrors('title')}? has-error">
                     <label class="control-label" for="title">Nimi</label>
                     <input type="text" id="title" name="title" class="form-control" th:value="${recipe.title}"/>
                     <p th:if="${#fields.hasErrors('title')}" th:errors="*{title}">virheviesti</p>
@@ -45,7 +45,7 @@
                                 th:selected="${recipe.foodStuffs != null} ? ${recipe.foodStuffs.contains(foodStuff)} : false"></option>
                     </select>
                 </div>
-                <div class="form-group" th:class="${#fields.hasErrors('preparationTime')}? has-error">
+                <div class="form-group" th:classappend="${#fields.hasErrors('preparationTime')}? has-error">
                     <label class="control-label" for="preparationTimeSection">Valmistusaika</label>
                     <div id="preparationTimeSection">
                         <input id="preparationHours" name="preparationHours" size="2" th:value="${recipe.preparationTime / 60}"/>
@@ -60,7 +60,7 @@
                     <input type="hidden" value="on" name="_needsMarinating" />
                     <label for="needsMarinating">Marinoitava</label>
                 </div>
-                <div class="form-group" th:class="${#fields.hasErrors('source')}? has-error">
+                <div class="form-group" th:classappend="${#fields.hasErrors('source')}? has-error">
                     <label class="control-label" for="source">Lähde</label>
                     <input type="text" id="source" name="source" class="form-control" th:value="${recipe.source}"/>
                     <p th:if="${#fields.hasErrors('source')}" th:errors="*{source}">virheviesti</p>
@@ -113,12 +113,12 @@
                     </div>
                 </div>
                 
-                <div class="form-group" th:class="${#fields.hasErrors('instructions')}? has-error">
+                <div class="form-group" th:classappend="${#fields.hasErrors('instructions')}? has-error">
                     <label class="control-label" for="instructions">Valmistusohje</label>
                     <textarea id="instructions" name="instructions" class="form-control" rows="20" th:text="${recipe.instructions}"></textarea>
                     <p th:if="${#fields.hasErrors('instructions')}" th:errors="*{instructions}">virheviesti</p>
                 </div>
-                <div class="form-group" th:class="${#fields.hasErrors('comment')}? has-error">
+                <div class="form-group" th:classappend="${#fields.hasErrors('comment')}? has-error">
                     <label class="control-label" for="comment">Kommentti</label>
                     <textarea id="comment" name="comment" class="form-control" rows="10" th:text="${recipe.comment}"></textarea>
                     <p th:if="${#fields.hasErrors('comment')}" th:errors="*{comment}">virheviesti</p>

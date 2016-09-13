@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <title>Akressiopertti</title>
     <link href="/static/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="/static/css/theme.css" rel="stylesheet" />
     <link href="/static/css/style.css" rel="stylesheet"/>
     <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'/>
     <th:block th:replace="this :: pagehead"></th:block>
@@ -21,7 +22,7 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="/">Akressiopertti</a>
+                    <a class="navbar-brand" href="/"><img src="#" th:src="@{/kuvat/logo}"/></a>
                 </div>
                 <div class="collapse navbar-collapse">
                     <ul class="nav navbar-nav navbar-left" sec:authorize="hasRole('ROLE_ADMIN')">
@@ -53,7 +54,7 @@
                                     Konteksti <span class="caret"></span>
                                 </button>
                                 <ul class="dropdown-menu dropdown-menu-right">
-                                    <li><input type="radio" name="context" value="all" /> Kaikki</li>
+                                    <li><input type="radio" name="context" value="all" checked="checked" /> Kaikki</li>
                                     <li><input type="radio" name="context" value="recipes" /> Reseptit</li>
                                     <li><input type="radio" name="context" value="beverages" /> Juomat</li>
                                     <li><input type="radio" name="context" value="ingredients" /> Ainekset</li>

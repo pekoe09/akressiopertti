@@ -11,12 +11,12 @@
             <h1>Lisää aines</h1>
 
             <form id="ingredientForm" role="form" action="#" th:action="@{/ainekset/lisaa}" th:object="${ingredient}" method="post">
-                <div class="form-group" th:class="${#fields.hasErrors('name')}? has-error">
+                <div class="form-group" th:classappend="${#fields.hasErrors('name')}? has-error">
                     <label class="control-label" for="name">Nimi</label>
                     <input type="text" id="name" name="name" class="form-control" th:value="${ingredient.name}" />
                     <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}">virheviesti</p>
                 </div>
-                <div class="form-group" th:class="${#fields.hasErrors('partitive')}? has-error">
+                <div class="form-group" th:classappend="${#fields.hasErrors('partitive')}? has-error">
                     <label class="control-label" for="partitive">Partitiivi</label>
                     <input type="text" id="partitive" name="partitive" class="form-control" th:value="${ingredient.partitive}" />
                     <p th:if="${#fields.hasErrors('partitive')}" th:errors="*{partitive}">virheviesti</p>
@@ -29,7 +29,7 @@
                                 th:value="${foodStuff.id}"></option>
                     </select>
                 </div>
-                <div class="form-group" th:class="${#fields.hasErrors('comment')}? has-error">
+                <div class="form-group" th:classappend="${#fields.hasErrors('comment')}? has-error">
                     <label class="control-label" for="comment">Kommentti</label>
                     <input type="text" id="comment" name="comment" th:text="${ingredient.comment}" class="form-control" />
                     <p th:if="${#fields.hasErrors('comment')}" th:errors="*{comment}">virheviesti</p>
