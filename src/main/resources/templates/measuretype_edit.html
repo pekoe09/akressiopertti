@@ -13,14 +13,18 @@
             
             <form id="measureTypeForm" role="form" action="#" th:action="@{/mittatyypit/{id}/muokkaa(id=${measureType.id})}" th:object="${measureType}" method="post">
                 <input type="hidden" id="id" name="id" th:value="${measureType.id}" />
-                <div class="form-group" th:classappend="${#fields.hasErrors('name')}? has-error">
-                    <label class="control-label" for="name">Nimi</label>
-                    <input type="text" id="name" name="name" class="form-control" th:value="${measureType.name}"/>
-                    <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}">virheviesti</p>
+                <div class="row">
+                    <div class="form-group col-md-4" th:classappend="${#fields.hasErrors('name')}? has-error">
+                        <label class="control-label" for="name">Nimi</label>
+                        <input type="text" id="name" name="name" class="form-control" th:value="${measureType.name}"/>
+                        <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}">virheviesti</p>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <input type="submit" value="Tallenna" class="btn btn-primary" />
-                    <a href="#" th:href="@{/mittatyypit}" class="btn btn-default">Peruuta</a>
+                <div class="row">
+                    <div class="form-group form-button-row">
+                        <input type="submit" value="Tallenna" class="btn btn-primary" />
+                        <a href="#" th:href="@{/mittatyypit}" class="btn btn-default">Peruuta</a>
+                    </div>
                 </div>
             </form>
             

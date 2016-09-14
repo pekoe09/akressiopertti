@@ -13,19 +13,25 @@
             
             <form id="foodStuffForm" role="form" action="#" th:action="@{/ruoka-aineet/{id}/muokkaa(id=${foodStuff.id})}" th:object="${foodStuff}" method="post">
                 <input type="hidden" id="id" name="id" th:value="${foodStuff.id}" />
-                <div class="form-group" th:classappend="${#fields.hasErrors('name')}? has-error">
-                    <label class="control-label" for="name">Nimi</label>
-                    <input type="text" id="name" name="name" class="form-control" th:value="${foodStuff.name}"/>
-                    <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}">virheviesti</p>
+                <div class="row">
+                    <div class="form-group col-md-4" th:classappend="${#fields.hasErrors('name')}? has-error">
+                        <label class="control-label" for="name">Nimi</label>
+                        <input type="text" id="name" name="name" class="form-control" th:value="${foodStuff.name}"/>
+                        <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}">virheviesti</p>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <input type="checkbox" id="isFoodCategory" name="isFoodCategory" th:checked="${foodStuff.isFoodCategory}" />
-                    <input type="hidden" value="on" name="_isFoodCategory" />
-                    <label for="isFoodCategory">Pääkategoria</label>
+                <div class="row">
+                    <div class="form-group">
+                        <input type="checkbox" id="isFoodCategory" name="isFoodCategory" th:checked="${foodStuff.isFoodCategory}" />
+                        <input type="hidden" value="on" name="_isFoodCategory" />
+                        <label for="isFoodCategory">Pääkategoria</label>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <input type="submit" value="Tallenna" class="btn btn-primary" />
-                    <a href="#" th:href="@{/ruoka-aineet}" class="btn btn-default">Peruuta</a>
+                <div class="row">
+                    <div class="form-group form-button-row">
+                        <input type="submit" value="Tallenna" class="btn btn-primary" />
+                        <a href="#" th:href="@{/ruoka-aineet}" class="btn btn-default">Peruuta</a>
+                    </div>
                 </div>
             </form>
             

@@ -97,6 +97,10 @@ table tr th {
     margin-left: 15px;
 }
 
+.form-group input[type="checkbox"] {
+    margin-left: 15px;
+}
+
 // ---------- bootstrap-typeahead style fixes ----------------
 
 .typeahead,

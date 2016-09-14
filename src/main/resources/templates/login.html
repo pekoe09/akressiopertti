@@ -11,16 +11,22 @@
             <h1>Kirjaudu Akressioperttiin</h1>
             <p th:if="${loginError}">Käyttäjätunnus tai salasana väärin</p>
             <form th:action="@{/j_spring_security_check}" method="post">
-                <div class="form-group">
-                    <label for="j_username">Käyttäjätunnus</label>
-                    <input type="text" id="j_username" name="j_username" class="form-control"/>
+                <div class="row">
+                    <div class="form-group col-md-4">
+                        <label for="j_username">Käyttäjätunnus</label>
+                        <input type="text" id="j_username" name="j_username" class="form-control"/>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label for="j_password">Salasana</label>
-                    <input type="password" id="j_password" name="j_password" class="form-control"/>
+                <div class="row">
+                    <div class="form-group col-md-4">
+                        <label for="j_password">Salasana</label>
+                        <input type="password" id="j_password" name="j_password" class="form-control"/>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <input type="submit" value="Log in"/>
+                <div class="row">
+                    <div class="form-group form-button-row">
+                        <input class="btn btn-primary" type="submit" value="Log in"/>
+                    </div>
                 </div>
             </form>
             
