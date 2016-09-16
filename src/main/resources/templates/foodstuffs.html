@@ -16,7 +16,9 @@
             </a>
             
             <article class="listing-s" th:each="foodStuff : ${foodStuffs}">
-                <span class="listing-s-header" th:text="${foodStuff.name}"></span>
+                <a href="#" th:href="@{/ruoka-aineet/{id}/muokkaa(id=${foodStuff.id})}">
+                    <span class="listing-s-header" th:text="${foodStuff.name}"></span>
+                </a>
                 <span th:if="${foodStuff.isFoodCategory}"> Pääkategoria</span>                
                 <form class="form-inline listing-buttons" action="#" th:action="@{/ruoka-aineet/{id}/poista(id=${foodStuff.id})}" method="post">
                     <a href="#" th:href="@{/ruoka-aineet/{id}/muokkaa(id=${foodStuff.id})}" class="btn btn-primary">Muokkaa</a>

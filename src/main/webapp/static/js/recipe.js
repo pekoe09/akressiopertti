@@ -69,12 +69,12 @@
      
      $('#ingredientName').on('blur', function(evt){
         var name = $('#ingredientName').val();
-        if(name.length != 0){
+        if(name.length !== 0){
             $('#ingredientId').val(ingredientIds[name]);
         }
      });
 
-     // adds listerner to package ingredient list neatly on form submit
+     // adds listener to package ingredient list neatly on form submit
      $('#recipeForm').submit(function(event){
         packageIngredients(); 
      });
@@ -88,7 +88,7 @@
      var measureAmt = $("#ingredientAmount").val();     
      
      var amountInput = $("<input type='text' class='form-control' />").val(measureAmt);
-     var amountDiv = $("<div class='col-md-2'></div>").append(amountInput);
+     var amountDiv = $("<div class='col-md-1'></div>").append(amountInput);
      var measureNameField = $("<span></span>").text(measureName + " ");
      var ingredientNameField = $("<span></span>").text(ingredientName);
      var measureIdField = $("<input type='hidden' class='measureid'/>").val(measureId)
@@ -99,7 +99,7 @@
      removeButton.click(function(){
          $(this).parents(".ingredient-row").remove();
      });
-     var textContainer = $("<div class='col-md-10 form-control-static'></div>").append(
+     var textContainer = $("<div class='col-md-4 form-control-static'></div>").append(
             measureNameField, 
             ingredientNameField,
             measureIdField,

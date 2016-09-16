@@ -82,7 +82,7 @@
                     <div id="ingredientList"></div>
                     
                     <div class="row">
-                        <div class="form-group col-md-4">
+                        <div class="form-group col-md-1">
                             <label class="control-label" for="ingredientAmount">Määrä</label>
                             <input type="text" id="ingredientAmount" class="form-control" />
                             <p id="ingredientAmountError"></p>
@@ -93,7 +93,7 @@
                             <label class="control-label" for="ingredientMeasure">Mitta</label>
                             <select class="form-control" id="ingredientMeasure">
                                 <option th:each="measure : ${Measures}"
-                                        th:text="${measure.name}"
+                                        th:text="${measure.partitive}"
                                         th:value="${measure.id}"></option>
                             </select>
                             <p id="ingredientMeasureError"></p>

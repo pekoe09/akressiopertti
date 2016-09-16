@@ -16,7 +16,9 @@
             </a>
             
             <article class="listing-s" th:each="dishType : ${dishTypes}">
-                <span class="listing-s-header" th:text="${dishType.name}"></span>               
+                <a href="#" th:href="@{/ruokatyypit/{id}/muokkaa(id=${dishType.id})}">
+                   <span class="listing-s-header" th:text="${dishType.name}"></span>
+                </a>            
                 <form class="form-inline listing-buttons" action="#" th:action="@{/ruokatyypit/{id}/poista(id=${dishType.id})}" method="post">
                     <a href="#" th:href="@{/ruokatyypit/{id}/muokkaa(id=${dishType.id})}" class="btn btn-primary">Muokkaa</a>
                     <input type="submit" value="Poista" class="btn btn-danger" />

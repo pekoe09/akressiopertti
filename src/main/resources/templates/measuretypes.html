@@ -16,7 +16,9 @@
             </a>
             
             <article class="listing-s" th:each="measureType : ${measureTypes}">
-                <span class="listing-s-header" th:text="${measureType.name}"></span>               
+                <a href="#" th:href="@{/mittatyypit/{id}/muokkaa(id=${measureType.id})}">
+                    <span class="listing-s-header" th:text="${measureType.name}"></span>     
+                </a>
                 <form class="form-inline listing-buttons" action="#" th:action="@{/mittatyypit/{id}/poista(id=${measureType.id})}" method="post">
                     <a href="#" th:href="@{/mittatyypit/{id}/muokkaa(id=${measureType.id})}" class="btn btn-primary">Muokkaa</a>
                     <input type="submit" value="Poista" class="btn btn-danger" />
