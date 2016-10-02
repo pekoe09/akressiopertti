@@ -34,7 +34,7 @@
         success: function(result){
             ingredients = result;
             $.each(result, function(index, ingredient){
-               ingredientIds[ingredient.name] = ingredient.id;
+               ingredientIds[ingredient.partitive] = ingredient.id;
             }); 
         }
     });     
@@ -45,7 +45,7 @@
              matches = [];
              substringRegex = new RegExp(q, 'i');
              $.each(ingredients, function(i, ingredient) {
-                 if(substringRegex.test(ingredient.name)) {
+                 if(substringRegex.test(ingredient.partitive)) {
                      matches.push(ingredient);
                  }
              });
@@ -54,7 +54,7 @@
      };
      
      var getIngredientName = function(ingredient){
-         return ingredient.name;
+         return ingredient.partitive;
      };
      
      $('#ingredientName').typeahead({
@@ -93,13 +93,13 @@
      var ingredientNameField = $("<span></span>").text(ingredientName);
      var measureIdField = $("<input type='hidden' class='measureid'/>").val(measureId)
      var ingredientIdField = $("<input type='hidden' class='ingredientid' />").val(ingredientId);
-     var removeButton = $("<button class='btn btn-danger' type='button' data-ingredientid="
+     var removeButton = $("<button class='btn btn-danger btn-sm' type='button' data-ingredientid="
              + ingredientId
              + ">Poista</button>");   
      removeButton.click(function(){
          $(this).parents(".ingredient-row").remove();
      });
-     var textContainer = $("<div class='col-md-4 form-control-static'></div>").append(
+     var textContainer = $("<div class='col-md-3 form-control-static'></div>").append(
             measureNameField, 
             ingredientNameField,
             measureIdField,

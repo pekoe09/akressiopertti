@@ -6,6 +6,8 @@ import akressiopertti.domain.FoodStuff;
 import akressiopertti.domain.Ingredient;
 import akressiopertti.domain.Measure;
 import akressiopertti.domain.MeasureType;
+import akressiopertti.domain.Recipe;
+import akressiopertti.domain.RecipeIngredient;
 import akressiopertti.domain.User;
 import akressiopertti.service.CourseService;
 import akressiopertti.service.DishTypeService;
@@ -13,8 +15,13 @@ import akressiopertti.service.FoodStuffService;
 import akressiopertti.service.IngredientService;
 import akressiopertti.service.MeasureService;
 import akressiopertti.service.MeasureTypeService;
+import akressiopertti.service.RecipeService;
 import akressiopertti.service.UserService;
+import java.util.ArrayList;
+import java.util.List;
 import javax.annotation.PostConstruct;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -35,6 +42,8 @@ public class DevProfile {
     private MeasureService measureService;
     @Autowired
     private IngredientService ingredientService;
+    @Autowired
+    private RecipeService recipeService;
     @Autowired
     private UserService userService;
     
@@ -128,5 +137,44 @@ public class DevProfile {
         i2.setPartitive("Silakkaa");
         i2.setFoodStuff(fs1);
         i2 = ingredientService.save(i2);
+        
+        // add recipe
+        Recipe r1 = new Recipe();
+        r1.setTitle("Joku soppa");
+        r1.setInstructions("Jotain ohjeita\ntoinen rivi.");
+        r1.setComment("Joku kommentti\ntoinen kommenttirivi.");
+        r1.setDishType(dt1);
+        r1.setCourse(c1);
+        List<FoodStuff> foodStuffs = new ArrayList<>();
+        foodStuffs.add(fs1);
+        r1.setFoodStuffs(foodStuffs);
+        r1.setNeedsMarinating(false);
+        r1.setPreparationTime(95);
+        r1.setSource("joku lähde");
+        List<RecipeIngredient> ingredients = new ArrayList<>();
+        RecipeIngredient ri1 = new RecipeIngredient();
+        ri1.setAmountFloat(1.0F);
+        ri1.setMeasure(m1);
+        ri1.setIngredient(i1);
+        ingredients.add(ri1);
+        RecipeIngredient ri2 = new RecipeIngredient();
+        ri2.setAmountFloat(2.5F);
+        ri2.setMeasure(m2);
+        ri2.setIngredient(i2);
+        ingredients.add(ri2);
+        r1.setRecipeIngredients(ingredients);
+        JSONArray riArray = new JSONArray();
+        JSONObject ri1Object = new JSONObject();
+        ri1Object.put("amount", "2,5");
+        ri1Object.put("measureid", ri1.getMeasure().getId().toString());
+        ri1Object.put("ingredientid", ri1.getIngredient().getId().toString());
+        ri1Object.put("recipeingredientid", "");
+        JSONObject ri2Object = new JSONObject();
+        ri2Object.put("amount", "1,0");
+        ri2Object.put("measureId", ri2.getMeasure().getId().toString());
+        ri2Object.put("ingredientId", ri2.getIngredient().getId().toString());
+        ri2Object.put("recipeIngredientId", "");
+        riArray.add(ri2Object);
+        recipeService.save(r1, riArray);
     }        
 }

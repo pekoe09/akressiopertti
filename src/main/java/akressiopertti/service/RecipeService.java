@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javax.transaction.Transactional;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.validation.ObjectError;
 
 @Service
+@Transactional
 public class RecipeService {
     
     @Autowired
@@ -71,7 +73,9 @@ public class RecipeService {
             if(amountString.contains(",")){
                 amountString = amountString.replace(',', '.');
                 recipeIngredient.setAmountFloat(Float.parseFloat(amountString));
-            }  else {
+            } else if(amountString.contains(".")){
+                recipeIngredient.setAmountFloat(Float.parseFloat(amountString));
+            } else {
                 recipeIngredient.setAmountInteger(Integer.parseInt(amountString));
             }
             recipeIngredient = recipeIngredientRepository.save(recipeIngredient);

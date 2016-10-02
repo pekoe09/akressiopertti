@@ -11,25 +11,30 @@
             <h1 th:text="${recipe.title}">Reseptin nimi</h1>
             
             <div class="recipe-metacontainer">
-                <p>
-                    <span th:text="${recipe.dishType.name} ">Ruokatyyppi</span>
-                    <span th:text="${recipe.course.name} ">Ruokalaji</span>
-                </p>
-                <p>
+                <h3>
+                    <span th:text="${recipe.dishType.name} ">Ruokatyyppi</span> /
+                    <span th:text="${recipe.course.name} ">Ruokalaji</span> / 
                     <span th:each="foodStuff : ${recipe.foodStuffs}">
-                        <span th:text="${foodStuff.name}">Reseptin ruoka-aineen nimi</span>
-                    </span>
-                </p>
-                <p>
-                    <span th:if="${recipe.preparationTime != null}" th:text="|${recipe.preparationTime / 60} tuntia ${recipe.preparationTime % 60} minuuttia|">Valmistusaika</span>
-                    <span th:if="${recipe.needsMarinating}"> Marinoitava</span>
-                </p>
-                <p th:text="${recipe.source}">Lähde</p>
+                        <span th:text="${foodStuff.name}">Reseptin ruoka-aineen nimi</span> 
+                    </span>     
+                    <small>
+                        <span th:if="${recipe.preparationTime != null}">
+                            <span th:if="${recipe.preparationTime lt 60}" th:text="|${recipe.preparationTime} minuuttia|">Valmistusaika alle tunti</span>
+                            <span th:if="${recipe.preparationTime = 60}" th:text="|1 tunti|">Valmistusaika alle tunti</span>
+                            <span th:if="${recipe.preparationTime} lt 180 and ${recipe.preparationTime gt 60}" th:text="|1 tunti ${recipe.preparationTime % 60} minuuttia|">Valmistusaika alle 2 tuntia</span>
+                            <span th:if="${recipe.preparationTime} gt 179" th:text="|${recipe.preparationTime / 60} tuntia ${recipe.preparationTime % 60} minuuttia|">Valmistusaika min 2 tuntia</span>
+                        </span>
+                        <span th:if="${recipe.needsMarinating}"> Marinoitava</span>                        
+                    </small>
+                </h3>
+                <p th:text="|Lähde: ${recipe.source}|">Lähde</p>
+                <a href="#" th:href="@{/reseptit/{id}/muokkaa(id=${recipe.id})}" class="btn btn-primary btn-sm">Muokkaa</a>
             </div>
             
             <div class="recipe-maincontainer">
                 <dl>
                     <dt>Ainekset</dt>
+                    <dd th:if="${#lists.isEmpty(recipe.recipeIngredients)}">Ei aineslistaa.</dd>
                     <dd th:each="recipeIngredient : ${recipe.recipeIngredients}">
                         <span th:if="${recipeIngredient.amountInteger != null}">
                             <span th:text="|${recipeIngredient.amountInteger} ${recipeIngredient.measure.abbreviation} |">Aineksen määrä</span>
@@ -38,30 +43,35 @@
                         </span>
                     </dd>
                     <dt>Ohje</dt>
-                    <dd th:text="${recipe.instructions}">Ohjeteksti</dd>
+                    <dd th:if="!${#strings.isEmpty(recipe.instructions)}" th:utext="${#strings.replace(#strings.escapeXml(recipe.instructions),T(java.lang.System).getProperty('line.separator'),'&lt;br /&gt;')}">Ohjeteksti</dd>
+                    <dd th:if="${#strings.isEmpty(recipe.instructions)}">Ei ohjetekstiä.</dd>
                 </dl>
             </div>
             
             <div class="recipe-comments">
                 <h3>Omat huomiot</h3>
-                <p  th:text="${recipe.comment}"></p>
+                <p th:if="!${#strings.isEmpty(recipe.comment)}" th:utext="${#strings.replace(#strings.escapeXml(recipe.comment),T(java.lang.System).getProperty('line.separator'),'&lt;br /&gt;')}"></p>
+                <p th:if="${#strings.isEmpty(recipe.comment)}">Ei kommentteja.</p>
             </div>
             
             <div class="recipe-related">
                 <div th:if="${recipe.relatedRecipes != null}">
                     <h3>Liittyvät reseptit</h3>
+                    <p th:if="${#lists.isEmpty(recipe.relatedRecipes)}">Ei liittyviä reseptejä.</p>
                     <div th:each="relatedRecipe : ${recipe.relatedRecipes}">
                         <a href="#" th:href="@{/reseptit/{id}(id=${relatedRecipe.id})}" th:text="${relatedRecipe.title}">Liittyvän reseptin nimi</a>
                     </div>
                 </div>
                 <div th:if="${recipe.wines != null}">
                     <h3>Viinit</h3>
+                    <p th:if="${#lists.isEmpty(recipe.relatedRecipes)}">Ei liittyviä viinejä.</p>
                     <div th:each="wine : ${recipe.wines}">
                         <a href="#" th:href="@{/viinit/{id}(id=${wine.id})}" th:text="${wine.name}">Viinin nimi</a>
                     </div>
                 </div>
                 <div th:if="${recipe.beers != null}">
                     <h3>Oluet</h3>
+                    <p th:if="${#lists.isEmpty(recipe.relatedRecipes)}">Ei liittyviä oluita.</p>
                     <div th:each="beer : ${recipe.beers}">
                         <a href="#" th:href="@{/oluet/{id}(id=${beer.id})}" th:text="${beer.name}">Oluen nimi</a>
                     </div>

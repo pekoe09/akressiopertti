@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javax.transaction.Transactional;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.validation.ObjectError;
 
 @Service
+@Transactional
 public class IngredientService {
     
     @Autowired
@@ -58,6 +60,7 @@ public class IngredientService {
         for(Ingredient ingredient : ingredients){
             ingredientObject = new JSONObject();
             ingredientObject.put("name", ingredient.getName());
+            ingredientObject.put("partitive", ingredient.getPartitive());
             ingredientObject.put("id", ingredient.getId());
             responseArray.add(ingredientObject);
         }

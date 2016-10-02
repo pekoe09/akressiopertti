@@ -98,7 +98,15 @@ table tr th {
 }
 
 .form-group input[type="checkbox"] {
-    margin-left: 15px;
+    margin-left: 0;
+}
+
+.recipe-maincontainer dt{
+    margin-top: 10px;
+}
+
+.dropdown-radio {
+    margin-left: 10px !important;
 }
 
 // ---------- bootstrap-typeahead style fixes ----------------
@@ -169,4 +177,7 @@ table tr th {
   margin: 0;
 }
 
+.typeahead-label {
+    display: block;
+}
 // ------------- bootstrap stylefixes end ------------------------

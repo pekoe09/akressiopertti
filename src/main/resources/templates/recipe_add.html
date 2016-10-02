@@ -52,7 +52,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="form-group col-md-3" th:classappend="${#fields.hasErrors('preparationTime')}? has-error">
+                    <div class="form-group col-md-2" th:classappend="${#fields.hasErrors('preparationTime')}? has-error">
                         <label class="control-label" for="preparationTimeSection">Valmistusaika</label>
                         <div id="preparationTimeSection">
                             <input id="preparationHours" name="preparationHours" size="2" th:value="${recipe.preparationTime / 60}"/>
@@ -63,9 +63,9 @@
                         <p th:if="${#fields.hasErrors('preparationTime')}" th:errors="*{preparationTime}">virheviesti</p>
                     </div>
                     <div class="form-group col-md-1">
-                        <input type="checkbox" id="needsMarinating" name="needsMarinating" />
-                        <input type="hidden" value="on" name="_needsMarinating" />
                         <label for="needsMarinating">Marinoitava</label>
+                        <input type="checkbox" id="needsMarinating" name="needsMarinating" />
+                        <input type="hidden" value="on" name="_needsMarinating" />                        
                     </div>
                 </div>
                 <div class="row">
@@ -81,15 +81,16 @@
                     
                     <div id="ingredientList"></div>
                     
+                    <br />
+                    <h4>Lisää uusi aines reseptiin</h4>
+                    
                     <div class="row">
                         <div class="form-group col-md-1">
                             <label class="control-label" for="ingredientAmount">Määrä</label>
                             <input type="text" id="ingredientAmount" class="form-control" />
                             <p id="ingredientAmountError"></p>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="form-group col-md-4">
+                        <div class="form-group col-md-2">
                             <label class="control-label" for="ingredientMeasure">Mitta</label>
                             <select class="form-control" id="ingredientMeasure">
                                 <option th:each="measure : ${Measures}"
@@ -101,7 +102,7 @@
                     </div>
                     <div class="row">
                         <div class="form-group col-md-4">
-                            <label class="control-label" for="ingredientName"></label>
+                            <label class="control-label typeahead-label" for="ingredientName">Aines</label>
                             <input type="text" id="ingredientName" class="form-control" />
                             <input type="hidden" id="ingredientId" />
                             <p id="ingredientNameError"></p>

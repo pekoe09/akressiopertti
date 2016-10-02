@@ -54,7 +54,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="form-group col-md-4" th:classappend="${#fields.hasErrors('preparationTime')}? has-error">
+                    <div class="form-group col-md-2" th:classappend="${#fields.hasErrors('preparationTime')}? has-error">
                         <label class="control-label" for="preparationTimeSection">Valmistusaika</label>
                         <div id="preparationTimeSection">
                             <input id="preparationHours" name="preparationHours" size="2" th:value="${recipe.preparationTime / 60}"/>
@@ -64,14 +64,14 @@
                         </div>
                         <p th:if="${#fields.hasErrors('preparationTime')}" th:errors="*{preparationTime}">virheviesti</p>
                     </div>
+                    <div class="form-group col-md-1">
+                        <label for="needsMarinating">Marinoitava</label>
+                        <input type="checkbox" id="needsMarinating" name="needsMarinating" />
+                        <input type="hidden" value="on" name="_needsMarinating" />                        
+                    </div>
                 </div>
                 <div class="row">
-                    <div class="form-group col-md-3">
-                        <input type="checkbox" id="needsMarinating" name="needsMarinating" />
-                        <input type="hidden" value="on" name="_needsMarinating" />
-                        <label for="needsMarinating">Marinoitava</label>
-                    </div>
-                    <div class="form-group col-md-1" th:classappend="${#fields.hasErrors('source')}? has-error">
+                    <div class="form-group col-md-4" th:classappend="${#fields.hasErrors('source')}? has-error">
                         <label class="control-label" for="source">Lähde</label>
                         <input type="text" id="source" name="source" class="form-control" th:value="${recipe.source}"/>
                         <p th:if="${#fields.hasErrors('source')}" th:errors="*{source}">virheviesti</p>
@@ -85,34 +85,35 @@
                         <div th:each="recipeIngredient : ${recipe.recipeIngredients}" class='form-group' th:attr="data-ingredientid=${recipeIngredient.ingredient.id}">
                             <div class="row ingredient-row">
                                 <input type="hidden" class="recipeingredientid" th:value="${recipeIngredient.id}" />
-                                <div class="col-md-2">
+                                <div class="col-md-1">
                                     <input type="text" class="form-control" 
                                            th:value="${recipeIngredient.amountInteger != null} ? ${recipeIngredient.amountInteger} : ${recipeIngredient.amountFloat}" />
                                 </div>
-                                <div class="col-md-10 form-control-static">
+                                <div class="col-md-3 form-control-static">
                                     <span th:text="${recipeIngredient.measure.partitive}"></span>
-                                    <span th:text="${recipeIngredient.ingredient.partitive}"></span>
+                                    <span th:text="${#strings.unCapitalize(recipeIngredient.ingredient.partitive)}"></span>
                                     <input type="hidden" class="measureid" th:value="${recipeIngredient.measure.id}"/>
                                     <input type="hidden" class="ingredientid" th:value="${recipeIngredient.ingredient.id}"/>
                                 </div>
-                                <button class="btn btn-danger" type="button" th:attr="data-ingredientid=${recipeIngredient.ingredient.id}">Poista</button>
+                                <button class="btn btn-danger btn-sm" type="button" th:attr="data-ingredientid=${recipeIngredient.ingredient.id}">Poista</button>
                             </div>
                         </div>
                     </div>
                     
+                    <br />
+                    <h4>Lisää uusi aines reseptiin</h4>
+                    
                     <div class="row">
-                        <div class="form-group col-md-4">
+                        <div class="form-group col-md-1">
                             <label class="control-label" for="ingredientAmount">Määrä</label>
                             <input type="text" id="ingredientAmount" class="form-control" />
                             <p id="ingredientAmountError"></p>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="form-group col-md-4">
+                        </div>                    
+                        <div class="form-group col-md-2">
                             <label class="control-label" for="ingredientMeasure">Mitta</label>
                             <select class="form-control" id="ingredientMeasure">
                                 <option th:each="measure : ${Measures}"
-                                        th:text="${measure.name}"
+                                        th:text="${measure.partitive}"
                                         th:value="${measure.id}"></option>
                             </select>
                             <p id="ingredientMeasureError"></p>
@@ -120,7 +121,7 @@
                     </div>
                     <div class="row">
                         <div class="form-group col-md-4">
-                            <label class="control-label" for="ingredientName"></label>
+                            <label class="control-label typeahead-label" for="ingredientName">Aines</label>
                             <input type="text" id="ingredientName" class="form-control" />
                             <input type="hidden" id="ingredientId" />
                             <p id="ingredientNameError"></p>
@@ -128,7 +129,7 @@
                     </div>
                     <div class="row">
                         <div class="form-group form-button-row">
-                            <button id="addIngredientButton" type="button" class="btn btn-primary">Lisää</button>
+                            <button id="addIngredientButton" type="button" class="btn btn-warning">Lisää aines</button>
                         </div>
                     </div>
                 </div>
