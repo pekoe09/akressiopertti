@@ -8,15 +8,21 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.Min;
+import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.Index;
+import org.hibernate.search.annotations.Indexed;
+import org.hibernate.search.annotations.IndexedEmbedded;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
 
+@Indexed
 @Entity
 public class Recipe extends BaseModel {
     
     @NotBlank(message = "Nimi on pakollinen tieto")
     @Length(max = 200, message = "Nimi voi olla enintään 200 merkkiä pitkä")
     @Column(unique = true)
+    @Field(index = Index.YES)
     private String title;
     @Column(length = 5000)
     @Length(max = 5000, message = "Ohjeteksti voi olla enintään 5000 merkkiä pitkä")
@@ -25,18 +31,23 @@ public class Recipe extends BaseModel {
     private int preparationTime;
     private boolean needsMarinating;
     @OneToMany(mappedBy = "recipe")
+    @IndexedEmbedded
     private List<RecipeIngredient> recipeIngredients;
     @Length(max = 300, message = "Lähde voi olla enintään 300 merkkiä pitkä")
     @Column(length = 300)
+    @Field(index = Index.YES)
     private String source;
     @Column(length = 5000)
     @Length(max = 5000, message = "Kommentti voi olla enintään 5000 merkkiä pitkä")
+    @Field(index = Index.YES)
     private String comment;
     @ManyToOne
     private DishType dishType;
     @ManyToMany
+    @IndexedEmbedded
     private List<FoodStuff> foodStuffs;
     @ManyToOne
+    @IndexedEmbedded
     private Course course;
     @ManyToMany
     private List<Recipe> relatedRecipes;

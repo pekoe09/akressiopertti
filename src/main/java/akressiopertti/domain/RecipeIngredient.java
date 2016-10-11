@@ -3,6 +3,7 @@ package akressiopertti.domain;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.Min;
+import org.hibernate.search.annotations.IndexedEmbedded;
 
 @Entity
 public class RecipeIngredient extends BaseModel{
@@ -10,6 +11,7 @@ public class RecipeIngredient extends BaseModel{
     @ManyToOne
     private Recipe recipe;
     @ManyToOne
+    @IndexedEmbedded
     private Ingredient ingredient;
     @Min(0)
     private float amountFloat;
