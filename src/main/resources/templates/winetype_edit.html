@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html  xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" th:include="layout :: page">
+    <head>
+        <title>Akressiopertti - Muokkaa viinityyppiä</title>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    </head>
+    <body>
+        <div  th:fragment="content">
+                        
+            <h1>Muokkaa viinityyppiä</h1>
+            <h2 th:text="${winetype.name}">Viinityyppi</h2>
+            
+            <form id="winetypeForm" role="form" action="#" th:action="@{/viinityypit/{id}/muokkaa(id=${winetype.id})}" th:object="${winetype}" method="post">
+                <input type="hidden" id="id" name="id" th:value="${winetype.id}" />
+                <div class="row">
+                    <div class="form-group col-md-4" th:classappend="${#fields.hasErrors('name')}? has-error">
+                        <label class="control-label" for="name">Nimi</label>
+                        <input type="text" id="name" name="name" class="form-control" th:value="${winetype.name}"/>
+                        <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}">virheviesti</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group form-button-row">
+                        <input type="submit" value="Tallenna" class="btn btn-primary" />
+                        <a href="#" th:href="@{/viinityypit}" class="btn btn-default">Peruuta</a>
+                    </div>
+                </div>
+            </form>
+            
+        </div>
+    </body>
+</html>

@@ -26,6 +26,7 @@ public class Recipe extends BaseModel {
     private String title;
     @Column(length = 5000)
     @Length(max = 5000, message = "Ohjeteksti voi olla enintään 5000 merkkiä pitkä")
+    @Field
     private String instructions;
     @Min(0)
     private int preparationTime;

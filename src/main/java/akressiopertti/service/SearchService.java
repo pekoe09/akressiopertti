@@ -1,5 +1,6 @@
 package akressiopertti.service;
 
+import akressiopertti.domain.Recipe;
 import akressiopertti.domain.SearchHit;
 import akressiopertti.domain.User;
 import akressiopertti.repository.SearchRepository;
@@ -18,15 +19,13 @@ public class SearchService {
     @Autowired
     private SearchRepository searchRepository;
     
-    public List<SearchHit> search(String searchText, String context) {
-        List<SearchHit> searchResults = null;
-        
-        
+    public List<Recipe> search(String searchText, String context) {
+        List<Recipe> searchResults = null;
         
         if(context.equals("all")) {
-            return searchRepository.search(searchText);
+            return searchRepository.searchRecipes(searchText);
         } else if(context.equals("recipes")) {
-            
+            return searchRepository.searchRecipes(searchText);
         } else if(context.equals("ingredients")) {
             
         } else if(context.equals("beverages")) {

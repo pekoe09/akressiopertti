@@ -17,15 +17,16 @@ public class SearchRepository {
     @PersistenceContext
     private EntityManager entityManager;
     
-    public List search(String searchText) {
+    public List searchRecipes(String searchText) {
         FullTextEntityManager fullTextEntityManager = 
                 org.hibernate.search.jpa.Search.getFullTextEntityManager(entityManager);
         QueryBuilder queryBuilder =
                 fullTextEntityManager.getSearchFactory().buildQueryBuilder().forEntity(Recipe.class).get();
         org.apache.lucene.search.Query query = queryBuilder
                 .keyword()
-                .onFields("title")
-                .matching(searchText)
+                .wildcard()
+                .onFields("title", "source", "comment", "instructions")
+                .matching(searchText + "*")
                 .createQuery();
         FullTextQuery jpaQuery = fullTextEntityManager.createFullTextQuery(query, Recipe.class);
         @SuppressWarnings("unchecked")

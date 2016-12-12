@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html  xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" th:include="layout :: page">
+    <head>
+        <title>Akressiopertti - Hakutulokset</title>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    </head>
+    <body>
+        <div  th:fragment="content">
+            
+            <h1>Hakutulokset</h1>  
+            
+            <a class="btn btn-primary" href="#" th:href="@{/reseptit/lisaa}">
+                Lisää uusi resepti
+            </a>
+            
+            <article class="listing-s" th:each="recipe : ${searchResults}">
+                <a href="#" th:href="@{/reseptit/{id}(id=${recipe.id})}" class="listing-s-header" th:text="${recipe.title}">Reseptin nimi</a>
+                <span th:each="foodStuff : ${recipe.foodStuffs}">
+                    <span th:text="${foodStuff.name}">Reseptin ruoka-aineen nimi</span>  
+                </span>
+                <span th:if="${recipe.preparationTime != null}">
+                    <span th:if="${recipe.preparationTime lt 60}" th:text="|${recipe.preparationTime} minuuttia|">Valmistusaika alle tunti</span>
+                    <span th:if="${recipe.preparationTime = 60}" th:text="|1 tunti|">Valmistusaika alle tunti</span>
+                    <span th:if="${recipe.preparationTime} lt 180 and ${recipe.preparationTime gt 60}" th:text="|1 tunti ${recipe.preparationTime % 60} minuuttia|">Valmistusaika alle 2 tuntia</span>
+                    <span th:if="${recipe.preparationTime} gt 179" th:text="|${recipe.preparationTime / 60} tuntia ${recipe.preparationTime % 60} minuuttia|">Valmistusaika min 2 tuntia</span>
+                </span>
+                <span th:if="${recipe.needsMarinating}"> Marinoitava</span>                
+                <form class="form-inline listing-buttons" action="#" th:action="@{/reseptit/{id}/poista(id=${recipe.id})}" method="post">
+                    <a href="#" th:href="@{/reseptit/{id}/muokkaa(id=${recipe.id})}" class="btn btn-primary">Muokkaa</a>
+                    <input type="submit" value="Poista" class="btn btn-danger" />
+                </form>
+                <p th:text="${recipe.source}">Lähde</p>
+            </article>
+
+        </div>
+    </body>
+</html>

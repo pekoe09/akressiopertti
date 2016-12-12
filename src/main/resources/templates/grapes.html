@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html  xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" th:include="layout :: page">
+    <head>
+        <title>Akressiopertti - Rypälelajikkeet</title>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    </head>
+    <body>
+        <div  th:fragment="content">
+            
+            <section class="alert alert-success" th:if="${success}" th:text="${success}"></section>
+            <h1>Rypälelajikkeet</h1>  
+            
+             <a class="btn btn-primary" href="#" th:href="@{/rypaleet/lisaa}">
+                Lisää uusi rypäle
+            </a>
+            
+            <article class="listing-s" th:each="grape : ${grapes}">
+                <a href="#" th:href="@{/rypaleet/{id}/muokkaa(id=${grape.id})}"><span class="listing-s-header" th:text="${grape.name}"></span></a>              
+                <form class="form-inline listing-buttons" action="#" th:action="@{/rypaleet/{id}/poista(id=${grape.id})}" method="post">
+                    <a href="#" th:href="@{/rypaleet/{id}/muokkaa(id=${grape.id})}" class="btn btn-primary">Muokkaa</a>
+                    <input type="submit" value="Poista" class="btn btn-danger" />
+                </form>
+            </article>           
+            
+        </div>
+    </body>
+</html>

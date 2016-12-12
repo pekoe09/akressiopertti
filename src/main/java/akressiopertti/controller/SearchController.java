@@ -1,11 +1,13 @@
 package akressiopertti.controller;
 
+import akressiopertti.domain.Recipe;
 import akressiopertti.domain.SearchHit;
 import akressiopertti.service.SearchService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -30,15 +32,19 @@ public class SearchController {
             @RequestParam String searchTerm,
             @RequestParam String context,
             RedirectAttributes redirectAttributes) {
-        List<SearchHit> searchResults = searchService.search(searchTerm, context);
-        redirectAttributes.addAttribute("searchResults", searchResults);
-        return "redirect:/hakutulokset";
+        List<Recipe> searchResults = searchService.search(searchTerm, context);
+        model.addAttribute("searchResults", searchResults);
+        return "search_results";
     }
     
-    @RequestMapping(value = "/hae/tarkka", method = RequestMethod.POST)
+    @RequestMapping(value = "/tarkka", method = RequestMethod.POST)
     public String findDetailed() {
         
         return "";
     }
     
+    @RequestMapping(value = "/tulokset", method = RequestMethod.GET)
+    public String showResults(Model model) {        
+        return "search_results";
+    }
 }

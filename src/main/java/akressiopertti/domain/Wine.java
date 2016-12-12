@@ -2,30 +2,35 @@ package akressiopertti.domain;
 
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.validation.constraints.Min;
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.Range;
 
 @Entity
 public class Wine extends Beverage {
-    
-    private String grapes;
+
+    @Range(min = 1900, max = 2100)
     private int vintage;
     private String country;
+    @NotBlank(message = "Alue on pakollinen tieto")
+    @Length(max = 100, message = "Alue voi olla enintään 100 merkkiä pitkä")
+    @Column(unique = true, length = 100)
     private String region;
-    private String type;
+    @ManyToOne
+    private WineType wineType;
     @ManyToMany(mappedBy = "wines")
     private List<Recipe> recipes;
+    @ManyToMany(mappedBy = "wines")
+    private List<Grape> grapes;
     
     public Wine(){
         this.recipes = new ArrayList<>();
-    }
-
-    public String getGrapes() {
-        return grapes;
-    }
-
-    public void setGrapes(String grapes) {
-        this.grapes = grapes;
+        this.grapes = new ArrayList<>();
     }
 
     public int getVintage() {
@@ -52,12 +57,12 @@ public class Wine extends Beverage {
         this.region = region;
     }
 
-    public String getType() {
-        return type;
+    public WineType getWineType() {
+        return wineType;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setWineType(WineType wineType) {
+        this.wineType = wineType;
     }
 
     public List<Recipe> getRecipes() {
@@ -67,5 +72,12 @@ public class Wine extends Beverage {
     public void setRecipes(List<Recipe> recipes) {
         this.recipes = recipes;
     }
-    
+
+    public List<Grape> getGrapes() {
+        return grapes;
+    }
+
+    public void setGrapes(List<Grape> grapes) {
+        this.grapes = grapes;
+    }    
 }
