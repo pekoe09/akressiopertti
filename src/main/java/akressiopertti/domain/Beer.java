@@ -45,7 +45,7 @@ public class Beer extends Beverage {
         this.country = country;
     }
 
-    public BeerType GetBeerType() {
+    public BeerType getBeerType() {
         return beerType;
     }
 

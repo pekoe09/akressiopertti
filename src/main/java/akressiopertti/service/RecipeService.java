@@ -127,7 +127,7 @@ public class RecipeService {
         return options;
     }
 
-    public Iterable<ObjectError> checkUniqueness(Recipe recipe) {
+    public List<ObjectError> checkUniqueness(Recipe recipe) {
         List<ObjectError> errors = new ArrayList<>();
         Recipe anotherRecipe= recipeRepository.findByTitle(recipe.getTitle());
         if(anotherRecipe != null && (recipe.getId() == null || !anotherRecipe.getId().equals(recipe.getId()))){

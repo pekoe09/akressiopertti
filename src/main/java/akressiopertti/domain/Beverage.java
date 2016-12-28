@@ -1,5 +1,8 @@
 package akressiopertti.domain;
 
+import javax.persistence.MappedSuperclass;
+
+@MappedSuperclass
 public class Beverage extends BaseModel{
     
     private String name;

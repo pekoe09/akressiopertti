@@ -76,7 +76,7 @@ public class GrapeController {
             return "grape_edit";
         }
         Grape savedGrape = grapeService.save(grape);
-        redirectAttributes.addFlashAttribute("success", "Rypälelajikkeen " + savedGrape.getName() + " tiedot päivitetty");
+        redirectAttributes.addFlashAttribute("success", "Rypälelajikkeen " + savedGrape.getName() + " tiedot päivitetty!");
         return "redirect:/rypaleet";
     }
     

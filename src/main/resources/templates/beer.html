@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html  xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" th:include="layout :: page">
+    <head>
+        <title th:text="|Akressiopertti - ${beer.name}|">Akressiopertti - Olut</title>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    </head>
+    <body>
+        <div  th:fragment="content">
+            
+            <h1 th:text="${beer.name}">Oluen nimi</h1>
+            
+            <div class="beer-metacontainer">
+                <h3>
+                    <span th:if="${beer.beerType} != null" th:text="|${beer.beerType.name} / |">Oluttyyppi</span>
+                    <span th:text="${beer.brewery} ">Panimo</span> 
+                </h3>
+                <p>
+                    <span th:text="|${beer.country}, ${beer.alcohol} %, ${beer.price} €, ${beer.acquiredFrom}|">Maa, Alkoholi, Hinta, Ostopaikka</span>
+                    <span th:if="${beer.alkoCode != null}" th:text="|, ${beer.alkoCode}|">Alkon numero</span>
+                </p>
+                <a href="#" th:href="@{/oluet/{id}/muokkaa(id=${beer.id})}" class="btn btn-primary btn-sm">Muokkaa</a>
+            </div>
+            
+            <div class="beer-comments">
+                <h3>Omat huomiot</h3>
+                <p th:if="!${#strings.isEmpty(beer.comment)}" th:utext="${#strings.replace(#strings.escapeXml(beer.comment),T(java.lang.System).getProperty('line.separator'),'&lt;br /&gt;')}"></p>
+                <p th:if="${#strings.isEmpty(beer.comment)}">Ei kommentteja.</p>
+            </div>
+            
+            <div class="beer-related">
+                <div th:if="${beer.recipes != null}">
+                    <h3>Liittyvät reseptit</h3>
+                    <p th:if="${#lists.isEmpty(beer.recipes)}">Ei liittyviä reseptejä.</p>
+                    <div th:each="relatedRecipe : ${beer.recipes}">
+                        <a href="#" th:href="@{/reseptit/{id}(id=${relatedRecipe.id})}" th:text="${relatedRecipe.title}">Liittyvän reseptin nimi</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html  xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" th:include="layout :: page">
+    <head>
+        <title>Akressiopertti - Lisää olut</title>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    </head>
+    <body>
+        <div th:fragment="content">
+        
+            <h1>Lisää olut</h1>
+            
+            <form id="beerForm" role="form" action="#" th:action="@{/oluet/lisaa}" th:object="${beer}" method="post">
+                <div class="row">
+                    <div class="form-group col-md-4" th:classappend="${#fields.hasErrors('name')}? has-error">
+                        <label class="control-label" for="name">Nimi</label>
+                        <input type="text" id="name" name="name" class="form-control" th:value="${beer.name}"/>
+                        <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}">virheviesti</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-md-4" th:classappend="${#fields.hasErrors('brewery')}? has-error">
+                        <label class="control-label" for="brewery">Panimo</label>
+                        <input type="text" id="brewery" name="brewery" class="form-control" th:value="${beer.brewery}"/>
+                        <p th:if="${#fields.hasErrors('brewery')}" th:errors="*{brewery}">virheviesti</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-md-4" th:classappend="${#fields.hasErrors('country')}? has-error">
+                        <label class="control-label" for="country">Maa</label>
+                        <input type="text" id="country" name="country" class="form-control" th:value="${beer.country}"/>
+                        <p th:if="${#fields.hasErrors('country')}" th:errors="*{country}">virheviesti</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-md-4">
+                        <label class="control-label" for="beerType">Oluttyyppi</label>
+                        <select class="form-control" id="beerType" name="beerType">
+                            <option th:each="beerType : ${BeerTypes}"
+                                    th:text="${beerType.name}"
+                                    th:value="${beerType.id}"
+                                    th:selected="${beer.beerType != null} ? ${beer.beerType.id == beerType.id} : false"></option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-md-4" th:classappend="${#fields.hasErrors('alcohol')}? has-error">
+                        <label class="control-label" for="alcohol">Alkoholi-%</label>
+                        <input type="text" id="alcohol" name="alcohol" class="form-control" th:value="${beer.alcohol}"/>
+                        <p th:if="${#fields.hasErrors('alcohol')}" th:errors="*{alcohol}">virheviesti</p>
+                    </div>
+                </div> 
+                <div class="row">
+                    <div class="form-group col-md-4" th:classappend="${#fields.hasErrors('price')}? has-error">
+                        <label class="control-label" for="price">Hinta</label>
+                        <input type="text" id="price" name="price" class="form-control" th:value="${beer.price}"/>
+                        <p th:if="${#fields.hasErrors('price')}" th:errors="*{price}">virheviesti</p>
+                    </div>
+                </div> 
+                <div class="row">
+                    <div class="form-group col-md-4" th:classappend="${#fields.hasErrors('acquiredFrom')}? has-error">
+                        <label class="control-label" for="acquiredFrom">Ostopaikka</label>
+                        <input type="text" id="acquiredFrom" name="acquiredFrom" class="form-control" th:value="${beer.acquiredFrom}"/>
+                        <p th:if="${#fields.hasErrors('acquiredFrom')}" th:errors="*{acquiredFrom}">virheviesti</p>
+                    </div>
+                </div>                
+                <div class="row">
+                    <div class="form-group col-md-4" th:classappend="${#fields.hasErrors('alkoCode')}? has-error">
+                        <label class="control-label" for="alkoCode">Alkon numero</label>
+                        <input type="text" id="alkoCode" name="alkoCode" class="form-control" th:value="${beer.alkoCode}"/>
+                        <p th:if="${#fields.hasErrors('alkoCode')}" th:errors="*{alkoCode}">virheviesti</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-md-8" th:classappend="${#fields.hasErrors('comment')}? has-error">
+                        <label class="control-label" for="comment">Kommentti</label>
+                        <textarea id="comment" name="comment" class="form-control" rows="10" th:text="${beer.comment}"></textarea>
+                        <p th:if="${#fields.hasErrors('comment')}" th:errors="*{comment}">virheviesti</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group form-button-row">
+                        <input type="submit" value="Tallenna" class="btn btn-primary" />
+                        <a href="#" th:href="@{/oluet}" class="btn btn-default">Peruuta</a>
+                    </div>
+                </div>
+            </form>            
+        </div>
+        
+        <th:block th:fragment="pagescript">
+            <script src="/static/js/typeahead.bundle.js"></script>
+        </th:block>        
+    </body>
+</html>

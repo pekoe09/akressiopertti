@@ -1,36 +1,36 @@
 <!DOCTYPE html>
 <html  xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" th:include="layout :: page">
     <head>
-        <title>Akressiopertti - Muokkaa rypälelajiketta</title>
+        <title>Akressiopertti - Muokkaa oluttyyppiä</title>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     </head>
     <body>
         <div  th:fragment="content">
                         
-            <h1>Muokkaa rypälelajiketta</h1>
-            <h2 th:text="${grape.name}">Rypäle</h2>
+            <h1>Muokkaa oluttyyppiä</h1>
+            <h2 th:text="${beerType.name}">Oluttyyppi</h2>
             
-            <form id="grapeForm" role="form" action="#" th:action="@{/rypaleet/{id}/muokkaa(id=${grape.id})}" th:object="${grape}" method="post">
-                <input type="hidden" id="id" name="id" th:value="${grape.id}" />
+            <form id="beerTypeForm" role="form" action="#" th:action="@{/oluttyypit/{id}/muokkaa(id=${beerType.id})}" th:object="${beerType}" method="post">
+                <input type="hidden" id="id" name="id" th:value="${beerType.id}" />
                 <div class="row">
                     <div class="form-group col-md-4" th:classappend="${#fields.hasErrors('name')}? has-error">
                         <label class="control-label" for="name">Nimi</label>
-                        <input type="text" id="name" name="name" class="form-control" th:value="${grape.name}"/>
+                        <input type="text" id="name" name="name" class="form-control" th:value="${beerType.name}"/>
                         <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}">virheviesti</p>
                     </div>
                 </div>
                 <div class="row">
                     <div class="form-group col-md-8" th:classappend="${#fields.hasErrors('description')}? has-error">
                         <label class="control-label" for="description">Kuvaus</label>
-                        <textarea id="description" name="description" th:text="${grape.description}" class="form-control" rows="5"></textarea>
+                        <textarea id="description" name="description" th:text="${beerType.description}" class="form-control" rows="5"></textarea>
                         <p th:if="${#fields.hasErrors('description')}" th:errors="*{description}">virheviesti</p>
                     </div>
                 </div>
                 <div class="row">
                     <div class="form-group form-button-row">
                         <input type="submit" value="Tallenna" class="btn btn-primary" />
-                        <a href="#" th:href="@{/rypaleet}" class="btn btn-default">Peruuta</a>
+                        <a href="#" th:href="@{/oluttyypit}" class="btn btn-default">Peruuta</a>
                     </div>
                 </div>
             </form>

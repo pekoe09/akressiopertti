@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html  xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" th:include="layout :: page">
+    <head>
+        <title>Akressiopertti - Reseptit</title>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    </head>
+    <body>
+        <div th:fragment="content">
+            
+            <section class="alert alert-success" th:if="${success}" th:text="${success}"></section>
+            <h1>Oluet</h1>
+            
+            <a class="btn btn-primary" href="#" th:href="@{/oluet/lisaa}">
+                Lisää uusi olut
+            </a>
+            
+            <article class="listing-s" th:each="beer : ${beers}">
+                <a href="#" th:href="@{/oluet/{id}(id=${beer.id})}" class="listing-s-header" th:text="${beer.name}">Oluen nimi</a>
+                <span th:if="${beer.beerType} != null" th:text="${beer.beerType.name}"></span>
+                <span th:text="|${beer.brewery}, ${beer.country}|"></span>
+                <form class="form-inline listing-buttons" action="#" th:action="@{/oluet/{id}/poista(id=${beer.id})}" method="post">
+                    <a href="#" th:href="@{/oluet/{id}/muokkaa(id=${beer.id})}" class="btn btn-primary">Muokkaa</a>
+                    <input type="submit" value="Poista" class="btn btn-danger" />
+                </form>
+            </article>
+        </div>
+    </body>
+</html>

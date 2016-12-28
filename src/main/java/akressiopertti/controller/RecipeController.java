@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package akressiopertti.controller;
 
 import akressiopertti.domain.Recipe;
@@ -63,7 +58,7 @@ public class RecipeController {
             Model model,
             @RequestParam int preparationHours,
             @RequestParam int preparationMinutes,
-            @RequestParam String  ingredientSet,
+            @RequestParam String ingredientSet,
             RedirectAttributes redirectAttributes
         ){
         for(ObjectError error : recipeService.checkUniqueness(recipe)){
@@ -125,7 +120,7 @@ public class RecipeController {
         } catch(ParseException exc){
             controllerUtilities.addOptionsListsToModel(model, recipeService.getOptions());
             model.addAttribute("recipe", recipe);
-            return "recipe_add";
+            return "recipe_edit";
         }
         redirectAttributes.addFlashAttribute("success", "Reseptin \"" + savedRecipe.getTitle() + "\" tiedot päivitetty!");
         return "redirect:/reseptit";
