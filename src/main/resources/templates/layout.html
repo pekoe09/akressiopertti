@@ -47,7 +47,13 @@
                     </ul>
                     <ul class="nav navbar-nav navbar-left" sec:authorize="isAuthenticated()">
                         <li role="presentation"><a href="#" th:href="@{/reseptit/}">Reseptit</a></li>
-                        <li role="presentation"><a href="#" th:href="@{/juomat/}">Juomat</a></li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Juomat <span class="caret"></span></a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li role="presentation"><a role="menuitem" href="#" th:href="@{/oluet/}">Oluet</a></li>
+                                <li role="presentation"><a role="menuitem" href="#" th:href="@{/viinit/}">Viinit</a></li>
+                            </ul>
+                        </li>
                     </ul>
                     <form class="navbar-form navbar-right" role="search" action="#" th:action="@{/hae}" method="post" sec:authorize="isAuthenticated()">
                         <div class="input-group">
