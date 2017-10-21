@@ -26,7 +26,7 @@ public class BeerTypeService {
         List<ObjectError> errors = new ArrayList<>();
         BeerType anotherBeerType = beerTypeRepository.findByName(beerType.getName());
         if(anotherBeerType != null && (beerType.getId() == null || !anotherBeerType.getId().equals(beerType.getId()))) {
-            errors.add(new ObjectError("name", "Nimi on jo varattu!"));
+            errors.add(new ObjectError("name", "Nimi on jo varattu"));
         }
         return errors;
     }

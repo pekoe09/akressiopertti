@@ -29,6 +29,10 @@ public class WineService {
     public Wine findOne(Long id) {
         return wineRepository.findOne(id);
     }
+    
+    public List<Wine> findByName(String name) {
+        return wineRepository.findByName(name);
+    }
 
     public Map<String, List> getOptions() {
         Map<String, List> options = new HashMap<>();

@@ -37,7 +37,7 @@ public class BeerService {
     public List<ObjectError> checkUniqueness(Beer beer) {
         List<ObjectError> errors = new ArrayList<>();
         Beer anotherBeer = beerRepository.findByName(beer.getName());
-        if(anotherBeer != null && (!beer.getId().equals(anotherBeer.getId()))){
+        if(anotherBeer != null && (beer.getId() == null || !beer.getId().equals(anotherBeer.getId()))){
             errors.add(new ObjectError("name", "Nimi on jo varattu"));
         }
         return errors;

@@ -20,6 +20,7 @@ public class Wine extends Beverage {
     @Length(max = 100, message = "Alue voi olla enintään 100 merkkiä pitkä")
     @Column(unique = true, length = 100)
     private String region;
+    private String producer;
     @ManyToOne
     private WineType wineType;
     @ManyToMany(mappedBy = "wines")
@@ -54,6 +55,14 @@ public class Wine extends Beverage {
 
     public void setRegion(String region) {
         this.region = region;
+    }
+
+    public String getProducer() {
+        return producer;
+    }
+
+    public void setProducer(String producer) {
+        this.producer = producer;
     }
 
     public WineType getWineType() {
