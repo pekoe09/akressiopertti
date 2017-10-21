@@ -6,6 +6,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.Range;
@@ -23,10 +24,10 @@ public class Wine extends Beverage {
     private String producer;
     @ManyToOne
     private WineType wineType;
+    @OneToMany(mappedBy = "wine")
+    private List<GrapeContent> grapes;
     @ManyToMany(mappedBy = "wines")
     private List<Recipe> recipes;
-    @ManyToMany(mappedBy = "wines")
-    private List<Grape> grapes;
     
     public Wine(){
         this.recipes = new ArrayList<>();
@@ -73,6 +74,14 @@ public class Wine extends Beverage {
         this.wineType = wineType;
     }
 
+    public List<GrapeContent> getGrapes() {
+        return grapes;
+    }
+
+    public void setGrapes(List<GrapeContent> grapes) {
+        this.grapes = grapes;
+    }  
+    
     public List<Recipe> getRecipes() {
         return recipes;
     }
@@ -80,12 +89,5 @@ public class Wine extends Beverage {
     public void setRecipes(List<Recipe> recipes) {
         this.recipes = recipes;
     }
-
-    public List<Grape> getGrapes() {
-        return grapes;
-    }
-
-    public void setGrapes(List<Grape> grapes) {
-        this.grapes = grapes;
-    }    
+  
 }

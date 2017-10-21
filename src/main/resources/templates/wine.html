@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html  xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" th:include="layout :: page">
+    <head>
+        <title th:text="|Akressiopertti - ${wine.name}|">Akressiopertti - Viini</title>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    </head>
+    <body>
+        <div  th:fragment="content">
+            
+            <h1 th:text="${wine.name} ${wine.vintage}">Viinin nimi ja vuosikerta</h1>
+            
+            <div class="wine-metacontainer">
+                <h3>
+                    <span th:if="${wine.wineType} != null" th:text="|${wine.wineType.name} / |">Oluttyyppi</span>
+                    <span th:text="${beer.brewery} ">Panimo</span> 
+                </h3>
+                <p>
+                    <span th:text="|${wine.country} / ${wine.region}, ${wine.producer}, ${wine.price} €|">Maa/Alue, Tuottaja, Hinta</span>
+                    <span th:if="${wine.alkoCode != null}" th:text="|, ${wine.alkoCode}|">Alkon numero</span>
+                </p>
+                <div th:each="grape : ${wine.grapes}">
+                    <a href="#" th:href="@{/rypaleet/{id}/muokkaa(id=${grape.id})}" th:text="${grape.name}">Rypäleen nimi</a>
+                    <span th:if="${grape.content} != 0" th:text="| ${grape.content} %|"></span>
+                </div>                
+                <a href="#" th:href="@{/viinit/{id}/muokkaa(id=${wine.id})}" class="btn btn-primary btn-sm">Muokkaa</a>
+            </div>
+            
+            <div class="wine-comments">
+                <h3>Omat huomiot</h3>
+                <p th:if="!${#strings.isEmpty(wine.comment)}" th:utext="${#strings.replace(#strings.escapeXml(wine.comment),T(java.lang.System).getProperty('line.separator'),'&lt;br /&gt;')}"></p>
+                <p th:if="${#strings.isEmpty(wine.comment)}">Ei kommentteja.</p>
+            </div>
+            
+            <div class="wine-related">
+                <div th:if="${wine.recipes != null}">
+                    <h3>Liittyvät reseptit</h3>
+                    <p th:if="${#lists.isEmpty(wine.recipes)}">Ei liittyviä reseptejä.</p>
+                    <div th:each="relatedRecipe : ${wine.recipes}">
+                        <a href="#" th:href="@{/reseptit/{id}(id=${relatedRecipe.id})}" th:text="${relatedRecipe.title}">Liittyvän reseptin nimi</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

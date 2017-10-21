@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html  xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" th:include="layout :: page">
+    <head>
+        <title>Akressiopertti - Viinit</title>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    </head>
+    <body>
+        <div th:fragment="content">
+            
+            <section class="alert alert-success" th:if="${success}" th:text="${success}"></section>
+            <h1>Viinit</h1>
+            
+            <a class="btn btn-primary" href="#" th:href="@{/viinit/lisaa}">
+                Lisää uusi viini
+            </a>
+            
+            <article class="listing-s" th:each="wine : ${wines}">
+                <a href="#" th:href="@{/viinit/{id}(id=${wine.id})}" class="listing-s-header" th:text="${wine.name}">Viinin nimi</a>
+                <span th:if="${wine.vintage} > 1900" th:text="| ${wine.vintage}|"></span>
+                <span th:if="${wine.wineType} != null" th:text="| ${wine.wineType.name}|"></span>
+                <span th:text="| ${wine.region} / ${wine.country}, ${wine.producer}|"></span>
+                <form class="form-inline listing-buttons" action="#" th:action="@{/viinit/{id}/poista(id=${wine.id})}" method="post">
+                    <a href="#" th:href="@{/viinit/{id}/muokkaa(id=${wine.id})}" class="btn btn-primary">Muokkaa</a>
+                    <input type="submit" value="Poista" class="btn btn-danger" />
+                </form>
+            </article>
+        </div>
+    </body>
+</html>

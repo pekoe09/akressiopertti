@@ -1,6 +1,7 @@
 package akressiopertti.service;
 
 import akressiopertti.domain.Grape;
+import akressiopertti.domain.GrapeContent;
 import akressiopertti.domain.Wine;
 import akressiopertti.domain.WineType;
 import akressiopertti.repository.WineRepository;
@@ -56,8 +57,9 @@ public class WineService {
             wineType.getWines().add(wine);
             wineTypeService.save(wineType);
         }
-        List<Grape> grapes = wine.getGrapes();
-        for(Grape grape : grapes) {
+        List<GrapeContent> grapes = wine.getGrapes();
+        for(GrapeContent grapeContent : grapes) {
+            Grape grape = grapeContent.getGrape();
             grape.getWines().add(wine);
             grapeService.save(grape);
         }

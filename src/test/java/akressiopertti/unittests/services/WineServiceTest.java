@@ -69,25 +69,25 @@ public class WineServiceTest {
         Mockito.doThrow(DataAccessException.class).when(wineRepositoryMock).delete(4L);
     }
     
-//    @Test
-//    public void findAllRetrievesAllWines() {
-//        String[] wineNames = new String[] {"Miss Harry", "Kung Fu Girl", "Villa Cafaggio"};
-//        List<Wine> retrievedWines = wineService.findAll();
-//        
-//        verify(wineRepositoryMock, times(1)).findAll();
-//        assertEquals("Mismatch between number of retrieved and actual wines", 3, retrievedWines.size());
-//        int hits = 0;
-//        for(String name : wineNames) {
-//            for(Wine c : retrievedWines) {
-//                if(name.equals(c.getName())) {
-//                    hits++;
-//                    break;
-//                }
-//            }
-//        }
-//        assertEquals("Some wine names missing", 3, hits);
-//        verifyNoMoreInteractions(wineRepositoryMock);
-//    }
+    @Test
+    public void findAllRetrievesAllWines() {
+        String[] wineNames = new String[] {"Miss Harry", "Kung Fu Girl", "Villa Cafaggio"};
+        List<Wine> retrievedWines = wineService.findAll();
+        
+        verify(wineRepositoryMock, times(1)).findAll();
+        assertEquals("Mismatch between number of retrieved and actual wines", 3, retrievedWines.size());
+        int hits = 0;
+        for(String name : wineNames) {
+            for(Wine c : retrievedWines) {
+                if(name.equals(c.getName())) {
+                    hits++;
+                    break;
+                }
+            }
+        }
+        assertEquals("Some wine names missing", 3, hits);
+        verifyNoMoreInteractions(wineRepositoryMock);
+    }
 //    
 //    @Test
 //    public void findOneRetrievesOneWine() {        

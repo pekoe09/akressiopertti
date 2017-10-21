@@ -4,6 +4,8 @@ import akressiopertti.domain.Grape;
 import akressiopertti.repository.GrapeRepository;
 import java.util.ArrayList;
 import java.util.List;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.ObjectError;
@@ -42,6 +44,21 @@ public class GrapeService {
         }
         grapeRepository.delete(id);
         return grape;
+    }
+
+    public String getGrapesArray() {
+        JSONArray responseArray = new JSONArray();
+        JSONObject grapeObject;
+        
+        List<Grape> grapes = grapeRepository.findAll();
+        for(Grape grape : grapes){
+            grapeObject = new JSONObject();
+            grapeObject.put("name", grape.getName());
+            grapeObject.put("id", grape.getId());
+            responseArray.add(grapeObject);
+        }
+        
+        return responseArray.toJSONString();
     }
    
 }
