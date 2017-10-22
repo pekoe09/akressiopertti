@@ -1,88 +1,119 @@
 <!DOCTYPE html>
 <html  xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" th:include="layout :: page">
     <head>
-        <title>Akressiopertti - Muokkaa olutta</title>
+        <title>Akressiopertti - Muokkaa viiniä</title>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     </head>
     <body>
         <div th:fragment="content">
         
-            <h1>Muokkaa olutta</h1>
-            <h2 th:text="${beer.name}">Olut</h2>
+            <h1>Muokkaa viiniä</h1>
+            <h2 th:text="|${wine.name} ${wine.vintage}|"></h2>
             
-            <form id="beerForm" role="form" action="#" th:action="@{/oluet/{id}/muokkaa(id=${beer.id})}" th:object="${beer}" method="post">
+            <form id="wineForm" role="form" action="#" th:action="@{/viinit/{id}/muokkaa(id=${wine.id})}" th:object="${wine}" method="post">
                 <div class="row">
                     <div class="form-group col-md-4" th:classappend="${#fields.hasErrors('name')}? has-error">
                         <label class="control-label" for="name">Nimi</label>
-                        <input type="text" id="name" name="name" class="form-control" th:value="${beer.name}"/>
+                        <input type="text" id="name" name="name" class="form-control" th:value="${wine.name}"/>
                         <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}">virheviesti</p>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="form-group col-md-4" th:classappend="${#fields.hasErrors('brewery')}? has-error">
-                        <label class="control-label" for="brewery">Panimo</label>
-                        <input type="text" id="brewery" name="brewery" class="form-control" th:value="${beer.brewery}"/>
-                        <p th:if="${#fields.hasErrors('brewery')}" th:errors="*{brewery}">virheviesti</p>
+                    <div class="form-group col-md-4" th:classappend="${#fields.hasErrors('vintage')}? has-error">
+                        <label class="control-label" for="vintage">Hinta</label>
+                        <input type="text" id="vintage" name="vintage" class="form-control" th:value="${wine.vintage}"/>
+                        <p th:if="${#fields.hasErrors('vintage')}" th:errors="*{vintage}">virheviesti</p>
+                    </div>
+                </div> 
+                <div class="row">
+                    <div class="form-group col-md-4" th:classappend="${#fields.hasErrors('producer')}? has-error">
+                        <label class="control-label" for="producer">Tuottaja</label>
+                        <input type="text" id="producer" name="producer" class="form-control" th:value="${wine.producer}"/>
+                        <p th:if="${#fields.hasErrors('producer')}" th:errors="*{producer}">virheviesti</p>
                     </div>
                 </div>
                 <div class="row">
                     <div class="form-group col-md-4" th:classappend="${#fields.hasErrors('country')}? has-error">
                         <label class="control-label" for="country">Maa</label>
-                        <input type="text" id="country" name="country" class="form-control" th:value="${beer.country}"/>
+                        <input type="text" id="country" name="country" class="form-control" th:value="${wine.country}"/>
                         <p th:if="${#fields.hasErrors('country')}" th:errors="*{country}">virheviesti</p>
                     </div>
                 </div>
                 <div class="row">
+                    <div class="form-group col-md-4" th:classappend="${#fields.hasErrors('region')}? has-error">
+                        <label class="control-label" for="region">Alue</label>
+                        <input type="text" id="region" name="region" class="form-control" th:value="${wine.region}"/>
+                        <p th:if="${#fields.hasErrors('region')}" th:errors="*{region}">virheviesti</p>
+                    </div>
+                </div>
+                <div class="row">
                     <div class="form-group col-md-4">
-                        <label class="control-label" for="beerType">Oluttyyppi</label>
-                        <select class="form-control" id="beerType" name="beerType">
-                            <option th:each="beerType : ${BeerTypes}"
-                                    th:text="${beerType.name}"
-                                    th:value="${beerType.id}"
-                                    th:selected="${beer.beerType != null} ? ${beer.beerType.id == beerType.id} : false"></option>
+                        <label class="control-label" for="wineType">Viinityyppi</label>
+                        <select class="form-control" id="wineType" name="wineType">
+                            <option th:each="wineType : ${WineTypes}"
+                                    th:text="${wineType.name}"
+                                    th:value="${wineType.id}"
+                                    th:selected="${wine.wineType != null} ? ${wine.wineType.id == wineType.id} : false">                                        
+                            </option>
                         </select>
                     </div>
+                </div>                
+                <div class="row">
+                    <div class="form-group">
+                        <label class="control-label typeahead-label" for="grape">Rypäle</label>
+                        <input type="text" id="grape" class="form-control" />
+                        <input type="hidden" id="grapeId" />
+                        <input type="number" min="0" max="100" id="contentPc" />
+                        <button id="addGrapeButton" type="button" class="btn btn-warning">Lisää</button>
+                    </div>
+                </div>
+                <div>
+                    <ul id="grapeContents">
+                        <li th:each="grapeContent: ${wine.grapes}" 
+                            th:attr="data-grapeid=${grapeContent.grape.id}, data-contentpc=${grapeContent.content}"
+                            th:text="|${grapeContent.grape.name} ${grapeContent.content}%|"></li>
+                    </ul>
                 </div>
                 <div class="row">
                     <div class="form-group col-md-4" th:classappend="${#fields.hasErrors('alcohol')}? has-error">
                         <label class="control-label" for="alcohol">Alkoholi-%</label>
-                        <input type="text" id="alcohol" name="alcohol" class="form-control" th:value="${beer.alcohol}"/>
+                        <input type="text" id="alcohol" name="alcohol" class="form-control" th:value="${wine.alcohol}"/>
                         <p th:if="${#fields.hasErrors('alcohol')}" th:errors="*{alcohol}">virheviesti</p>
                     </div>
                 </div> 
                 <div class="row">
                     <div class="form-group col-md-4" th:classappend="${#fields.hasErrors('price')}? has-error">
                         <label class="control-label" for="price">Hinta</label>
-                        <input type="text" id="price" name="price" class="form-control" th:value="${beer.price}"/>
+                        <input type="text" id="price" name="price" class="form-control" th:value="${wine.price}"/>
                         <p th:if="${#fields.hasErrors('price')}" th:errors="*{price}">virheviesti</p>
                     </div>
                 </div> 
                 <div class="row">
                     <div class="form-group col-md-4" th:classappend="${#fields.hasErrors('acquiredFrom')}? has-error">
                         <label class="control-label" for="acquiredFrom">Ostopaikka</label>
-                        <input type="text" id="acquiredFrom" name="acquiredFrom" class="form-control" th:value="${beer.acquiredFrom}"/>
+                        <input type="text" id="acquiredFrom" name="acquiredFrom" class="form-control" th:value="${wine.acquiredFrom}"/>
                         <p th:if="${#fields.hasErrors('acquiredFrom')}" th:errors="*{acquiredFrom}">virheviesti</p>
                     </div>
                 </div>                
                 <div class="row">
                     <div class="form-group col-md-4" th:classappend="${#fields.hasErrors('alkoCode')}? has-error">
                         <label class="control-label" for="alkoCode">Alkon numero</label>
-                        <input type="text" id="alkoCode" name="alkoCode" class="form-control" th:value="${beer.alkoCode}"/>
+                        <input type="text" id="alkoCode" name="alkoCode" class="form-control" th:value="${wine.alkoCode}"/>
                         <p th:if="${#fields.hasErrors('alkoCode')}" th:errors="*{alkoCode}">virheviesti</p>
                     </div>
                 </div>
                 <div class="row">
                     <div class="form-group col-md-8" th:classappend="${#fields.hasErrors('comment')}? has-error">
                         <label class="control-label" for="comment">Kommentti</label>
-                        <textarea id="comment" name="comment" class="form-control" rows="10" th:text="${beer.comment}"></textarea>
+                        <textarea id="comment" name="comment" class="form-control" rows="10" th:text="${wine.comment}"></textarea>
                         <p th:if="${#fields.hasErrors('comment')}" th:errors="*{comment}">virheviesti</p>
                     </div>
                 </div>
                 <div class="row">
                     <div class="form-group form-button-row">
                         <input type="submit" value="Tallenna" class="btn btn-primary" />
-                        <a href="#" th:href="@{/oluet}" class="btn btn-default">Peruuta</a>
+                        <a href="#" th:href="@{/viinit}" class="btn btn-default">Peruuta</a>
                     </div>
                 </div>
             </form>            
@@ -90,6 +121,7 @@
         
         <th:block th:fragment="pagescript">
             <script src="/static/js/typeahead.bundle.js"></script>
+            <script src="/static/js/wine.js"></script>
         </th:block>        
     </body>
 </html>

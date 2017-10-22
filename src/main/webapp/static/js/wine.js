@@ -38,7 +38,7 @@ $(document).ready(function () {
         return grape.name;
     };
     
-    $('grape').typeahead({
+    $('#grape').typeahead({
         minLength: 3,
         highlight: true
     },

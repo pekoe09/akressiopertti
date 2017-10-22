@@ -3,6 +3,7 @@ package akressiopertti.controller;
 import akressiopertti.domain.Wine;
 import akressiopertti.service.WineService;
 import javax.validation.Valid;
+import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
@@ -51,6 +53,7 @@ public class WineController {
             @Valid @ModelAttribute Wine wine,
             BindingResult bindingResult,
             Model model,
+            @RequestParam String grapeData,
             RedirectAttributes redirectAttributes) {
         for (ObjectError error : wineService.checkUniqueness(wine)) {
             bindingResult.rejectValue(error.getObjectName(), "error.wine", error.getDefaultMessage());            
@@ -62,8 +65,8 @@ public class WineController {
         }
         Wine savedWine = null;
         try {
-            savedWine = wineService.save(wine);
-        } catch (IllegalArgumentException exc) {
+            savedWine = wineService.save(wine, controllerUtilities.getJSONArrayFromString(grapeData));
+        } catch (ParseException exc) {
             controllerUtilities.addOptionsListsToModel(model, wineService.getOptions());
             model.addAttribute("wine", wine);
             return "wine_add";
@@ -86,6 +89,7 @@ public class WineController {
             @Valid @ModelAttribute Wine wine,
             BindingResult bindingResult,
             Model model,
+            @RequestParam String grapeData,
             @PathVariable Long id,
             RedirectAttributes redirectAttributes) {
         for (ObjectError error : wineService.checkUniqueness(wine)) {
@@ -98,8 +102,8 @@ public class WineController {
         }
         Wine savedWine = null;
         try {
-            savedWine = wineService.save(wine);
-        } catch (IllegalArgumentException exc) {
+            savedWine = wineService.save(wine, controllerUtilities.getJSONArrayFromString(grapeData));
+        } catch (ParseException exc) {
             controllerUtilities.addOptionsListsToModel(model, wineService.getOptions());
             model.addAttribute("wine", wine);
             return "wine_edit";

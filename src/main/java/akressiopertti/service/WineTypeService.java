@@ -1,5 +1,6 @@
 package akressiopertti.service;
 
+import akressiopertti.domain.Wine;
 import akressiopertti.domain.WineType;
 import akressiopertti.repository.WineTypeRepository;
 import java.util.ArrayList;
@@ -42,6 +43,10 @@ public class WineTypeService {
         }
         wineTypeRepository.delete(id);
         return wineType;
+    }
+
+    void removeWineFromWineType(Wine wine) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
 }

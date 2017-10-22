@@ -1,6 +1,9 @@
 package akressiopertti.service;
 
 import akressiopertti.domain.Grape;
+import akressiopertti.domain.GrapeContent;
+import akressiopertti.domain.Wine;
+import akressiopertti.repository.GrapeContentRepository;
 import akressiopertti.repository.GrapeRepository;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +18,8 @@ public class GrapeService {
     
     @Autowired
     private GrapeRepository grapeRepository;
+    @Autowired
+    private GrapeContentRepository grapeContentRepository;
 
     public List<Grape> findAll() {
         return grapeRepository.findAll();
@@ -59,6 +64,33 @@ public class GrapeService {
         }
         
         return responseArray.toJSONString();
+    }
+
+    public void removeWineFromGrape(Grape grape, Wine wine) {
+        int index = -1;
+        for(int i = 0; i < grape.getWines().size(); i++) {
+            if(grape.getWines().get(i).getId() == wine.getId()) {
+                index = i;
+                break;
+            }
+        }
+        if(index > -1) {
+            grape.getWines().remove(index);
+        }
+        save(grape);
+    }
+
+    public GrapeContent removeGrapeContent(GrapeContent grapeContent) {
+        GrapeContent savedGrapeContent = grapeContentRepository.findOne(grapeContent.getId());
+        if(savedGrapeContent == null) {
+            throw new IllegalArgumentException("Cannot remove object with id " + grapeContent.getId());
+        }
+        grapeContentRepository.delete(grapeContent);
+        return grapeContent;
+    }
+
+    public GrapeContent save(GrapeContent grapeContent) {
+        return grapeContentRepository.save(grapeContent);
     }
    
 }

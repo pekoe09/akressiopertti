@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.ObjectError;
@@ -50,19 +52,42 @@ public class WineService {
         return errors;
     }
 
-    public Wine save(Wine wine) {
-        wine = wineRepository.save(wine);
-        WineType wineType = wine.getWineType();
+    public Wine save(Wine wine, JSONArray grapeData) {
+        //removes all old cross-refs in grapes and wine types
+        if(wine.getId() != null) {
+            Wine oldWine = findOne(wine.getId());
+            for(GrapeContent grapeContent: oldWine.getGrapes()) {
+                grapeService.removeWineFromGrape(grapeContent.getGrape(), oldWine);
+                removeGrapeContent(grapeContent);
+            }
+            wineTypeService.removeWineFromWineType(oldWine);
+        }                
+                
+        Wine savedWine = wineRepository.save(wine);       
+        
+        // adds cross-ref to wine type
+        WineType wineType = savedWine.getWineType();
         if(wineType != null) {
             wineType.getWines().add(wine);
             wineTypeService.save(wineType);
         }
-        List<GrapeContent> grapes = wine.getGrapes();
-        for(GrapeContent grapeContent : grapes) {
-            Grape grape = grapeContent.getGrape();
-            grape.getWines().add(wine);
+        
+        // adds grape content and cross-ref to each grape
+        List<GrapeContent> grapes = new ArrayList<>();
+        for(int i = 0; i < grapeData.size(); i++) {
+            JSONObject grapeDatum = (JSONObject)grapeData.get(i);
+            GrapeContent grapeContent = new GrapeContent();
+            grapeContent.setWine(savedWine);
+            Grape grape = grapeService.findOne(Long.parseLong((String)grapeDatum.get("grapeId")));
+            grapeContent.setGrape(grape);
+            grapeContent.setContent(Integer.parseInt((String)grapeDatum.get("contentPc")));
+            GrapeContent savedGrapeContent = grapeService.save(grapeContent);
+            savedWine.getGrapes().add(grapeContent);
+            grape.getWines().add(savedWine);
             grapeService.save(grape);
         }
+        savedWine = wineRepository.save(savedWine);
+        
         return wine;
     }
 
@@ -73,6 +98,10 @@ public class WineService {
         }
         wineRepository.delete(id);
         return wine;
+    }
+
+    private void removeGrapeContent(GrapeContent grapeContent) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
  
 }

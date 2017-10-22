@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.ObjectError;
@@ -60,6 +62,23 @@ public class BeerService {
         }
         beerRepository.delete(id);
         return beer;
+    }
+
+    public String getBreweryArray() {
+        JSONArray responseArray = new JSONArray();
+        JSONObject breweryObject;
+        
+//        List<String> breweries = beerRepository.findBreweries();
+        List<String> breweries = new ArrayList<>();
+        breweries.add("Heineken");
+        breweries.add("Leffe");
+        for(String brewery : breweries){
+            breweryObject = new JSONObject();
+            breweryObject.put("name", brewery);
+            responseArray.add(breweryObject);
+        }
+        
+        return responseArray.toJSONString();
     }
 
 }

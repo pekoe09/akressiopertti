@@ -6,6 +6,7 @@ import akressiopertti.repository.CourseRepository;
 import akressiopertti.repository.DishTypeRepository;
 import akressiopertti.repository.FoodStuffRepository;
 import akressiopertti.repository.GrapeRepository;
+import akressiopertti.repository.GrapeContentRepository;
 import akressiopertti.repository.IngredientRepository;
 import akressiopertti.repository.MeasureRepository;
 import akressiopertti.repository.MeasureTypeRepository;
@@ -128,6 +129,11 @@ public class ServiceTestContext {
     @Bean
     public GrapeRepository grapeRepository() {
         return Mockito.mock(GrapeRepository.class);
+    }
+    
+    @Bean
+    public GrapeContentRepository grapeContentRepository() {
+        return Mockito.mock(GrapeContentRepository.class);
     }
     
     @Bean
