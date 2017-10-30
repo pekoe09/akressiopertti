@@ -135,4 +135,19 @@ public class RecipeService {
         }
         return errors;
     }
+
+    public String getRecipeArray() {
+        JSONArray responseArray = new JSONArray();
+        JSONObject recipeObject;
+        
+        List<Recipe> recipes = findAll();
+        for(Recipe recipe : recipes) {
+            recipeObject = new JSONObject();
+            recipeObject.put("id", recipe.getId());
+            recipeObject.put("title", recipe.getTitle());
+            responseArray.add(recipeObject);
+        }
+
+        return responseArray.toJSONString();
+    }
 }

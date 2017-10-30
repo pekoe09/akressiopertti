@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
@@ -140,5 +141,12 @@ public class RecipeController {
         }
         redirectAttributes.addFlashAttribute("success", "Resepti \"" + recipe.getTitle() + "\" poistettu!");
         return "redirect:/reseptit";
+    }
+    
+    @RequestMapping(value = "/lista", method = RequestMethod.GET, consumes = "application/json", produces = "application/json")
+    @ResponseBody
+    public String listRecipes() {
+        String recipeJSON = recipeService.getRecipeArray();
+        return recipeJSON;
     }
 }

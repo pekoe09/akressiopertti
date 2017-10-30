@@ -68,10 +68,7 @@ public class BeerService {
         JSONArray responseArray = new JSONArray();
         JSONObject breweryObject;
         
-//        List<String> breweries = beerRepository.findBreweries();
-        List<String> breweries = new ArrayList<>();
-        breweries.add("Heineken");
-        breweries.add("Leffe");
+        List<String> breweries = beerRepository.findBreweries();
         for(String brewery : breweries){
             breweryObject = new JSONObject();
             breweryObject.put("name", brewery);

@@ -1,4 +1,4 @@
- $(document).ready(function () {
+$(document).ready(function () {
      
      // sets up preparation time inputs as spinners
      $('#preparationMinutes').spinner({
@@ -19,8 +19,11 @@
          min: 0
      });
      
-     // sets up listener for adding new ingredients
+     // sets up listeners for adding new ingredients and for linking recipes
      document.querySelector('#addIngredientButton').addEventListener('click', addIngredientToList, false);
+     document.querySelector('#linkRecipeButton').addEventListener('click', addRecipeToLinkedList, false);
+     document.querySelector('#openLinkRecipeModal').addEventListener('click', openLinkRecipeModal, false);
+     document.querySelector('#closeLinkRecipeModal').addEventListener('click', closeLinkRecipeModal, false);
      
      // fetches ingredients and sets up ingredient typeahead
      var ingredients = [];     
@@ -73,10 +76,63 @@
             $('#ingredientId').val(ingredientIds[name]);
         }
      });
+     
+     // fetched recipes and sets up recipe typeahead
+     var recipes = [];
+     var recipeIds = [];
+     $.ajax({
+         url: "/reseptit/lista",
+         dataType: "json",
+         contentType: "application/json; charset=utf-8",
+         type: "get",
+         async: false,
+         success: function(result){
+             recipes = result;
+             $.each(result, function(index, recipe){
+                recipeIds[recipe.title] = recipe.id; 
+             });
+         }
+     });
+     
+     var recipeMatcher = function(recipes){
+         return function findMatches(q, cb){
+             var matches, substringRegex;
+             matches = [];
+             substringRegex = new RegExp(q, 'i');
+             $.each(recipes, function(i, recipe) {
+                 if(substringRegex.test(recipe.title)){
+                     matches.push(recipe);
+                 }
+             });
+             cb(matches);
+         };
+     };
+     
+     var getRecipeTitle = function(recipe) {
+         return recipe.title;
+     };
+     
+     $('#linkRecipe').typeahead({
+         minLength: 3,
+         highlight: true
+     },
+     {
+         name: 'recipes',
+         source: recipeMatcher(recipes),
+         display: getRecipeTitle
+     });
+     
+     $('#linkRecipe').on('blur', function(evt){
+         var title = $('#linkRecipe').val();
+         if(title.length !== 0) {
+             $('#linkRecipeId').val(recipeIds[title]);
+         }
+     });
 
-     // adds listener to package ingredient list neatly on form submit
+     // adds listener to package ingredient list and related recipe list neatly on form submit
      $('#recipeForm').submit(function(event){
         packageIngredients(); 
+        packageLinkedRecipes();
      });
  });
  
@@ -91,7 +147,7 @@
      var amountDiv = $("<div class='col-md-1'></div>").append(amountInput);
      var measureNameField = $("<span></span>").text(measureName + " ");
      var ingredientNameField = $("<span></span>").text(ingredientName);
-     var measureIdField = $("<input type='hidden' class='measureid'/>").val(measureId)
+     var measureIdField = $("<input type='hidden' class='measureid'/>").val(measureId);
      var ingredientIdField = $("<input type='hidden' class='ingredientid' />").val(ingredientId);
      var removeButton = $("<button class='btn btn-danger btn-sm' type='button' data-ingredientid="
              + ingredientId
@@ -121,6 +177,29 @@
      $("#ingredientAmount").val(''); 
  }
  
+ function addRecipeToLinkedList() {
+     var recipeName = $("#linkRecipe").val();
+     var recipeId = $("#linkRecipeId").val();
+     var recipeNameField = $("<span></span>").text(recipeName);
+     var recipeIdField = $("<input type='hidden' class='linked-recipe-id' />").val(recipeId);
+     var removeButton = $("<button class='btn btn-danger btn-sm' type='button' data-recipeid="
+             + recipeId
+             + ">Poista</button>");   
+     removeButton.click(function(){
+         $(this).parents(".linked-recipe-row").remove();
+     });
+     var newRecipe = $("<div class='row linked-recipe-row'></div>").append(
+             recipeNameField,
+             recipeIdField,
+             removeButton);
+     var newFormGroup = $(
+             "<div class='form-group'></div>").append(newRecipe);
+     $('#relatedrecipelist').append(newFormGroup);
+     
+     $("#linkRecipe").val('');
+     $("#linkRecipeId").val('');
+ }
+ 
  function packageIngredients(){
      var ingredientData = [];
      $('.ingredient-row').each(function(){
@@ -143,4 +222,21 @@
      
      var ingredientJSON = JSON.stringify(ingredientData);
      $("<input type='hidden' name='ingredientSet'  />").val(ingredientJSON).appendTo("#recipeForm");
+ }
+ 
+ function packageLinkedRecipes() {
+     var linkedRecipeIds = [];
+     $('.linked-recipe-row').each(function() {
+         linkedRecipeIds.push({ recipeId: $(this).find('.linked-recipe-id').val() });
+     });
+     var linkedRecipeJSON = JSON.stringify(linkedRecipeIds);
+     $("<input type='hidden' name='linkedRecipeIds' />").val(linkedRecipeJSON).appendTo("#recipeForm");
+ }
+ 
+ function openLinkRecipeModal() {
+     $("#linkRecipeModal").style.display = "block";
+ }
+ 
+ function closeLinkRecipeModal() {
+     $("#linkRecipeModal").style.display = "none";
  }

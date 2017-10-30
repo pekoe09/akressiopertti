@@ -9,7 +9,7 @@ public interface BeerRepository extends JpaRepository<Beer, Long> {
 
     public Beer findByName(String name);
 
-//    @Query("select b.brewery from Beer b")
-//    public List<String> findBreweries();
+    @Query("select distinct(b.brewery) from Beer b")
+    public List<String> findBreweries();
     
 }
