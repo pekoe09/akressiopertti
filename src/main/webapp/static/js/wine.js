@@ -24,7 +24,7 @@ $(document).ready(function () {
         return function findMatches(q, cb){
             var matches, substringRegex;
             matches = [];
-            substringRegex = new ReqExp(q, 'i');
+            substringRegex = new RegExp(q, 'i');
             $.each(grapes, function(i, grape) {
                 if(substringRegex.test(grape.name)) {
                     matches.push(grape);

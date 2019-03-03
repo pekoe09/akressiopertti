@@ -20,7 +20,7 @@
                 </div>
                 <div class="row">
                     <div class="form-group col-md-4" th:classappend="${#fields.hasErrors('vintage')}? has-error">
-                        <label class="control-label" for="vintage">Hinta</label>
+                        <label class="control-label" for="vintage">Vuosikerta</label>
                         <input type="text" id="vintage" name="vintage" class="form-control" th:value="${wine.vintage}"/>
                         <p th:if="${#fields.hasErrors('vintage')}" th:errors="*{vintage}">virheviesti</p>
                     </div>

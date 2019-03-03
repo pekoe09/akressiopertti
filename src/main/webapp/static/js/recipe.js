@@ -21,9 +21,9 @@ $(document).ready(function () {
      
      // sets up listeners for adding new ingredients and for linking recipes
      document.querySelector('#addIngredientButton').addEventListener('click', addIngredientToList, false);
-     document.querySelector('#linkRecipeButton').addEventListener('click', addRecipeToLinkedList, false);
+     //document.querySelector('#linkRecipeButton').addEventListener('click', addRecipeToLinkedList, false);
      document.querySelector('#openLinkRecipeModal').addEventListener('click', openLinkRecipeModal, false);
-     document.querySelector('#closeLinkRecipeModal').addEventListener('click', closeLinkRecipeModal, false);
+     //document.querySelector('#closeLinkRecipeModal').addEventListener('click', closeLinkRecipeModal, false);
      
      // fetches ingredients and sets up ingredient typeahead
      var ingredients = [];     
