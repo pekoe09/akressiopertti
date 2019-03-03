@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html  xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" th:include="layout :: page">
+    <head>
+        <title>Akressiopertti - Lisää alue</title>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    </head>
+    <body>
+        <div  th:fragment="content">
+            
+            <h1>Lisää alue</h1>
+            
+            <form id="geographyForm" role="form" action="#" th:action="@{/alueet/lisaa}" th:object="${geography}" method="post">
+                <div class="row">
+                    <div class="form-group col-md-4" th:classappend="${#fields.hasErrors('name')}? has-error">
+                        <label class="control-label" for="name">Nimi</label>
+                        <input type="text" id="name" name="name" class="form-control" th:value="${geography.name}" />
+                        <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}">virheviesti</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-md-4" th:classappend="${#fields.hasErrors('type')}? has-error">
+                        <label class="control-label" for="type">Tyyppi</label>
+                        <select class="form-control" id="type" name="type">
+                            <option th:each="geographyType : ${GeographyTypes}"
+                                    th:text="${geographyType}"
+                                    th:value="${geographyType}"
+                                    th:selected="${geography.type != null} ? ${geography.type == geographyType} : false"></option>
+                        </select>
+                        <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}">virheviesti</p>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="form-group form-button-row">
+                        <input type="submit" value="Tallenna" class="btn btn-primary" />
+                        <a href="#" th:href="@{/alueet}" class="btn btn-default">Peruuta</a>
+                    </div>
+                </div>
+            </form>
+            
+        </div>
+    </body>
+</html>
