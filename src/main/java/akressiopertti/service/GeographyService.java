@@ -31,7 +31,7 @@ public class GeographyService {
     }
     
     public Geography save(Geography geography, JSONArray parentData) {
-        ArrayList<Long> parentIDs = getParentIDs(parentData);
+        ArrayList<Long> parentIDs = ServiceUtilities.getObjectIDs(parentData, "parentId");
         Geography enrichedGeography = null;
         
         if(geography.isNew()) {
@@ -45,15 +45,6 @@ public class GeographyService {
         }
         
         return geographyRepository.save(enrichedGeography);
-    }
-    
-    private ArrayList<Long> getParentIDs(JSONArray parentData) {
-        ArrayList<Long> parentIDs = new ArrayList<>();
-        for(int i = 0; i < parentData.size(); i++) {
-            JSONObject parentDatum = (JSONObject)parentData.get(i);
-            parentIDs.add(Long.parseLong((String)parentDatum.get("parentId")));            
-        }
-        return parentIDs;
     }
     
     private Geography addParentRelations(Geography child, ArrayList<Long> parentIDs) {

@@ -21,7 +21,7 @@
                 </div>
                 <div class="row">
                     <div class="form-group col-md-4" th:classappend="${#fields.hasErrors('vintage')}? has-error">
-                        <label class="control-label" for="vintage">Hinta</label>
+                        <label class="control-label" for="vintage">Vuosikerta</label>
                         <input type="text" id="vintage" name="vintage" class="form-control" th:value="${wine.vintage}"/>
                         <p th:if="${#fields.hasErrors('vintage')}" th:errors="*{vintage}">virheviesti</p>
                     </div>
@@ -60,20 +60,23 @@
                     </div>
                 </div>                
                 <div class="row">
-                    <div class="form-group">
+                    <div class="form-group col-md-4">
                         <label class="control-label typeahead-label" for="grape">Rypäle</label>
                         <input type="text" id="grape" class="form-control" />
                         <input type="hidden" id="grapeId" />
-                        <input type="number" min="0" max="100" id="contentPc" />
+                        <input type="number" min="0" max="100" id="contentPc" /> 
                         <button id="addGrapeButton" type="button" class="btn btn-warning">Lisää</button>
                     </div>
                 </div>
-                <div>
-                    <ul id="grapeContents">
-                        <li th:each="grapeContent: ${wine.grapes}" 
-                            th:attr="data-grapeid=${grapeContent.grape.id}, data-contentpc=${grapeContent.content}"
-                            th:text="|${grapeContent.grape.name} ${grapeContent.content}%|"></li>
-                    </ul>
+                <div class="row">
+                    <div id="grapeContents" class="col-md-4">
+                        <div th:each="grapeContent: ${wine.grapes}"
+                            class="grapeitem row"
+                            th:attr="data-grapeid=${grapeContent.grape.id}, data-contentpc=${grapeContent.content}">
+                            <span class="col-md-8" th:text="|${grapeContent.grape.name} ${grapeContent.content}%|"></span>
+                            <button class="btn btn-danger btn-sm" type="button" th:attr="data-grapeid=${grapeContent.grape.id}">Poista</button>
+                        </div>
+                    </div>
                 </div>
                 <div class="row">
                     <div class="form-group col-md-4" th:classappend="${#fields.hasErrors('alcohol')}? has-error">

@@ -45,8 +45,22 @@ public class WineTypeService {
         return wineType;
     }
 
-    void removeWineFromWineType(Wine wine) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+    public WineType setWineType(Wine wine, WineType wineType) {
+        if(wine.getWineType() != null) {
+            WineType oldType = findOne(wine.getWineType().getId());
+            oldType.getWines().removeIf((Wine listedWine) -> listedWine.getId().equals(wine.getId()));
+            wineTypeRepository.save(oldType);
+        }
+        wineType.getWines().add(wine);
+        return wineTypeRepository.save(wineType);
+    }    
     
+    public WineType addWineToWineType(Wine wine) {
+        WineType wineType = wine.getWineType();
+        if(wineType != null) {
+            wineType.getWines().add(wine);
+            wineType = wineTypeRepository.save(wineType);
+        }        
+        return wineType;
+    }
 }

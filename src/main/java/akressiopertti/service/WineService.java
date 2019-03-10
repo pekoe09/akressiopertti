@@ -52,43 +52,25 @@ public class WineService {
         return errors;
     }
 
-    public Wine save(Wine wine, JSONArray grapeData) {
-        //removes all old cross-refs in grapes and wine types
-        if(wine.getId() != null) {
+    public Wine save(Wine wine, JSONArray grapeData) {       
+        Wine enrichedWine = null;
+        if(!wine.isNew()) {
             Wine oldWine = findOne(wine.getId());
-            for(GrapeContent grapeContent: oldWine.getGrapes()) {
-                grapeService.removeWineFromGrape(grapeContent.getGrape(), oldWine);
-                removeGrapeContent(grapeContent);
+            // for pre-existing wine, updates wine type as necessary
+            if((oldWine.getWineType() == null && wine.getWineType() != null)
+                    || (oldWine.getWineType() != null && wine.getWineType() == null)
+                    || (oldWine.getWineType() != null && !oldWine.getWineType().getId().equals(wine.getWineType().getId()))) {
+                wineTypeService.setWineType(oldWine, wine.getWineType());
             }
-            wineTypeService.removeWineFromWineType(oldWine);
-        }                
-                
-        Wine savedWine = wineRepository.save(wine);       
-        
-        // adds cross-ref to wine type
-        WineType wineType = savedWine.getWineType();
-        if(wineType != null) {
-            wineType.getWines().add(wine);
-            wineTypeService.save(wineType);
+            enrichedWine = updateGrapeContents(wine, oldWine, grapeData);
+        } else {
+            enrichedWine = wineRepository.save(wine);            
+            wineTypeService.addWineToWineType(enrichedWine);
+            enrichedWine = addGrapeContents(enrichedWine, grapeData);
         }
         
-        // adds grape content and cross-ref to each grape
-        List<GrapeContent> grapes = new ArrayList<>();
-        for(int i = 0; i < grapeData.size(); i++) {
-            JSONObject grapeDatum = (JSONObject)grapeData.get(i);
-            GrapeContent grapeContent = new GrapeContent();
-            grapeContent.setWine(savedWine);
-            Grape grape = grapeService.findOne(Long.parseLong((String)grapeDatum.get("grapeId")));
-            grapeContent.setGrape(grape);
-            grapeContent.setContent(Integer.parseInt((String)grapeDatum.get("contentPc")));
-            GrapeContent savedGrapeContent = grapeService.save(grapeContent);
-            savedWine.getGrapes().add(grapeContent);
-            grape.getWines().add(savedWine);
-            grapeService.save(grape);
-        }
-        savedWine = wineRepository.save(savedWine);
-        
-        return wine;
+        return wineRepository.save(enrichedWine);              
+
     }
 
     public Wine remove(Long id) {
@@ -100,8 +82,61 @@ public class WineService {
         return wine;
     }
 
-    private void removeGrapeContent(GrapeContent grapeContent) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    private Wine updateGrapeContents(Wine wine, Wine oldWine, JSONArray grapeData) {
+        ArrayList<Long> newGrapeIDs = ServiceUtilities.getObjectIDs(grapeData, "grapeid");
+        
+        ArrayList<GrapeContent> removedGrapeContents = new ArrayList<>();        
+        for(GrapeContent oldGrape : oldWine.getGrapes()) {
+            if(!newGrapeIDs.contains(oldGrape.getGrape().getId())) {
+                removedGrapeContents.add(oldGrape);
+                grapeService.removeWineFromGrape(oldGrape.getGrape(), oldWine);
+            }
+        }
+        for(GrapeContent removedContent : removedGrapeContents) {
+            grapeService.removeGrapeContent(removedContent);
+        }
+        
+        for(int i = 0; i < grapeData.size(); i++) {
+            JSONObject grapeDatum = (JSONObject)grapeData.get(i);
+            Grape grape = grapeService.findOne(Long.parseLong((String)grapeDatum.get("grapeId")));
+            Integer share = Integer.parseInt((String)grapeDatum.get("contentPc"));
+            boolean found = false;
+            for(GrapeContent currGrape : oldWine.getGrapes()) {
+                if(currGrape.getGrape().getId().equals(grape.getId())) {
+                    currGrape.setContent(share);
+                    currGrape = grapeService.save(currGrape);
+                    wine.getGrapes().add(currGrape);
+                    found = true;
+                    break;
+                }
+            }    
+            if(!found) {
+                GrapeContent newContent = new GrapeContent();
+                newContent.setWine(wine);
+                newContent.setGrape(grape);
+                newContent.setContent(share);
+                newContent = grapeService.save(newContent);
+                wine.getGrapes().add(newContent);
+                grape.getWines().add(wine);
+                grapeService.save(grape);
+            }              
+        }
+        
+        return wine;
     }
- 
+
+    private Wine addGrapeContents(Wine wine, JSONArray grapeData) {
+        for(int i = 0; i < grapeData.size(); i++) {
+            JSONObject grapeDatum = (JSONObject)grapeData.get(i);
+            Grape grape = grapeService.findOne(Long.parseLong((String)grapeDatum.get("grapeId")));
+            Integer share = Integer.parseInt((String)grapeDatum.get("contentPc"));
+            GrapeContent grapeContent = new GrapeContent();
+            grapeContent.setWine(wine);
+            grapeContent.setGrape(grape);
+            grapeContent.setContent(share);
+            grapeContent = grapeService.save(grapeContent);
+            wine.getGrapes().add(grapeContent);
+        }
+        return wine;
+    }
 }

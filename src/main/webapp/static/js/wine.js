@@ -3,6 +3,11 @@ $(document).ready(function () {
     // sets up listener for adding grapes
     document.querySelector('#addGrapeButton').addEventListener('click', addGrapeToList, false);
     
+    // remove handler for pre-existing items on grape contents list
+    $('#grapeContents .btn-danger').click(function(){
+        $(this).parents('.grapeitem').remove();
+    });
+    
     // fetches grapes and sets up grape typeahead
     var grapes = [];
     var grapeIds = [];
@@ -65,13 +70,14 @@ function addGrapeToList() {
     var grapeName = $('#grape').val();
     var grapeId = $('#grapeId').val();
     var contentPc = $('#contentPc').val();
-    var newListItem = $("<li class='grapeitem' data-grapeid='"
-            + grapeId
-            + "' data-contentpc='"
-            + contentPc
-            + "'>"
-            + grapeName + " " + contentPc + "%"
-            + "</li>");
+    var newListItem = 
+            $("<div class='grapeitem row' data-grapeid='" + grapeId + "' data-contentpc='" + contentPc + "'></div>");
+    var nameElement = $("<span class=col-md-8>" + grapeName + " " + contentPc + "%</span>");
+    var removeBtn = $("<button class='btn btn-danger btn-sm' type='button' data-grapeid='" + grapeId + "'>Poista</button>");
+    removeBtn.click(function(){
+         $(this).parents(".grapeitem").remove();
+    });
+    newListItem.append(nameElement, removeBtn);    
     $('#grapeContents').append(newListItem);
     
     $('#grape').val('');
