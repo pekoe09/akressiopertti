@@ -21,4 +21,7 @@ public class BaseModel implements Serializable {
         this.id = id;
     }
     
+    public boolean isNew() {
+        return this.id == null;
+    }    
 }

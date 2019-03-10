@@ -27,8 +27,25 @@
                                     th:value="${geographyType}"
                                     th:selected="${geography.type != null} ? ${geography.type == geographyType} : false"></option>
                         </select>
-                        <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}">virheviesti</p>
+                        <p th:if="${#fields.hasErrors('type')}" th:errors="*{type}">virheviesti</p>
                     </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-md-3">
+                        <label class="control-label" for="parent">Emoalue</label>
+                        <select class="form-control" id="parent" name="parent">
+                            <option th:each="parent : ${Parents}"
+                                    th:text="${parent.name}"
+                                    th:value="${parent.id}"></option>
+                        </select>                        
+                    </div>
+                    <div class="form-group col-md-1">
+                        <button id="addParentButton" type="button" class="btn btn-warning">Lisää</button>
+                    </div>
+                </div>
+                <div>
+                    <ul id="parentList">                        
+                    </ul>
                 </div>
                 
                 <div class="row">
@@ -40,5 +57,9 @@
             </form>
             
         </div>
+        
+        <th:block th:fragment="pagescript">
+            <script src="/static/js/geography.js"></script>
+        </th:block>    
     </body>
 </html>

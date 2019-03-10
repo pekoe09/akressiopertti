@@ -3,6 +3,7 @@ package akressiopertti.controller;
 import akressiopertti.domain.Geography;
 import akressiopertti.service.GeographyService;
 import javax.validation.Valid;
+import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
@@ -45,6 +47,7 @@ public class GeographyController {
             @Valid @ModelAttribute Geography geography,
             BindingResult bindingResult,
             Model model,
+            @RequestParam String parentData,
             RedirectAttributes redirectAttributes
         ){
         for(ObjectError error : geographyService.checkUniqueness(geography)){
@@ -52,9 +55,17 @@ public class GeographyController {
         }
         if(bindingResult.hasErrors()){
             model.addAttribute("geography", geography);
+            controllerUtilities.addOptionsListsToModel(model, geographyService.getOptions());
             return "geography_add";
         }
-        Geography savedGeography = geographyService.save(geography);
+        Geography savedGeography = null;
+        try {
+            savedGeography = geographyService.save(geography, controllerUtilities.getJSONArrayFromString(parentData));
+        } catch (ParseException exc) {
+            model.addAttribute("geography", geography);
+            controllerUtilities.addOptionsListsToModel(model, geographyService.getOptions());
+            return "geography_add";
+        }
         redirectAttributes.addFlashAttribute("success", "Alue " + savedGeography.getName() + " tallennettu!");
         return "redirect:/alueet";
     }
@@ -75,6 +86,7 @@ public class GeographyController {
             BindingResult bindingResult,
             @PathVariable Long id,
             Model model,
+            @RequestParam String parentData,
             RedirectAttributes redirectAttributes
         ){
         for(ObjectError error : geographyService.checkUniqueness(geography)){
@@ -85,12 +97,19 @@ public class GeographyController {
             model.addAttribute("geography", geography);            
             return "geography_edit";
         }
-        Geography savedGeography = geographyService.save(geography);
+        Geography savedGeography = null;
+        try {
+            savedGeography = geographyService.save(geography, controllerUtilities.getJSONArrayFromString(parentData));
+        } catch (ParseException exc) {
+            controllerUtilities.addOptionsListsToModel(model, geographyService.getOptions());
+            model.addAttribute("geography", geography);            
+            return "geography_edit";
+        }        
         redirectAttributes.addFlashAttribute("success", "Alueen " + savedGeography.getName() + " tiedot päivitetty!");
         return "redirect:/alueet";
     }
     
-    @RequestMapping(value = "/{id}/poista", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/{id}/poista", method = RequestMethod.POST)
     public String remove(
             @PathVariable Long id,
             RedirectAttributes redirectAttributes

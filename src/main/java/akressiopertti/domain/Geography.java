@@ -51,16 +51,27 @@ public class Geography extends BaseModel {
         return parents;
     }
     
-    public void AddParent(Geography geography){
+    public List<Geography> AddParent(Geography geography){
         this.parents.add(geography);
+        return parents;
+    }
+    
+    public List<Geography> RemoveParent(Long id){
+        parents.removeIf((Geography parent) -> parent.id == id);        
+        return parents;
     }
 
     public List<Geography> getChildren() {
         return children;
     }
     
-    public void AddChild(Geography geography){
+    public List<Geography> AddChild(Geography geography){
         this.children.add(geography);
+        return children;
     }
     
+    public List<Geography> RemoveChild(Long id){
+        children.removeIf((Geography child) -> child.id == id);        
+        return children;
+    } 
 }
