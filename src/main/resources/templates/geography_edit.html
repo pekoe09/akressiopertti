@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html  xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" th:include="layout :: page">
+    <head>
+        <title>Akressiopertti - Muokkaa aluetta</title>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    </head>
+    <body>
+        <div  th:fragment="content">
+            
+            <h1>Muokkaa aluetta</h1>
+            <h2 th:text="${geography.name}"></h2>
+            
+            <form id="geographyForm" role="form" action="#" th:action="@{/alueet/{id}/muokkaa(id=${geography.id})}" th:object="${geography}" method="post">
+                <div class="row">
+                    <div class="form-group col-md-4" th:classappend="${#fields.hasErrors('name')}? has-error">
+                        <label class="control-label" for="name">Nimi</label>
+                        <input type="text" id="name" name="name" class="form-control" th:value="${geography.name}" />
+                        <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}">virheviesti</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-md-4" th:classappend="${#fields.hasErrors('type')}? has-error">
+                        <label class="control-label" for="type">Tyyppi</label>
+                        <select class="form-control" id="type" name="type">
+                            <option th:each="geographyType : ${GeographyTypes}"
+                                    th:text="${geographyType}"
+                                    th:value="${geographyType}"
+                                    th:selected="${geography.type != null} ? ${geography.type == geographyType} : false"></option>
+                        </select>
+                        <p th:if="${#fields.hasErrors('type')}" th:errors="*{type}">virheviesti</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-md-3">
+                        <label class="control-label" for="parent">Emoalue</label>
+                        <select class="form-control" id="parent" name="parent">
+                            <option th:each="parent : ${Parents}"
+                                    th:text="${parent.name}"
+                                    th:value="${parent.id}"></option>
+                        </select>                        
+                    </div>
+                    <div class="form-group col-md-1">
+                        <button id="addParentButton" type="button" class="btn btn-warning">Lisää</button>
+                    </div>
+                </div>
+                <div>
+                    <ul id="parentList">
+                        <li th:each="parent : ${geography.parents}" 
+                            class='parentitem'
+                            th:attr='data-parentid=${parent.id}'
+                            th:text='${parent.name}'>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="row">
+                    <div class="form-group form-button-row">
+                        <input type="submit" value="Tallenna" class="btn btn-primary" />
+                        <a href="#" th:href="@{/alueet}" class="btn btn-default">Peruuta</a>
+                    </div>
+                </div>
+            </form>
+            
+        </div>
+        
+        <th:block th:fragment="pagescript">
+            <script src="/static/js/geography.js"></script>
+        </th:block>    
+    </body>
+</html>
