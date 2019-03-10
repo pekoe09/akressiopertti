@@ -44,14 +44,15 @@
                         <button id="addParentButton" type="button" class="btn btn-warning">Lisää</button>
                     </div>
                 </div>
-                <div>
-                    <ul id="parentList">
-                        <li th:each="parent : ${geography.parents}" 
-                            class='parentitem'
-                            th:attr='data-parentid=${parent.id}'
-                            th:text='${parent.name}'>
-                        </li>
-                    </ul>
+                <div class="row">
+                    <div id="parentList" class="col-md-4">
+                        <div th:each="parent : ${geography.parents}" 
+                            class='parentitem row'
+                            th:attr='data-parentid=${parent.id}'>
+                            <span class="col-md-8" th:text='${parent.name}'></span>
+                            <button class="btn btn-danger btn-sm" type="button" th:attr="data-parentid=${parent.id}">Poista</button>
+                        </div>
+                    </div>
                 </div>
                 
                 <div class="row">

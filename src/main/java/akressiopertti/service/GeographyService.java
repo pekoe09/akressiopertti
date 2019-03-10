@@ -39,6 +39,8 @@ public class GeographyService {
             enrichedGeography = addParentRelations(enrichedGeography, parentIDs);
         } else {
             Geography oldGeography = findOne(geography.getId());
+            oldGeography.setName(geography.getName());
+            oldGeography.setType(geography.getType());
             enrichedGeography = updateParentRelations(parentIDs, oldGeography);
         }
         
