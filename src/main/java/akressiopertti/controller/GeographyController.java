@@ -2,6 +2,7 @@ package akressiopertti.controller;
 
 import akressiopertti.domain.Geography;
 import akressiopertti.service.GeographyService;
+import akressiopertti.service.RelationViolationException;
 import javax.validation.Valid;
 import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -119,6 +120,9 @@ public class GeographyController {
             geography = geographyService.remove(id);
         } catch (IllegalArgumentException exc) {
             redirectAttributes.addFlashAttribute("error", "Poistettavaa aluetta ei löydy!");
+            return "redirect:/alueet";
+        } catch (RelationViolationException rve) {
+            redirectAttributes.addFlashAttribute("error", "Aluetta ei voi poistaa, koska siihen on linkitetty muita alueita");
             return "redirect:/alueet";
         }
         redirectAttributes.addFlashAttribute("success", "Alue " + geography.getName() + " poistettu!");

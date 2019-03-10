@@ -9,6 +9,7 @@
         <div  th:fragment="content">
             
             <section class="alert alert-success" th:if="${success}" th:text="${success}"></section>
+            <section class="alert alert-danger" th:if="${error}" th:text="${error}"></section>
             <h1>Alueet</h1>  
             
              <a class="btn btn-primary" href="#" th:href="@{/alueet/lisaa}">
