@@ -39,6 +39,8 @@ public class GeographyService {
             enrichedGeography = addParentRelations(enrichedGeography, parentIDs);
         } else {
             Geography oldGeography = findOne(geography.getId());
+            oldGeography.setName(geography.getName());
+            oldGeography.setType(geography.getType());
             enrichedGeography = updateParentRelations(parentIDs, oldGeography);
         }
         
@@ -113,6 +115,10 @@ public class GeographyService {
         if(geography == null) {
             throw new IllegalArgumentException("Cannot remove object with id " + id.toString());
         }
+        if(geography.getChildren().size() > 0) {
+            throw new RelationViolationException("Cannot remove Geography because it has children");
+        }
+        
         geographyRepository.delete(id);
         return geography;
     }

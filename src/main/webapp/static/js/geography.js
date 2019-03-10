@@ -2,6 +2,10 @@ $(document).ready(function () {
     
     document.querySelector('#addParentButton').addEventListener('click', addParentToList, false);
     
+    $('#parentList .btn-danger').click(function(){
+        $(this).parents('.parentitem').remove();
+    });
+    
     $('#geographyForm').submit(function(event){
         packageParents();
     });    
@@ -11,11 +15,13 @@ function addParentToList() {
     var parentSelect = document.getElementById("parent");
     var parentName = parentSelect.options[parentSelect.selectedIndex].text;
     var parentId = parentSelect.options[parentSelect.selectedIndex].value;
-    var newListItem = $("<li class='parentitem' data-parentid='"
-            + parentId
-            + "'>"
-            + parentName + " "
-            + "</li>");
+    var newListItem = $("<div class='parentitem row' data-parentid='" + parentId + "'></div>");
+    var nameElement = $("<span class='col-md-8'>" + parentName + "</span>");
+    var removeBtn = $("<button class='btn btn-danger btn-sm' type='button' data-parentid='" + parentId + "'>Poista</button>");
+    removeBtn.click(function(){
+         $(this).parents(".parentitem").remove();
+    });
+    newListItem.append(nameElement, removeBtn);    
     $('#parentList').append(newListItem);
 }
 

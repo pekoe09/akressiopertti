@@ -1,16 +1,17 @@
 <!DOCTYPE html>
 <html  xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" th:include="layout :: page">
     <head>
-        <title>Akressiopertti - Lisää alue</title>
+        <title>Akressiopertti - Muokkaa aluetta</title>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     </head>
     <body>
         <div  th:fragment="content">
             
-            <h1>Lisää alue</h1>
+            <h1>Muokkaa aluetta</h1>
+            <h2 th:text="${geography.name}"></h2>
             
-            <form id="geographyForm" role="form" action="#" th:action="@{/alueet/lisaa}" th:object="${geography}" method="post">
+            <form id="geographyForm" role="form" action="#" th:action="@{/alueet/{id}/muokkaa(id=${geography.id})}" th:object="${geography}" method="post">
                 <div class="row">
                     <div class="form-group col-md-4" th:classappend="${#fields.hasErrors('name')}? has-error">
                         <label class="control-label" for="name">Nimi</label>
@@ -43,8 +44,14 @@
                         <button id="addParentButton" type="button" class="btn btn-warning">Lisää</button>
                     </div>
                 </div>
-                <div>
-                    <div id="parentList">                        
+                <div class="row">
+                    <div id="parentList" class="col-md-4">
+                        <div th:each="parent : ${geography.parents}" 
+                            class='parentitem row'
+                            th:attr='data-parentid=${parent.id}'>
+                            <span class="col-md-8" th:text='${parent.name}'></span>
+                            <button class="btn btn-danger btn-sm" type="button" th:attr="data-parentid=${parent.id}">Poista</button>
+                        </div>
                     </div>
                 </div>
                 
