@@ -48,8 +48,8 @@ $(document).ready(function () {
         display: getGrapeName
     });
     
-    $('grape').on('blur', function(evt){
-        var name = $('grape').val();
+    $('#grape').on('blur', function(evt){
+        var name = $('#grape').val();
         if(name.length !== 0){
             $('#grapeId').val(grapeIds[name]);
         }
@@ -67,7 +67,7 @@ function addGrapeToList() {
     var contentPc = $('#contentPc').val();
     var newListItem = $("<li class='grapeitem' data-grapeid='"
             + grapeId
-            + " data-contentpc='"
+            + "' data-contentpc='"
             + contentPc
             + "'>"
             + grapeName + " " + contentPc + "%"
@@ -83,8 +83,8 @@ function packageGrapes() {
     var grapeData = [];
     $('.grapeitem').each(function(){
         var grapeDatum ={
-            grapeId: $(this).dataset.grapeid,
-            contentPc: $(this).dataset.contentPc
+            grapeId: this.dataset.grapeid,
+            contentPc: this.dataset.contentpc
         };
         grapeData.push(grapeDatum);
     });
