@@ -83,7 +83,7 @@ public class WineService {
     }
 
     private Wine updateGrapeContents(Wine wine, Wine oldWine, JSONArray grapeData) {
-        ArrayList<Long> newGrapeIDs = ServiceUtilities.getObjectIDs(grapeData, "grapeid");
+        ArrayList<Long> newGrapeIDs = ServiceUtilities.getObjectIDs(grapeData, "grapeId");
         
         ArrayList<GrapeContent> removedGrapeContents = new ArrayList<>();        
         for(GrapeContent oldGrape : oldWine.getGrapes()) {
