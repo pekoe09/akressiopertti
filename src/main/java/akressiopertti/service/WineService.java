@@ -1,5 +1,6 @@
 package akressiopertti.service;
 
+import akressiopertti.domain.Geography;
 import akressiopertti.domain.Grape;
 import akressiopertti.domain.GrapeContent;
 import akressiopertti.domain.Wine;
@@ -24,6 +25,8 @@ public class WineService {
     private GrapeService grapeService;
     @Autowired
     private WineTypeService wineTypeService;
+    @Autowired
+    private GeographyService geographyService;
 
     public List<Wine> findAll() {
         return wineRepository.findAll();
@@ -52,8 +55,13 @@ public class WineService {
         return errors;
     }
 
-    public Wine save(Wine wine, JSONArray grapeData) {       
+    public Wine save(Wine wine, JSONArray grapeData, Long countryId, Long regionId) {       
         Wine enrichedWine = null;
+        Geography country = countryId == null ? null : geographyService.findOne(countryId);
+        Geography region = regionId == null ? null : geographyService.findOne(regionId);
+        wine.setCountry(country);
+        wine.setRegion(region);
+        
         if(!wine.isNew()) {
             Wine oldWine = findOne(wine.getId());
             // for pre-existing wine, updates wine type as necessary

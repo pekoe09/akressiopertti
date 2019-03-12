@@ -130,5 +130,20 @@ public class GeographyService {
         options.put("Parents", findAll());
         return options;
     }
+
+    public String getGeographiesArray() {
+        JSONArray responseArray = new JSONArray();
+        JSONObject geographyObject;
+        
+        List<Geography> geographies = geographyRepository.findAll();
+        for(Geography geography : geographies){
+            geographyObject = new JSONObject();
+            geographyObject.put("name", geography.getName());
+            geographyObject.put("id", geography.getId());
+            responseArray.add(geographyObject);
+        }
+        
+        return responseArray.toJSONString();
+    }
     
 }

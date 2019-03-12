@@ -2,13 +2,10 @@ package akressiopertti.domain;
 
 import java.util.ArrayList;
 import java.util.List;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import org.hibernate.validator.constraints.Length;
-import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.Range;
 
 @Entity
@@ -16,11 +13,10 @@ public class Wine extends Beverage {
 
     @Range(min = 1900, max = 2100)
     private int vintage;
-    private String country;
-    @NotBlank(message = "Alue on pakollinen tieto")
-    @Length(max = 100, message = "Alue voi olla enintään 100 merkkiä pitkä")
-    @Column(unique = true, length = 100)
-    private String region;
+    @ManyToOne
+    private Geography country;
+    @ManyToOne
+    private Geography region;
     private String producer;
     @ManyToOne
     private WineType wineType;
@@ -42,19 +38,19 @@ public class Wine extends Beverage {
         this.vintage = vintage;
     }
 
-    public String getCountry() {
+    public Geography getCountry() {
         return country;
     }
 
-    public void setCountry(String country) {
+    public void setCountry(Geography country) {
         this.country = country;
     }
 
-    public String getRegion() {
+    public Geography getRegion() {
         return region;
     }
 
-    public void setRegion(String region) {
+    public void setRegion(Geography region) {
         this.region = region;
     }
 

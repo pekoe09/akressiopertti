@@ -54,6 +54,8 @@ public class WineController {
             BindingResult bindingResult,
             Model model,
             @RequestParam String grapeData,
+            @RequestParam Long countryId,
+            @RequestParam Long regionId,
             RedirectAttributes redirectAttributes) {
         for (ObjectError error : wineService.checkUniqueness(wine)) {
             bindingResult.rejectValue(error.getObjectName(), "error.wine", error.getDefaultMessage());            
@@ -65,7 +67,12 @@ public class WineController {
         }
         Wine savedWine = null;
         try {
-            savedWine = wineService.save(wine, controllerUtilities.getJSONArrayFromString(grapeData));
+            savedWine = wineService.save(
+                    wine, 
+                    controllerUtilities.getJSONArrayFromString(grapeData),
+                    countryId,
+                    regionId
+            );
         } catch (ParseException exc) {
             controllerUtilities.addOptionsListsToModel(model, wineService.getOptions());
             model.addAttribute("wine", wine);
@@ -90,6 +97,8 @@ public class WineController {
             BindingResult bindingResult,
             Model model,
             @RequestParam String grapeData,
+            @RequestParam Long countryId,
+            @RequestParam Long regionId,
             @PathVariable Long id,
             RedirectAttributes redirectAttributes) {
         for (ObjectError error : wineService.checkUniqueness(wine)) {
@@ -102,7 +111,12 @@ public class WineController {
         }
         Wine savedWine = null;
         try {
-            savedWine = wineService.save(wine, controllerUtilities.getJSONArrayFromString(grapeData));
+            savedWine = wineService.save(
+                    wine,
+                    controllerUtilities.getJSONArrayFromString(grapeData),
+                    countryId,
+                    regionId
+            );
         } catch (ParseException exc) {
             controllerUtilities.addOptionsListsToModel(model, wineService.getOptions());
             model.addAttribute("wine", wine);

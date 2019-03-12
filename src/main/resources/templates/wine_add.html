@@ -34,15 +34,17 @@
                 </div>
                 <div class="row">
                     <div class="form-group col-md-4" th:classappend="${#fields.hasErrors('country')}? has-error">
-                        <label class="control-label" for="country">Maa</label>
-                        <input type="text" id="country" name="country" class="form-control" th:value="${wine.country}"/>
+                        <label class="control-label typeahead-label" for="country">Maa</label>
+                        <input type="text" id="country" name="countryName" class="form-control" th:value="${wine.country}"/>
+                        <input type="hidden" name="countryId" id="countryId" />
                         <p th:if="${#fields.hasErrors('country')}" th:errors="*{country}">virheviesti</p>
                     </div>
                 </div>
                 <div class="row">
                     <div class="form-group col-md-4" th:classappend="${#fields.hasErrors('region')}? has-error">
-                        <label class="control-label" for="region">Alue</label>
-                        <input type="text" id="region" name="region" class="form-control" th:value="${wine.region}"/>
+                        <label class="control-label typeahead-label"  for="region">Alue</label>
+                        <input type="text" id="region" name="regionName" class="form-control" th:value="${wine.region}"/>
+                        <input type="hidden" name="regionId" id="regionId" />
                         <p th:if="${#fields.hasErrors('region')}" th:errors="*{region}">virheviesti</p>
                     </div>
                 </div>

@@ -8,6 +8,75 @@ $(document).ready(function () {
         $(this).parents('.grapeitem').remove();
     });
     
+    // fetches geographies and sets up country and area typeaheads
+    var geographies = [];
+    var geographyIds = [];
+    $.ajax({
+        url: "/alueet/lista",
+        dataType: "json",
+        contentType: "applicaton/json; charset=utf-8",
+        type: "get",
+        async: false,
+        success: function(result) {
+            geographies = result;
+            $.each(result, function(index, geography){
+                geographyIds[geography.name] = geography.id;
+            });
+        }
+    });
+    
+    var geographyMatcher = function(geographies) {
+        return function findMatches(q, cb){
+            var matches, substringRegex;
+            matches = [];
+            substringRegex = new RegExp(q, 'i');
+            $.each(geographies, function(i, geography) {
+                if(substringRegex.test(geography.name)) {
+                    matches.push(geography);
+                }
+            });
+            cb(matches);
+        };
+    };
+    
+    var getGeographyName = function(geography) {
+        return geography.name;
+    };
+    
+    $('#country').typeahead({
+        minLength: 1,
+        highlight: true
+    },
+    {
+        name: 'geographies',
+        source: geographyMatcher(geographies),
+        display: getGeographyName
+    });
+    
+    $('#country').on('blur', function(evt){
+        var name = $('#country').val();
+        if(name.length !== 0){
+            $('#countryId').val(geographyIds[name]);
+        }
+    });
+    
+    $('#region').typeahead({
+        minLength: 1,
+        highlight: true
+    },
+    {
+        name: 'geographies',
+        source: geographyMatcher(geographies),
+        display: getGeographyName
+    });
+    
+    $('#region').on('blur', function(evt){
+        var name = $('#region').val();
+        if(name.length !== 0){
+            $('#regionId').val(geographyIds[name]);
+        }
+    });
+    
     // fetches grapes and sets up grape typeahead
     var grapes = [];
     var grapeIds = [];
